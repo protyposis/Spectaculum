@@ -59,6 +59,11 @@
             android:text="@string/library_url"
             android:autoLink="web"/>
 
+        <Button
+            android:id="@+id/test"
+            style="@style/Feature.Button"
+            android:text="GLImageView"/>
+
         <View style="@style/Divider"/>
 
         <Button

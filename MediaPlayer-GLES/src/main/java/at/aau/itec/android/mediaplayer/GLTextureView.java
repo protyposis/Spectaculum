@@ -192,8 +192,8 @@ public class GLTextureView extends GLSurfaceView implements
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //Log.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "
-        //        + MeasureSpec.toString(heightMeasureSpec) + ")");
+        Log.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "
+                + MeasureSpec.toString(heightMeasureSpec) + ")");
 
         int width = getDefaultSize(mVideoWidth, widthMeasureSpec);
         int height = getDefaultSize(mVideoHeight, heightMeasureSpec);

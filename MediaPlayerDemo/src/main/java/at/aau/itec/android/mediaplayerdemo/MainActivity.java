@@ -157,6 +157,13 @@ public class MainActivity extends Activity {
 
         updateUri(uri);
         versionInfos();
+
+        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, GLImageViewActivity.class));
+            }
+        });
     }
 
     @Override

@@ -8,8 +8,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- camera preview demo -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +22,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="at.aau.itec.android.mediaplayerdemo.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,40 +31,61 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="rtsp" />
-                <data android:scheme="http" android:host="*" android:pathPattern=".*\\.mpd" />
-                <data android:scheme="http" android:host="*" android:pathPattern=".*\\.mp4" />
-                <data android:scheme="http" android:host="*" android:pathPattern=".*\\.webm" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\.mpd"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\.mp4"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\.webm"
+                    android:scheme="http" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="file" android:mimeType="video/*" />
-                <data android:scheme="content" android:mimeType="video/*" />
+
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="file" />
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="content" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SideBySideActivity"
+            android:name="at.aau.itec.android.mediaplayerdemo.SideBySideActivity"
             android:label="@string/title_activity_side_by_side" >
         </activity>
         <activity
-            android:name=".SideBySideSeekTestActivity"
+            android:name="at.aau.itec.android.mediaplayerdemo.SideBySideSeekTestActivity"
             android:label="@string/title_activity_side_by_side_seektest" >
         </activity>
         <activity
-            android:name=".VideoViewActivity"
+            android:name="at.aau.itec.android.mediaplayerdemo.VideoViewActivity"
             android:label="@string/title_activity_videoview" >
         </activity>
         <activity
-            android:name=".GLVideoViewActivity"
+            android:name="at.aau.itec.android.mediaplayerdemo.GLVideoViewActivity"
             android:label="@string/title_activity_glvideoview" >
         </activity>
         <activity
-            android:name=".GLCameraViewActivity"
+            android:name="at.aau.itec.android.mediaplayerdemo.GLCameraViewActivity"
             android:label="@string/title_activity_glcameraview" >
+        </activity>
+        <activity
+            android:name="at.aau.itec.android.mediaplayerdemo.GLImageViewActivity"
+            android:label="@string/title_activity_glimage_view" >
         </activity>
     </application>
 
