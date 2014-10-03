@@ -23,7 +23,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.SurfaceTexture;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Surface;
 
@@ -36,7 +35,6 @@ public class GLImageView extends GLTextureView {
 
     private Bitmap mBitmap;
     private ExternalSurfaceTexture mTexture;
-    private Handler mHandler;
 
     public GLImageView(Context context) {
         super(context);
@@ -49,7 +47,7 @@ public class GLImageView extends GLTextureView {
     }
 
     private void init() {
-        mHandler = new Handler();
+        // nothing to do
     }
 
     @Override
@@ -58,12 +56,6 @@ public class GLImageView extends GLTextureView {
 
         mTexture = surfaceTexture;
         tryLoadBitmap();
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                //tryLoadBitmap();
-            }
-        });
     }
 
     public void setImageBitmap(Bitmap bitmap) {
