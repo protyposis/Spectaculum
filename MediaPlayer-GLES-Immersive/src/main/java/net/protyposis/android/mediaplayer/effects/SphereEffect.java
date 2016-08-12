@@ -19,6 +19,8 @@
 
 package net.protyposis.android.mediaplayer.effects;
 
+import android.opengl.Matrix;
+
 import net.protyposis.android.mediaplayer.gles.TextureShaderProgram;
 import net.protyposis.android.mediaplayer.gles.immersive.SphereShaderProgram;
 
@@ -27,7 +29,8 @@ import net.protyposis.android.mediaplayer.gles.immersive.SphereShaderProgram;
  */
 public class SphereEffect extends ShaderEffect {
 
-    private float mRotX, mRotY;
+    private float mRotX, mRotY, mRotZ;
+    private float[] mRotationMatrix = new float[16];
 
     @Override
     protected TextureShaderProgram initShaderProgram() {
@@ -35,25 +38,38 @@ public class SphereEffect extends ShaderEffect {
 
         mRotX = 0.0f;
         mRotY = 0.0f;
+        mRotZ = 0.0f;
+        Matrix.setIdentityM(mRotationMatrix, 0);
 
-        sphereShader.setRotX(mRotX);
-        sphereShader.setRotY(mRotY);
+        sphereShader.setRotationMatrix(mRotationMatrix);
 
-        addParameter(new FloatParameter("RotX", -1.0f, 1.0f, mRotX, new FloatParameter.Delegate() {
+        addParameter(new FloatParameter("RotX", -360.0f, 360.0f, mRotX, new FloatParameter.Delegate() {
             @Override
             public void setValue(float value) {
                 mRotX = value;
-                sphereShader.setRotX(mRotX);
+                updateRotationMatrix(sphereShader);
             }
         }));
-        addParameter(new FloatParameter("RotY", -1.0f, 1.0f, mRotY, new FloatParameter.Delegate() {
+        addParameter(new FloatParameter("RotY", -360.0f, 360.0f, mRotY, new FloatParameter.Delegate() {
             @Override
             public void setValue(float value) {
                 mRotY = value;
-                sphereShader.setRotY(mRotY);
+                updateRotationMatrix(sphereShader);
+            }
+        }));
+        addParameter(new FloatParameter("RotZ", -360.0f, 360.0f, mRotZ, new FloatParameter.Delegate() {
+            @Override
+            public void setValue(float value) {
+                mRotZ = value;
+                updateRotationMatrix(sphereShader);
             }
         }));
 
         return sphereShader;
+    }
+
+    private void updateRotationMatrix(SphereShaderProgram sphereShader) {
+        Matrix.setRotateEulerM(mRotationMatrix, 0, mRotX, mRotY, mRotZ);
+        sphereShader.setRotationMatrix(mRotationMatrix);
     }
 }

@@ -11,8 +11,7 @@ precision highp float;
 
 uniform sampler2D s_Texture;
 uniform vec2 u_TextureSize;
-uniform float rot_x;
-uniform float rot_y;
+uniform mat4 rotation;
 varying vec2 v_TextureCoord;
 
 #define PIP2    1.5707963       // PI/2
@@ -36,9 +35,12 @@ void main (void)
     // To view back side of sphere, negate z
     vec4 point = vec4(xy.xy, z, 1.0);
 
+    // rotate
+    point *= rotation;
+
     // Spherical mapping from sphere to texture
-    float u = (atan(point.x, point.z) + PI) / TWOPI + rot_x,
-          v = (asin(point.y) + PIP2) / PI + rot_y;
+    float u = (atan(point.x, point.z) + PI) / TWOPI,
+          v = (asin(point.y) + PIP2) / PI;
 
     // Texture mapping coordinates
     vec2 uv = vec2(u, v);

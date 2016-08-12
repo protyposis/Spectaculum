@@ -29,26 +29,17 @@ import net.protyposis.android.mediaplayer.gles.TextureShaderProgram;
  */
 public class SphereShaderProgram extends TextureShaderProgram {
 
-    protected int mRotXHandle;
-    protected int mRotYHandle;
+    protected int mRotationMatrixHandle;
 
     public SphereShaderProgram() {
         super("fs_sphere.s");
 
-        mRotXHandle = GLES20.glGetUniformLocation(mProgramHandle, "rot_x");
-        GLUtils.checkError("glGetUniformLocation rot_x");
-
-        mRotYHandle = GLES20.glGetUniformLocation(mProgramHandle, "rot_y");
-        GLUtils.checkError("glGetUniformLocation rot_x");
+        mRotationMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "rotation");
+        GLUtils.checkError("glGetUniformLocation rotation");
     }
 
-    public void setRotX(float rotX) {
+    public void setRotationMatrix(float[] rotationMatrix) {
         use();
-        GLES20.glUniform1f(mRotXHandle, rotX);
-    }
-
-    public void setRotY(float rotY) {
-        use();
-        GLES20.glUniform1f(mRotYHandle, rotY);
+        GLES20.glUniformMatrix4fv(mRotationMatrixHandle, 1, false, rotationMatrix, 0);
     }
 }
