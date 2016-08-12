@@ -14,12 +14,12 @@ varying vec2 v_TextureCoord;
 
 void main (void)
 {
-    vec2 uv = v_TextureCoord;
+    vec2 xy = v_TextureCoord;
 
     // Scale texture space from (0,1) to (-1,1) in both axes
-    uv = uv * 2.0 - 1.0;
+    xy = xy * 2.0 - 1.0;
 
-    float d = uv.x * uv.x + uv.y * uv.y;
+    float d = xy.x * xy.x + xy.y * xy.y;
 
     if (d > 1.0)
         discard;
@@ -27,12 +27,16 @@ void main (void)
     float z = sqrt(1.0 - d);
 
     // To view back side of sphere, negate z
-    vec4 point = vec4(uv.xy, z, 1.0);
+    vec4 point = vec4(xy.xy, z, 1.0);
 
-    float x = (atan(point.x, point.z) + PI) / TWOPI + rot_x,
-          y = (asin(point.y) + PIP2) / PI + rot_y;
+    // Spherical mapping from sphere to texture
+    float u = (atan(point.x, point.z) + PI) / TWOPI + rot_x,
+          v = (asin(point.y) + PIP2) / PI + rot_y;
 
-    vec4 texel = texture2D(s_Texture, vec2(x, y));
+    // Texture mapping coordinates
+    vec2 uv = vec2(u, v);
+
+    vec4 texel = texture2D(s_Texture, uv);
 
     gl_FragColor = texel;
 }
