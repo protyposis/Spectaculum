@@ -21,6 +21,7 @@ package net.protyposis.android.mediaplayer.effects;
 
 import android.opengl.Matrix;
 
+import net.protyposis.android.mediaplayer.gles.GLUtils;
 import net.protyposis.android.mediaplayer.gles.TextureShaderProgram;
 import net.protyposis.android.mediaplayer.gles.immersive.SphereShaderProgram;
 
@@ -69,7 +70,7 @@ public class SphereEffect extends ShaderEffect {
     }
 
     private void updateRotationMatrix(SphereShaderProgram sphereShader) {
-        Matrix.setRotateEulerM(mRotationMatrix, 0, mRotX, mRotY, mRotZ);
+        GLUtils.Matrix.setRotateEulerM(mRotationMatrix, 0, mRotX, mRotY, mRotZ);
         sphereShader.setRotationMatrix(mRotationMatrix);
     }
 }
