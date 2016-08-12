@@ -1,4 +1,11 @@
-// Sphere shader inspired by http://z0b.kapsi.fi/sphere.php
+// Immersive 360 degree video shader
+// Maps a equirectangular/spherical video frame to a sphere
+//
+// Inspired by:
+// Sphere shader
+// (c) Jarmo Pietiläinen 2012
+// http://z0b.kapsi.fi
+// Public domain
 
 precision highp float;
 
