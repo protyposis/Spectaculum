@@ -36,6 +36,9 @@ void main (void)
     // Texture mapping coordinates
     vec2 uv = vec2(u, v);
 
+    // Simulate texture wrap mode GL_REPEAT
+    uv = mod(uv, 1.0);
+
     vec4 texel = texture2D(s_Texture, uv);
 
     gl_FragColor = texel;
