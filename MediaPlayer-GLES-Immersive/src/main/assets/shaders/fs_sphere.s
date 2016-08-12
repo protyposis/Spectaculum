@@ -20,7 +20,7 @@ varying vec2 v_TextureCoord;
 
 void main (void)
 {
-    vec2 xy = v_TextureCoord;
+    vec2 xy = v_TextureCoord * u_TextureSize / u_TextureSize.y;
 
     // Scale texture space from (0,1) to (-1,1) in both axes
     xy = xy * 2.0 - 1.0;
