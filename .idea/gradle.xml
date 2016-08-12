@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/MediaPlayer-DASH" />
             <option value="$PROJECT_DIR$/MediaPlayer-GLES" />
             <option value="$PROJECT_DIR$/MediaPlayer-GLES-FlowAbs" />
+            <option value="$PROJECT_DIR$/MediaPlayer-GLES-Immersive" />
             <option value="$PROJECT_DIR$/MediaPlayer-GLES-QrMarker" />
             <option value="$PROJECT_DIR$/MediaPlayerDemo" />
           </set>
@@ -24,6 +25,7 @@
             <option value="$PROJECT_DIR$/MediaPlayer-DASH" />
             <option value="$PROJECT_DIR$/MediaPlayer-GLES" />
             <option value="$PROJECT_DIR$/MediaPlayer-GLES-FlowAbs" />
+            <option value="$PROJECT_DIR$/MediaPlayer-GLES-Immersive" />
             <option value="$PROJECT_DIR$/MediaPlayer-GLES-QrMarker" />
             <option value="$PROJECT_DIR$/MediaPlayerDemo" />
           </set>
