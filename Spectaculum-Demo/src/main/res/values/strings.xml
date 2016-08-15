@@ -19,7 +19,7 @@
   -->
 <resources>
 
-    <string name="app_name">MediaPlayer-Extended Demo</string>
+    <string name="app_name">Spectaculum Demo</string>
     <string name="action_settings">Settings</string>
     <string name="action_seekcurrentposition">Seek offset test: to current position</string>
     <string name="action_seekcurrentpositionplus1ms">Seek offset test: to current position + 1ms</string>
