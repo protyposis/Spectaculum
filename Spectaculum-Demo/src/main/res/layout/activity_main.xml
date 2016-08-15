@@ -81,65 +81,17 @@
             android:layout_marginTop="@dimen/activity_vertical_margin_half"
             android:text="@string/uri_missing"/>
 
-        <Button
-            android:id="@+id/videoview"
-            style="@style/Feature.Button"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/feature_videoview"/>
-
-        <TextView
-            style="@style/Feature.Description"
-            android:layout_marginTop="@dimen/activity_vertical_margin_half"
-            android:text="@string/feautre_videoview_description"/>
+        <View style="@style/Divider"/>
 
         <Button
             android:id="@+id/glvideoview"
             style="@style/Feature.Button"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/feature_glvideoview"/>
-
-        <TextView
-            style="@style/Feature.Description"
-            android:layout_marginTop="@dimen/activity_vertical_margin_half"
-            android:text="@string/feature_glvideoview_description"/>
-
-        <Button
-            android:id="@+id/sidebyside"
-            style="@style/Feature.Button"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/feature_sidebyside"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin_half"
-            android:textSize="18sp"
-            android:text="@string/feature_sidebyside_description"/>
-
-        <Button
-            android:id="@+id/sidebysideseektest"
-            style="@style/Feature.Button"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/feature_sidebyside_seektest"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin_half"
-            android:textSize="18sp"
-            android:text="@string/feature_sidebyside_seektest_description"/>
-
-        <View style="@style/Divider"/>
+            android:text="@string/feature_mediaplayerextended"/>
 
         <Button
             android:id="@+id/glcameraview"
             style="@style/Feature.Button"
-            android:text="@string/feature_glcameraview"/>
-
-        <TextView
-            style="@style/Feature.Description"
-            android:layout_marginTop="@dimen/activity_vertical_margin_half"
-            android:text="@string/feature_glcameraview_description"/>
+            android:text="@string/feature_camera"/>
 
         <View style="@style/Divider"/>
 

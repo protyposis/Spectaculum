@@ -51,11 +51,8 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
 
     private Button mVideoSelectButton;
     private Button mVideoSelect2Button;
-    private Button mVideoViewButton;
-    private Button mGLVideoViewButton;
-    private Button mGLCameraViewButton;
-    private Button mSideBySideButton;
-    private Button mSideBySideSeekTestButton;
+    private Button mMediaPlayerExtendedButton;
+    private Button mCameraButton;
 
     private TextView mVideoUriText;
     private int mVideoUriTextColor;
@@ -75,11 +72,8 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
 
         mVideoSelectButton = (Button) findViewById(R.id.videoselect);
         mVideoSelect2Button = (Button) findViewById(R.id.videoselect2);
-        mVideoViewButton = (Button) findViewById(R.id.videoview);
-        mGLVideoViewButton = (Button) findViewById(R.id.glvideoview);
-        mGLCameraViewButton = (Button) findViewById(R.id.glcameraview);
-        mSideBySideButton = (Button) findViewById(R.id.sidebyside);
-        mSideBySideSeekTestButton = (Button) findViewById(R.id.sidebysideseektest);
+        mMediaPlayerExtendedButton = (Button) findViewById(R.id.glvideoview);
+        mCameraButton = (Button) findViewById(R.id.glcameraview);
         mVideoUriText = (TextView) findViewById(R.id.videouri);
         mVideoUriTextColor = mVideoUriText.getCurrentTextColor();
 
@@ -109,34 +103,16 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
                 }
         });
 
-        mVideoViewButton.setOnClickListener(new View.OnClickListener() {
+        mMediaPlayerExtendedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, VideoViewActivity.class).setData(mVideoUri));
+                startActivity(new Intent(MainActivity.this, MediaPlayerExtendedViewActivity.class).setData(mVideoUri));
             }
         });
-        mGLVideoViewButton.setOnClickListener(new View.OnClickListener() {
+        mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GLVideoViewActivity.class).setData(mVideoUri));
-            }
-        });
-        mGLCameraViewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GLCameraViewActivity.class).setData(mVideoUri));
-            }
-        });
-        mSideBySideButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SideBySideActivity.class).setData(mVideoUri));
-            }
-        });
-        mSideBySideSeekTestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SideBySideSeekTestActivity.class).setData(mVideoUri));
+                startActivity(new Intent(MainActivity.this, CameraViewActivity.class).setData(mVideoUri));
             }
         });
         ((Button) findViewById(R.id.licenses)).setOnClickListener(new View.OnClickListener() {
@@ -213,10 +189,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         if(uri == null) {
             mVideoUriText.setText(getString(R.string.uri_missing));
 
-            mVideoViewButton.setEnabled(false);
-            mGLVideoViewButton.setEnabled(false);
-            mSideBySideButton.setEnabled(false);
-            mSideBySideSeekTestButton.setEnabled(false);
+            mMediaPlayerExtendedButton.setEnabled(false);
         } else {
             updateUri(null); // disable buttons
 
@@ -245,10 +218,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
                     mVideoUriText.setTextColor(mVideoUriTextColor);
                     mVideoUri = uri;
 
-                    mVideoViewButton.setEnabled(true);
-                    mGLVideoViewButton.setEnabled(true);
-                    mSideBySideButton.setEnabled(!(mediaSource instanceof DashSource));
-                    mSideBySideSeekTestButton.setEnabled(true);
+                    mMediaPlayerExtendedButton.setEnabled(true);
 
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                             .edit().putString("lastUri", uri.toString()).commit();
@@ -267,15 +237,15 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
     private void versionInfos() {
         String versionInfos = "";
         Map<String, Class> components = new LinkedHashMap<String, Class>();
-        components.put("MediaPlayer", net.protyposis.android.mediaplayer.BuildConfig.class);
-        components.put("MediaPlayer-DASH", net.protyposis.android.mediaplayer.dash.BuildConfig.class);
+        components.put("Spectaculum-Demo", net.protyposis.android.spectaculumdemo.BuildConfig.class);
         components.put("Spectaculum", net.protyposis.android.spectaculum.BuildConfig.class);
         components.put("Spectaculum-Camera", net.protyposis.android.spectaculum.camera.BuildConfig.class);
         components.put("Spectaculum-MediaPlayerExtended", net.protyposis.android.spectaculum.mediaplayerextended.BuildConfig.class);
         components.put("Spectaculum-Effect-Immersive", net.protyposis.android.spectaculum.gles.immersive.BuildConfig.class);
         components.put("Spectaculum-Effect-FlowAbs", net.protyposis.android.spectaculum.gles.flowabs.BuildConfig.class);
         components.put("Spectaculum-Effect-QrMarker", net.protyposis.android.spectaculum.gles.qrmarker.BuildConfig.class);
-        components.put("Spectaculum-Demo", net.protyposis.android.spectaculumdemo.BuildConfig.class);
+        components.put("MediaPlayer", net.protyposis.android.mediaplayer.BuildConfig.class);
+        components.put("MediaPlayer-DASH", net.protyposis.android.mediaplayer.dash.BuildConfig.class);
 
         Iterator<String> componentIterator = components.keySet().iterator();
         while(componentIterator.hasNext()) {

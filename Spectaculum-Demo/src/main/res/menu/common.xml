@@ -19,7 +19,7 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".GLVideoViewActivity" >
+    tools:context=".MediaPlayerExtendedViewActivity" >
 
     <item android:id="@+id/action_switch_camera"
         android:title="@string/switch_camera"

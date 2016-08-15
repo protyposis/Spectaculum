@@ -33,35 +33,42 @@ import android.widget.Toast;
 
 import net.protyposis.android.mediaplayer.MediaPlayer;
 import net.protyposis.android.mediaplayer.MediaSource;
-import net.protyposis.android.mediaplayer.VideoView;
+import net.protyposis.android.spectaculum.MediaPlayerExtendedView;
 
-public class VideoViewActivity extends Activity {
 
-    private static final String TAG = VideoViewActivity.class.getSimpleName();
+public class MediaPlayerExtendedViewActivity extends Activity {
+
+    private static final String TAG = MediaPlayerExtendedViewActivity.class.getSimpleName();
 
     private Uri mVideoUri;
-    private VideoView mVideoView;
+    private MediaPlayerExtendedView mGLVideoView;
     private ProgressBar mProgress;
 
     private MediaController.MediaPlayerControl mMediaPlayerControl;
     private MediaController mMediaController;
 
+    private GLEffects mEffectList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_videoview);
+        setContentView(R.layout.activity_mediaplayerextendedview); // reuse main layout
         Utils.setActionBarSubtitleEllipsizeMiddle(this);
 
-        mVideoView = (VideoView) findViewById(R.id.vv);
+        mGLVideoView = (MediaPlayerExtendedView) findViewById(R.id.glvv);
         mProgress = (ProgressBar) findViewById(R.id.progress);
 
-        mMediaPlayerControl = mVideoView; //new MediaPlayerDummyControl();
+        mMediaPlayerControl = mGLVideoView;
         mMediaController = new MediaController(this);
         mMediaController.setAnchorView(findViewById(R.id.container));
         mMediaController.setMediaPlayer(mMediaPlayerControl);
         mMediaController.setEnabled(false);
 
         mProgress.setVisibility(View.VISIBLE);
+
+        mEffectList = new GLEffects(this, R.id.parameterlist, mGLVideoView);
+        mEffectList.addEffects();
 
         if(savedInstanceState != null) {
             initPlayer((Uri)savedInstanceState.getParcelable("uri"),
@@ -78,29 +85,29 @@ public class VideoViewActivity extends Activity {
         mVideoUri = uri;
         getActionBar().setSubtitle(mVideoUri+"");
 
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        mGLVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer vp) {
                 if (position > 0) {
-                    mVideoView.seekTo(position);
+                    mGLVideoView.seekTo(position);
                 } else {
-                    mVideoView.seekTo(0); // display first frame
+                    mGLVideoView.seekTo(0); // display first frame
                 }
 
-                mVideoView.setPlaybackSpeed(speed);
+                mGLVideoView.setPlaybackSpeed(speed);
 
                 if (playback) {
-                    mVideoView.start();
+                    mGLVideoView.start();
                 }
 
                 mProgress.setVisibility(View.GONE);
                 mMediaController.setEnabled(true);
             }
         });
-        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        mGLVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                Toast.makeText(VideoViewActivity.this,
+                Toast.makeText(MediaPlayerExtendedViewActivity.this,
                         "Cannot play the video, see logcat for the detailed exception",
                         Toast.LENGTH_LONG).show();
                 mProgress.setVisibility(View.GONE);
@@ -108,53 +115,24 @@ public class VideoViewActivity extends Activity {
                 return true;
             }
         });
-        mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-            @Override
-            public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                String whatName = "";
-                switch (what) {
-                    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-                        whatName = "MEDIA_INFO_BUFFERING_END";
-                        break;
-                    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-                        whatName = "MEDIA_INFO_BUFFERING_START";
-                        break;
-                    case MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
-                        whatName = "MEDIA_INFO_VIDEO_RENDERING_START";
-                        break;
-                    case MediaPlayer.MEDIA_INFO_VIDEO_TRACK_LAGGING:
-                        whatName = "MEDIA_INFO_VIDEO_TRACK_LAGGING";
-                        break;
-                }
-                Log.d(TAG, "onInfo " + whatName);
-                return false;
-            }
-        });
-        mVideoView.setOnSeekListener(new MediaPlayer.OnSeekListener() {
+        mGLVideoView.setOnSeekListener(new MediaPlayer.OnSeekListener() {
             @Override
             public void onSeek(MediaPlayer mp) {
-                Log.d(TAG, "onSeek");
                 mProgress.setVisibility(View.VISIBLE);
             }
         });
-        mVideoView.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+        mGLVideoView.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
             @Override
             public void onSeekComplete(MediaPlayer mp) {
-                Log.d(TAG, "onSeekComplete");
                 mProgress.setVisibility(View.GONE);
             }
         });
-        mVideoView.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-            @Override
-            public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                Log.d(TAG, "onBufferingUpdate " + percent + "%");
-            }
-        });
+        mGLVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-mediaplayerextended"));
 
         Utils.uriToMediaSourceAsync(this, uri, new Utils.MediaSourceAsyncCallbackHandler() {
             @Override
             public void onMediaSourceLoaded(MediaSource mediaSource) {
-                mVideoView.setVideoSource(mediaSource);
+                mGLVideoView.setVideoSource(mediaSource);
             }
 
             @Override
@@ -167,7 +145,9 @@ public class VideoViewActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.videoview, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
+        getMenuInflater().inflate(R.menu.mediaplayerextended, menu);
+        mEffectList.addToMenu(menu);
         return true;
     }
 
@@ -178,35 +158,39 @@ public class VideoViewActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_slowspeed) {
-            mVideoView.setPlaybackSpeed(0.2f);
+            mGLVideoView.setPlaybackSpeed(0.2f);
             return true;
         } else if(id == R.id.action_halfspeed) {
-            mVideoView.setPlaybackSpeed(0.5f);
+            mGLVideoView.setPlaybackSpeed(0.5f);
             return true;
         } else if(id == R.id.action_doublespeed) {
-            mVideoView.setPlaybackSpeed(2.0f);
+            mGLVideoView.setPlaybackSpeed(2.0f);
             return true;
         } else if(id == R.id.action_quadspeed) {
-            mVideoView.setPlaybackSpeed(4.0f);
+            mGLVideoView.setPlaybackSpeed(4.0f);
             return true;
         } else if(id == R.id.action_normalspeed) {
-            mVideoView.setPlaybackSpeed(1.0f);
+            mGLVideoView.setPlaybackSpeed(1.0f);
             return true;
         } else if(id == R.id.action_seekcurrentposition) {
-            mVideoView.pause();
-            mVideoView.seekTo(mVideoView.getCurrentPosition());
+            mGLVideoView.pause();
+            mGLVideoView.seekTo(mGLVideoView.getCurrentPosition());
             return true;
         } else if(id == R.id.action_seekcurrentpositionplus1ms) {
-            mVideoView.pause();
-            mVideoView.seekTo(mVideoView.getCurrentPosition()+1);
+            mGLVideoView.pause();
+            mGLVideoView.seekTo(mGLVideoView.getCurrentPosition()+1);
             return true;
         } else if(id == R.id.action_seektoend) {
-            mVideoView.pause();
-            mVideoView.seekTo(mVideoView.getDuration());
+            mGLVideoView.pause();
+            mGLVideoView.seekTo(mGLVideoView.getDuration());
             return true;
         } else if(id == R.id.action_getcurrentposition) {
-            Toast.makeText(this, "current position: " + mVideoView.getCurrentPosition(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "current position: " + mGLVideoView.getCurrentPosition(), Toast.LENGTH_SHORT).show();
             return true;
+        } else if(mEffectList.doMenuActions(item)) {
+            return true;
+        } else if(id == R.id.action_save_frame) {
+            mGLVideoView.captureFrame();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -214,13 +198,36 @@ public class VideoViewActivity extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (mMediaController.isShowing()) {
-                mMediaController.hide();
-            } else {
-                mMediaController.show();
+            long durationMs = event.getEventTime() - event.getDownTime();
+            /* The media controller is only getting toggled by simple taps.  If a certain amount of
+             * time passes between the DOWN and UP actions, it can be considered as not being a
+             * simple tap any more and the media controller is not getting toggled.
+             */
+            if(durationMs < 500) {
+                if (mMediaController.isShowing()) {
+                    mMediaController.hide();
+                } else {
+                    mMediaController.show();
+                }
             }
         }
+
+        // hand the event to the video view to process zoom/pan gestures
+        mGLVideoView.onTouchEvent(event);
+
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mGLVideoView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGLVideoView.onResume();
     }
 
     @Override
@@ -234,9 +241,9 @@ public class VideoViewActivity extends Activity {
         super.onSaveInstanceState(outState);
         if(mVideoUri != null) {
             outState.putParcelable("uri", mVideoUri);
-            outState.putBoolean("playing", mVideoView.isPlaying());
-            outState.putInt("position", mVideoView.getCurrentPosition());
-            outState.putFloat("playbackSpeed", mVideoView.getPlaybackSpeed());
+            outState.putBoolean("playing", mGLVideoView.isPlaying());
+            outState.putInt("position", mGLVideoView.getCurrentPosition());
+            outState.putFloat("playbackSpeed", mGLVideoView.getPlaybackSpeed());
         }
     }
 }

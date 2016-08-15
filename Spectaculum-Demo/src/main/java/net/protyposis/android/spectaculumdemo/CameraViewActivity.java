@@ -28,9 +28,9 @@ import android.view.MotionEvent;
 import net.protyposis.android.spectaculum.CameraView;
 
 
-public class GLCameraViewActivity extends Activity {
+public class CameraViewActivity extends Activity {
 
-    private static final String TAG = GLCameraViewActivity.class.getSimpleName();
+    private static final String TAG = CameraViewActivity.class.getSimpleName();
 
     private CameraView mGLCameraView;
 
@@ -39,19 +39,19 @@ public class GLCameraViewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_glcameraview);
+        setContentView(R.layout.activity_cameraview);
 
         mGLCameraView = (CameraView) findViewById(R.id.glcv);
 
         mEffectList = new GLEffects(this, R.id.parameterlist, mGLCameraView);
         mEffectList.addEffects();
 
-        mGLCameraView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "glcameraview"));
+        mGLCameraView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-camera"));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.glvideoview, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         mEffectList.addToMenu(menu);
         menu.findItem(R.id.action_switch_camera).setVisible(mGLCameraView.supportsCameraSwitch());
         return true;
