@@ -89,6 +89,7 @@ public class SpectaculumView extends GLSurfaceView implements
     private float mPanX;
     private float mPanY;
     private float mPanSnappingRange = 0.02f;
+    private boolean mTouchEnabled = true;
 
     protected int mVideoWidth;
     protected int mVideoHeight;
@@ -219,6 +220,24 @@ public class SpectaculumView extends GLSurfaceView implements
     }
 
     /**
+     * Enables or disables touch zoom/pan gestures. Even when enabled, touch gestures do only work
+     * when they are also passed  from a parent container to {@link #onTouchEvent(MotionEvent)}.
+     * @see #isTouchEnabled()
+     */
+    public void setTouchEnabled(boolean enabled) {
+        mTouchEnabled = enabled;
+    }
+
+    /**
+     * Checks if touch gestures are enabled. Touch gestures are enabled by default but need the motion
+     * events to be passed from the view container.
+     * @see #setTouchEnabled(boolean)
+     */
+    public boolean isTouchEnabled() {
+        return mTouchEnabled;
+    }
+
+    /**
      * Resizes the video view according to the video size to keep aspect ratio.
      * Code copied from {@link android.widget.VideoView#onMeasure(int, int)}.
      */
@@ -288,6 +307,9 @@ public class SpectaculumView extends GLSurfaceView implements
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(!mTouchEnabled) {
+            return false;
+        }
         mScaleGestureDetector.onTouchEvent(event);
         mGestureDetector.onTouchEvent(event);
         return true;
