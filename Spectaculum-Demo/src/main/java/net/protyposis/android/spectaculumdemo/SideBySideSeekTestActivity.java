@@ -40,9 +40,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.protyposis.android.spectaculum.mediaplayer.MediaPlayer;
-import net.protyposis.android.spectaculum.mediaplayer.MediaSource;
-import net.protyposis.android.spectaculum.mediaplayer.VideoView;
+import net.protyposis.android.mediaplayer.MediaPlayer;
+import net.protyposis.android.mediaplayer.MediaSource;
+import net.protyposis.android.mediaplayer.VideoView;
 
 
 public class SideBySideSeekTestActivity extends Activity {

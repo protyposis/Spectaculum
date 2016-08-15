@@ -31,6 +31,10 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import net.protyposis.android.mediaplayer.MediaPlayer;
+import net.protyposis.android.mediaplayer.MediaSource;
+import net.protyposis.android.mediaplayer.VideoView;
+
 public class VideoViewActivity extends Activity {
 
     private static final String TAG = VideoViewActivity.class.getSimpleName();

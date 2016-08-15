@@ -40,8 +40,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.protyposis.android.spectaculum.mediaplayer.MediaSource;
-import net.protyposis.android.spectaculum.mediaplayer.dash.DashSource;
+import net.protyposis.android.mediaplayer.MediaSource;
+import net.protyposis.android.mediaplayer.dash.DashSource;
 
 public class MainActivity extends Activity implements VideoURIInputDialogFragment.OnVideoURISelectedListener {
 
@@ -267,12 +267,15 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
     private void versionInfos() {
         String versionInfos = "";
         Map<String, Class> components = new LinkedHashMap<String, Class>();
-        components.put("MediaPlayer", net.protyposis.android.spectaculum.mediaplayer.BuildConfig.class);
-        components.put("MediaPlayer-DASH", net.protyposis.android.spectaculum.mediaplayer.dash.BuildConfig.class);
-        components.put("MediaPlayer-GLES", net.protyposis.android.spectaculum.gles.BuildConfig.class);
-        components.put("MediaPlayer-GLES-FlowAbs", net.protyposis.android.spectaculum.gles.flowabs.BuildConfig.class);
-        components.put("MediaPlayer-GLES-QrMarker", net.protyposis.android.spectaculum.gles.qrmarker.BuildConfig.class);
-        components.put("MediaPlayerDemo", net.protyposis.android.spectaculumdemo.BuildConfig.class);
+        components.put("MediaPlayer", net.protyposis.android.mediaplayer.BuildConfig.class);
+        components.put("MediaPlayer-DASH", net.protyposis.android.mediaplayer.dash.BuildConfig.class);
+        components.put("Spectaculum", net.protyposis.android.spectaculum.BuildConfig.class);
+        components.put("Spectaculum-Camera", net.protyposis.android.spectaculum.camera.BuildConfig.class);
+        components.put("Spectaculum-MediaPlayerExtended", net.protyposis.android.spectaculum.mediaplayerextended.BuildConfig.class);
+        components.put("Spectaculum-Effect-Immersive", net.protyposis.android.spectaculum.gles.immersive.BuildConfig.class);
+        components.put("Spectaculum-Effect-FlowAbs", net.protyposis.android.spectaculum.gles.flowabs.BuildConfig.class);
+        components.put("Spectaculum-Effect-QrMarker", net.protyposis.android.spectaculum.gles.qrmarker.BuildConfig.class);
+        components.put("Spectaculum-Demo", net.protyposis.android.spectaculumdemo.BuildConfig.class);
 
         Iterator<String> componentIterator = components.keySet().iterator();
         while(componentIterator.hasNext()) {

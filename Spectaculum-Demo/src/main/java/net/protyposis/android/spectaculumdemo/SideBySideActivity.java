@@ -34,7 +34,7 @@ import android.widget.MediaController;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.protyposis.android.spectaculum.mediaplayer.VideoView;
+import net.protyposis.android.mediaplayer.VideoView;
 
 
 public class SideBySideActivity extends Activity {
@@ -75,9 +75,9 @@ public class SideBySideActivity extends Activity {
                         mAndroidVideoView.seekTo(0); // display first frame
                     }
                 });
-                mMpxVideoView.setOnPreparedListener(new net.protyposis.android.spectaculum.mediaplayer.MediaPlayer.OnPreparedListener() {
+                mMpxVideoView.setOnPreparedListener(new net.protyposis.android.mediaplayer.MediaPlayer.OnPreparedListener() {
                     @Override
-                    public void onPrepared(net.protyposis.android.spectaculum.mediaplayer.MediaPlayer mp) {
+                    public void onPrepared(net.protyposis.android.mediaplayer.MediaPlayer mp) {
                         mMpxVideoView.seekTo(0); // display first frame
                     }
                 });
