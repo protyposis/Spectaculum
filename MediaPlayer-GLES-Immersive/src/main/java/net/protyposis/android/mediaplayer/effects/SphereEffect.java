@@ -54,7 +54,7 @@ public class SphereEffect extends ShaderEffect {
         addParameter(new FloatParameter("RotY", -360.0f, 360.0f, mRotY, new FloatParameter.Delegate() {
             @Override
             public void setValue(float value) {
-                mRotY = value;
+                mRotY = -value; // invert to rotate to the right with a positive value
                 updateRotationMatrix(sphereShader);
             }
         }));
