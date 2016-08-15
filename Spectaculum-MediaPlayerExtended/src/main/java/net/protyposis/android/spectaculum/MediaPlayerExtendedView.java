@@ -41,10 +41,10 @@ import java.util.Map;
 /**
  * Created by maguggen on 04.06.2014.
  */
-public class GLVideoView extends SpectaculumView implements
+public class MediaPlayerExtendedView extends SpectaculumView implements
         MediaController.MediaPlayerControl {
 
-    private static final String TAG = GLVideoView.class.getSimpleName();
+    private static final String TAG = MediaPlayerExtendedView.class.getSimpleName();
 
     private MediaSource mSource;
     private MediaPlayer mPlayer;
@@ -66,11 +66,11 @@ public class GLVideoView extends SpectaculumView implements
      */
     private boolean mStayAwake;
 
-    public GLVideoView(Context context) {
+    public MediaPlayerExtendedView(Context context) {
         super(context);
     }
 
-    public GLVideoView(Context context, AttributeSet attrs) {
+    public MediaPlayerExtendedView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

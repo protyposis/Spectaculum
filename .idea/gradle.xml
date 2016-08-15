@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/Spectaculum-Effect-FlowAbs" />
             <option value="$PROJECT_DIR$/Spectaculum-Effect-Immersive" />
             <option value="$PROJECT_DIR$/Spectaculum-Effect-QrMarker" />
+            <option value="$PROJECT_DIR$/Spectaculum-MediaPlayerExtended" />
           </set>
         </option>
         <option name="myModules">
@@ -25,6 +26,7 @@
             <option value="$PROJECT_DIR$/Spectaculum-Effect-FlowAbs" />
             <option value="$PROJECT_DIR$/Spectaculum-Effect-Immersive" />
             <option value="$PROJECT_DIR$/Spectaculum-Effect-QrMarker" />
+            <option value="$PROJECT_DIR$/Spectaculum-MediaPlayerExtended" />
           </set>
         </option>
       </GradleProjectSettings>

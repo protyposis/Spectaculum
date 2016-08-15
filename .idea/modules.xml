@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/Spectaculum-Effect-FlowAbs/Spectaculum-Effect-FlowAbs.iml" filepath="$PROJECT_DIR$/Spectaculum-Effect-FlowAbs/Spectaculum-Effect-FlowAbs.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spectaculum-Effect-Immersive/Spectaculum-Effect-Immersive.iml" filepath="$PROJECT_DIR$/Spectaculum-Effect-Immersive/Spectaculum-Effect-Immersive.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spectaculum-Effect-QrMarker/Spectaculum-Effect-QrMarker.iml" filepath="$PROJECT_DIR$/Spectaculum-Effect-QrMarker/Spectaculum-Effect-QrMarker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spectaculum-MediaPlayerExtended/Spectaculum-MediaPlayerExtended.iml" filepath="$PROJECT_DIR$/Spectaculum-MediaPlayerExtended/Spectaculum-MediaPlayerExtended.iml" />
     </modules>
   </component>
 </project>

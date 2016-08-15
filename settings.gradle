@@ -1,1 +1,1 @@
-include ':Spectaculum-Core', ':Spectaculum-Demo', ':Spectaculum-Effect-FlowAbs', ':Spectaculum-Effect-QrMarker', ':Spectaculum-Effect-Immersive', ':Spectaculum-Camera'
+include ':Spectaculum-Core', ':Spectaculum-Demo', ':Spectaculum-Effect-FlowAbs', ':Spectaculum-Effect-QrMarker', ':Spectaculum-Effect-Immersive', ':Spectaculum-Camera', ':Spectaculum-MediaPlayerExtended'

@@ -35,12 +35,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import net.protyposis.android.mediaplayer.MediaSource;
+import net.protyposis.android.mediaplayer.UriSource;
+import net.protyposis.android.mediaplayer.dash.AdaptationLogic;
+import net.protyposis.android.mediaplayer.dash.DashSource;
+import net.protyposis.android.mediaplayer.dash.SimpleRateBasedAdaptationLogic;
 import net.protyposis.android.spectaculum.SpectaculumView;
-import net.protyposis.android.spectaculum.mediaplayer.MediaSource;
-import net.protyposis.android.spectaculum.mediaplayer.UriSource;
-import net.protyposis.android.spectaculum.mediaplayer.dash.AdaptationLogic;
-import net.protyposis.android.spectaculum.mediaplayer.dash.DashSource;
-import net.protyposis.android.spectaculum.mediaplayer.dash.SimpleRateBasedAdaptationLogic;
 
 /**
  * Created by maguggen on 28.08.2014.

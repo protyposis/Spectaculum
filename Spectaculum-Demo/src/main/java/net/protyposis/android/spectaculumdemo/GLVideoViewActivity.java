@@ -31,9 +31,9 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import net.protyposis.android.spectaculum.GLVideoView;
-import net.protyposis.android.spectaculum.mediaplayer.MediaPlayer;
-import net.protyposis.android.spectaculum.mediaplayer.MediaSource;
+import net.protyposis.android.mediaplayer.MediaPlayer;
+import net.protyposis.android.mediaplayer.MediaSource;
+import net.protyposis.android.spectaculum.MediaPlayerExtendedView;
 
 
 public class GLVideoViewActivity extends Activity {
@@ -41,7 +41,7 @@ public class GLVideoViewActivity extends Activity {
     private static final String TAG = GLVideoViewActivity.class.getSimpleName();
 
     private Uri mVideoUri;
-    private GLVideoView mGLVideoView;
+    private MediaPlayerExtendedView mGLVideoView;
     private ProgressBar mProgress;
 
     private MediaController.MediaPlayerControl mMediaPlayerControl;
@@ -56,7 +56,7 @@ public class GLVideoViewActivity extends Activity {
         setContentView(R.layout.activity_glvideoview); // reuse main layout
         Utils.setActionBarSubtitleEllipsizeMiddle(this);
 
-        mGLVideoView = (GLVideoView) findViewById(R.id.glvv);
+        mGLVideoView = (MediaPlayerExtendedView) findViewById(R.id.glvv);
         mProgress = (ProgressBar) findViewById(R.id.progress);
 
         mMediaPlayerControl = mGLVideoView;
