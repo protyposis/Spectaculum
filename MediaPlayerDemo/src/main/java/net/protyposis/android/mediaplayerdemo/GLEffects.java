@@ -47,6 +47,7 @@ import net.protyposis.android.mediaplayer.effects.SimpleToonEffect;
 import net.protyposis.android.mediaplayer.effects.SobelEffect;
 import net.protyposis.android.mediaplayer.gles.GLUtils;
 import net.protyposis.android.mediaplayerdemo.testeffect.ColorFilterEffect;
+import net.protyposis.android.mediaplayer.effects.SphereEffect;
 
 /**
  * Created by Mario on 18.07.2014.
@@ -84,6 +85,7 @@ public class GLEffects implements GLTextureView.OnEffectInitializedListener {
 
         // custom filters
         mEffects.add(new ColorFilterEffect());
+        mEffects.add(new SphereEffect());
 
         // MediaPlayer-GLES-FlowAbs filters
         FlowAbsEffect flowAbsEffect = new FlowAbsEffect();
