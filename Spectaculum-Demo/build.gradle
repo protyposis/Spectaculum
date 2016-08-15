@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 1
+        versionName '1.0'
+        buildConfigField "boolean", "CRASHLYTICS_CONFIGURED", "${isChrashlyticsConfigured()}"
+    }
+
+    signingConfigs {
+        debug   // configured in signingconfig.gradle
+        release // configured in signingconfig.gradle
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            if (variant.name == android.buildTypes.release.name) {
+                def file = output.outputFile
+                def fileName = file.name.replace(".apk", "-" + defaultConfig.versionCode + "-" + defaultConfig.versionName + ".apk")
+                output.outputFile = new File(file.parent, fileName)
+            }
+        }
+    }
+
+    lintOptions {
+        // Lint fix for Okio: https://github.com/square/okio/issues/58
+        warning 'InvalidPackage'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'net.protyposis.android.mediaplayer:mediaplayer:3.1.0'
+    compile 'net.protyposis.android.mediaplayer:mediaplayer-dash:3.1.0'
+    compile project(':Spectaculum-Core')
+    compile project(':Spectaculum-Camera')
+    compile project(':Spectaculum-MediaPlayerExtended')
+    compile project(':Spectaculum-Effect-FlowAbs')
+    compile project(':Spectaculum-Effect-QrMarker')
+    compile project(':Spectaculum-Effect-Immersive')
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
+        transitive = true;
+    }
+}
+
+ext.isLibrary = false
+apply from: "../gitversioning.gradle"
+apply from: "signingconfig.gradle"
+
+if(isChrashlyticsConfigured()) {
+    apply plugin: 'io.fabric'
+}
+
+def isChrashlyticsConfigured() {
+    return file("fabric.properties").exists()
+}
