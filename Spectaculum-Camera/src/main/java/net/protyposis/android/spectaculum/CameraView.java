@@ -145,7 +145,7 @@ public class CameraView extends SpectaculumView {
                     mVideoWidth = mCamera.getParameters().getPreviewSize().height;
                 }
 
-                getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                updateSourceResolution(mVideoWidth, mVideoHeight);
             }
         } catch (IOException e) {
             e.printStackTrace();

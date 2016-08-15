@@ -330,6 +330,9 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
         public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
             mVideoWidth = width;
             mVideoHeight = height;
+
+            updateSourceResolution(mVideoWidth, mVideoHeight);
+
             requestLayout();
         }
     };
