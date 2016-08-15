@@ -16,6 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
+        jcenter()
         mavenCentral()
         mavenLocal()
     }
@@ -23,10 +24,10 @@ allprojects {
 
 ext {
     packageBase = 'net.protyposis.android'
-    playerModuleBase = packageBase + '.mediaplayer'
+    playerModuleBase = packageBase + '.spectaculum'
     isLibrary = true
-    libraryVersionCode = 15
-    libraryVersionName = '3.1.0'
+    libraryVersionCode = 1
+    libraryVersionName = '1.0.0'
     librarySnaphotEnabled = true
 
     libraryVersionString = {

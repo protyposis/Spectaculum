@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MediaPlayer/MediaPlayer.iml" filepath="$PROJECT_DIR$/MediaPlayer/MediaPlayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MediaPlayer-DASH/MediaPlayer-DASH.iml" filepath="$PROJECT_DIR$/MediaPlayer-DASH/MediaPlayer-DASH.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MediaPlayer-GLES/MediaPlayer-GLES.iml" filepath="$PROJECT_DIR$/MediaPlayer-GLES/MediaPlayer-GLES.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MediaPlayer-GLES-FlowAbs/MediaPlayer-GLES-FlowAbs.iml" filepath="$PROJECT_DIR$/MediaPlayer-GLES-FlowAbs/MediaPlayer-GLES-FlowAbs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MediaPlayer-GLES-Immersive/MediaPlayer-GLES-Immersive.iml" filepath="$PROJECT_DIR$/MediaPlayer-GLES-Immersive/MediaPlayer-GLES-Immersive.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MediaPlayer-GLES-QrMarker/MediaPlayer-GLES-QrMarker.iml" filepath="$PROJECT_DIR$/MediaPlayer-GLES-QrMarker/MediaPlayer-GLES-QrMarker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MediaPlayerDemo/MediaPlayerDemo.iml" filepath="$PROJECT_DIR$/MediaPlayerDemo/MediaPlayerDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spectaculum.iml" filepath="$PROJECT_DIR$/Spectaculum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spectaculum-Core/Spectaculum-Core.iml" filepath="$PROJECT_DIR$/Spectaculum-Core/Spectaculum-Core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spectaculum-Demo/Spectaculum-Demo.iml" filepath="$PROJECT_DIR$/Spectaculum-Demo/Spectaculum-Demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spectaculum-Effect-FlowAbs/Spectaculum-Effect-FlowAbs.iml" filepath="$PROJECT_DIR$/Spectaculum-Effect-FlowAbs/Spectaculum-Effect-FlowAbs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spectaculum-Effect-Immersive/Spectaculum-Effect-Immersive.iml" filepath="$PROJECT_DIR$/Spectaculum-Effect-Immersive/Spectaculum-Effect-Immersive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spectaculum-Effect-QrMarker/Spectaculum-Effect-QrMarker.iml" filepath="$PROJECT_DIR$/Spectaculum-Effect-QrMarker/Spectaculum-Effect-QrMarker.iml" />
     </modules>
   </component>
 </project>

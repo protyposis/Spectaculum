@@ -1,2 +1,1 @@
-include ':MediaPlayer-GLES', ':MediaPlayer-GLES-FlowAbs', ':MediaPlayer-DASH', ':MediaPlayer-GLES-QrMarker', ':MediaPlayer-GLES-Immersive'
-include 'MediaPlayer', 'MediaPlayerDemo'
+include ':Spectaculum-Core', ':Spectaculum-Demo', ':Spectaculum-Effect-FlowAbs', ':Spectaculum-Effect-QrMarker', ':Spectaculum-Effect-Immersive'

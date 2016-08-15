@@ -8,25 +8,21 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/MediaPlayer" />
-            <option value="$PROJECT_DIR$/MediaPlayer-DASH" />
-            <option value="$PROJECT_DIR$/MediaPlayer-GLES" />
-            <option value="$PROJECT_DIR$/MediaPlayer-GLES-FlowAbs" />
-            <option value="$PROJECT_DIR$/MediaPlayer-GLES-Immersive" />
-            <option value="$PROJECT_DIR$/MediaPlayer-GLES-QrMarker" />
-            <option value="$PROJECT_DIR$/MediaPlayerDemo" />
+            <option value="$PROJECT_DIR$/Spectaculum-Core" />
+            <option value="$PROJECT_DIR$/Spectaculum-Demo" />
+            <option value="$PROJECT_DIR$/Spectaculum-Effect-FlowAbs" />
+            <option value="$PROJECT_DIR$/Spectaculum-Effect-Immersive" />
+            <option value="$PROJECT_DIR$/Spectaculum-Effect-QrMarker" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/MediaPlayer" />
-            <option value="$PROJECT_DIR$/MediaPlayer-DASH" />
-            <option value="$PROJECT_DIR$/MediaPlayer-GLES" />
-            <option value="$PROJECT_DIR$/MediaPlayer-GLES-FlowAbs" />
-            <option value="$PROJECT_DIR$/MediaPlayer-GLES-Immersive" />
-            <option value="$PROJECT_DIR$/MediaPlayer-GLES-QrMarker" />
-            <option value="$PROJECT_DIR$/MediaPlayerDemo" />
+            <option value="$PROJECT_DIR$/Spectaculum-Core" />
+            <option value="$PROJECT_DIR$/Spectaculum-Demo" />
+            <option value="$PROJECT_DIR$/Spectaculum-Effect-FlowAbs" />
+            <option value="$PROJECT_DIR$/Spectaculum-Effect-Immersive" />
+            <option value="$PROJECT_DIR$/Spectaculum-Effect-QrMarker" />
           </set>
         </option>
       </GradleProjectSettings>
