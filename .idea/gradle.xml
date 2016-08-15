@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Spectaculum-Camera" />
             <option value="$PROJECT_DIR$/Spectaculum-Core" />
             <option value="$PROJECT_DIR$/Spectaculum-Demo" />
             <option value="$PROJECT_DIR$/Spectaculum-Effect-FlowAbs" />
@@ -18,6 +19,7 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Spectaculum-Camera" />
             <option value="$PROJECT_DIR$/Spectaculum-Core" />
             <option value="$PROJECT_DIR$/Spectaculum-Demo" />
             <option value="$PROJECT_DIR$/Spectaculum-Effect-FlowAbs" />

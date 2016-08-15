@@ -25,14 +25,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
-import net.protyposis.android.spectaculum.GLCameraView;
+import net.protyposis.android.spectaculum.CameraView;
 
 
 public class GLCameraViewActivity extends Activity {
 
     private static final String TAG = GLCameraViewActivity.class.getSimpleName();
 
-    private GLCameraView mGLCameraView;
+    private CameraView mGLCameraView;
 
     private GLEffects mEffectList;
 
@@ -41,7 +41,7 @@ public class GLCameraViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_glcameraview);
 
-        mGLCameraView = (GLCameraView) findViewById(R.id.glcv);
+        mGLCameraView = (CameraView) findViewById(R.id.glcv);
 
         mEffectList = new GLEffects(this, R.id.parameterlist, mGLCameraView);
         mEffectList.addEffects();

@@ -35,20 +35,20 @@ import java.util.List;
 /**
  * @author Mario Guggenberger
  */
-public class GLCameraView extends SpectaculumView {
+public class CameraView extends SpectaculumView {
 
-    private static final String TAG = GLCameraView.class.getSimpleName();
+    private static final String TAG = CameraView.class.getSimpleName();
 
     private SurfaceTexture mSurfaceTexture;
     private Camera mCamera;
     private int mCameraId;
 
-    public GLCameraView(Context context) {
+    public CameraView(Context context) {
         super(context);
         init(context);
     }
 
-    public GLCameraView(Context context, AttributeSet attrs) {
+    public CameraView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
