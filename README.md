@@ -1,7 +1,7 @@
-<img src="./MediaPlayerDemo/src/main/ic_launcher-web.png" width="100" height="100" alt="MediaPlayer-Extended Icon"/>
+<img src="./spectaculum-logo.png" alt="Spectaculum Logo"/>
 
-MediaPlayer-Extended
-====================
+Spectaculum
+===========
 
 The MediaPlayer-Extended library (f.k.a. ITEC MediaPlayer) is a media player library for Android supporting
 exact seeking to frames, playback speed adjustment, shader support, zooming & panning, frame extraction
