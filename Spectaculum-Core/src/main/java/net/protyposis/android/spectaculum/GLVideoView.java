@@ -31,6 +31,10 @@ import android.view.SurfaceHolder;
 import android.widget.MediaController;
 import android.widget.Toast;
 
+import net.protyposis.android.mediaplayer.MediaPlayer;
+import net.protyposis.android.mediaplayer.MediaSource;
+import net.protyposis.android.mediaplayer.UriSource;
+
 import java.io.IOException;
 import java.util.Map;
 
