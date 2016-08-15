@@ -36,13 +36,13 @@ import net.protyposis.android.spectaculum.gles.*;
 /**
  * Created by Mario on 14.06.2014.
  */
-public class GLTextureView extends GLSurfaceView implements
+public class SpectaculumView extends GLSurfaceView implements
         GLVideoRenderer.OnExternalSurfaceTextureCreatedListener,
         SurfaceTexture.OnFrameAvailableListener,
         Effect.Listener, GLVideoRenderer.OnEffectInitializedListener,
         GLVideoRenderer.OnFrameCapturedCallback {
 
-    private static final String TAG = GLTextureView.class.getSimpleName();
+    private static final String TAG = SpectaculumView.class.getSimpleName();
 
     public interface OnEffectInitializedListener extends GLVideoRenderer.OnEffectInitializedListener {}
     public interface OnFrameCapturedCallback extends GLVideoRenderer.OnFrameCapturedCallback {}
@@ -64,12 +64,12 @@ public class GLTextureView extends GLSurfaceView implements
     protected int mVideoWidth;
     protected int mVideoHeight;
 
-    protected GLTextureView(Context context) {
+    protected SpectaculumView(Context context) {
         super(context);
         init(context);
     }
 
-    protected GLTextureView(Context context, AttributeSet attrs) {
+    protected SpectaculumView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -287,7 +287,7 @@ public class GLTextureView extends GLSurfaceView implements
             }
         });
 
-        surfaceTexture.setOnFrameAvailableListener(GLTextureView.this);
+        surfaceTexture.setOnFrameAvailableListener(SpectaculumView.this);
     }
 
     /**
@@ -371,7 +371,7 @@ public class GLTextureView extends GLSurfaceView implements
                         mRunOnUiThreadHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                GLTextureView.this.onFrameCaptured(bitmap);
+                                SpectaculumView.this.onFrameCaptured(bitmap);
                             }
                         });
                     }

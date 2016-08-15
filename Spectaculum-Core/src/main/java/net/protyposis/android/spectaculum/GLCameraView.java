@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * @author Mario Guggenberger
  */
-public class GLCameraView extends GLTextureView {
+public class GLCameraView extends SpectaculumView {
 
     private static final String TAG = GLCameraView.class.getSimpleName();
 

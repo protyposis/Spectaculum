@@ -30,7 +30,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.protyposis.android.spectaculum.GLTextureView;
+import net.protyposis.android.spectaculum.SpectaculumView;
 import net.protyposis.android.spectaculum.effects.FloatParameter;
 import net.protyposis.android.spectaculum.effects.IntegerParameter;
 import net.protyposis.android.spectaculum.effects.Parameter;
@@ -41,10 +41,10 @@ import net.protyposis.android.spectaculum.effects.Parameter;
 public class ParameterListAdapter extends BaseAdapter {
 
     private Activity mActivity;
-    private GLTextureView mTextureView;
+    private SpectaculumView mTextureView;
     public List<Parameter> mParameters;
 
-    public ParameterListAdapter(Activity activity, GLTextureView textureView, List<Parameter> parameters) {
+    public ParameterListAdapter(Activity activity, SpectaculumView textureView, List<Parameter> parameters) {
         mActivity = activity;
         mTextureView = textureView;
         mParameters = new ArrayList<Parameter>(parameters);

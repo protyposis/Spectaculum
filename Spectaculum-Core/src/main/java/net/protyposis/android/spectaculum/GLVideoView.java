@@ -41,7 +41,7 @@ import java.util.Map;
 /**
  * Created by maguggen on 04.06.2014.
  */
-public class GLVideoView extends GLTextureView implements
+public class GLVideoView extends SpectaculumView implements
         MediaController.MediaPlayerControl {
 
     private static final String TAG = GLVideoView.class.getSimpleName();

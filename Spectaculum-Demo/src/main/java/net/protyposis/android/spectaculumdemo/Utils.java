@@ -35,7 +35,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import net.protyposis.android.spectaculum.GLTextureView;
+import net.protyposis.android.spectaculum.SpectaculumView;
 import net.protyposis.android.spectaculum.mediaplayer.MediaSource;
 import net.protyposis.android.spectaculum.mediaplayer.UriSource;
 import net.protyposis.android.spectaculum.mediaplayer.dash.AdaptationLogic;
@@ -101,7 +101,7 @@ public class Utils {
         return false;
     }
 
-    public static class OnFrameCapturedCallback implements GLTextureView.OnFrameCapturedCallback {
+    public static class OnFrameCapturedCallback implements SpectaculumView.OnFrameCapturedCallback {
 
         private Context mContext;
         private String mFileNamePrefix;

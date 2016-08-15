@@ -30,7 +30,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.protyposis.android.spectaculum.GLTextureView;
+import net.protyposis.android.spectaculum.SpectaculumView;
 import net.protyposis.android.spectaculum.effects.ContrastBrightnessAdjustmentEffect;
 import net.protyposis.android.spectaculum.effects.FlowAbsSubEffect;
 import net.protyposis.android.spectaculum.effects.QrMarkerEffect;
@@ -54,17 +54,17 @@ import net.protyposis.android.spectaculum.effects.SphereEffect;
  *
  * Helper class for easy effect handling in the video and camera players.
  */
-public class GLEffects implements GLTextureView.OnEffectInitializedListener {
+public class GLEffects implements SpectaculumView.OnEffectInitializedListener {
 
     private Activity mActivity;
     private ViewGroup mParameterListView;
     private ParameterListAdapter mParameterListAdapter;
     private MenuItem mParameterToggleMenuItem;
-    private GLTextureView mGLView;
+    private SpectaculumView mGLView;
     private List<Effect> mEffects;
     private Effect mSelectedEffect;
 
-    public GLEffects(Activity activity, int parameterListViewId, GLTextureView glView) {
+    public GLEffects(Activity activity, int parameterListViewId, SpectaculumView glView) {
         mActivity = activity;
         mParameterListView = (ViewGroup) activity.findViewById(parameterListViewId);
         mGLView = glView;
