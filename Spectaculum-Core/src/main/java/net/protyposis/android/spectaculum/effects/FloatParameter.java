@@ -34,13 +34,17 @@ public class FloatParameter extends Parameter {
     private float mValue;
     private Delegate mDelegate;
 
-    public FloatParameter(String name, float min, float max, float init, Delegate delegate) {
-        super(name, Type.FLOAT);
+    public FloatParameter(String name, float min, float max, float init, Delegate delegate, String description) {
+        super(name, Type.FLOAT, description);
         mMin = min;
         mMax = max;
         mDefault = init;
         mValue = init;
         mDelegate = delegate;
+    }
+
+    public FloatParameter(String name, float min, float max, float init, Delegate delegate) {
+        this(name, min, max, init, delegate, null);
     }
 
     public float getValue() {

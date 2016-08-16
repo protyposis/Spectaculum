@@ -26,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +100,9 @@ public class ParameterListAdapter extends BaseAdapter {
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
+                    if(p.getDescription() != null) {
+                        Toast.makeText(mActivity, p.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
@@ -134,6 +138,9 @@ public class ParameterListAdapter extends BaseAdapter {
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
+                    if(p.getDescription() != null) {
+                        Toast.makeText(mActivity, p.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override

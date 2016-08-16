@@ -34,13 +34,17 @@ public class IntegerParameter extends Parameter {
     private int mValue;
     private Delegate mDelegate;
 
-    public IntegerParameter(String name, int min, int max, int init, Delegate delegate) {
-        super(name, Type.INTEGER);
+    public IntegerParameter(String name, int min, int max, int init, Delegate delegate, String description) {
+        super(name, Type.INTEGER, description);
         mMin = min;
         mMax = max;
         mDefault = init;
         mValue = init;
         mDelegate = delegate;
+    }
+
+    public IntegerParameter(String name, int min, int max, int init, Delegate delegate) {
+        this(name, min, max, init, delegate, null);
     }
 
     public int getValue() {

@@ -35,11 +35,17 @@ public abstract class Parameter {
 
     private String mName;
     private Type mType;
+    private String mDescription;
     private Listener mListener;
 
     protected Parameter(String name, Type type) {
         mName = name;
         mType = type;
+    }
+
+    public Parameter(String name, Type type, String description) {
+        this(name, type);
+        this.mDescription = description;
     }
 
     public Type getType() {
@@ -48,6 +54,10 @@ public abstract class Parameter {
 
     public String getName() {
         return mName;
+    }
+
+    public String getDescription() {
+        return mDescription;
     }
 
     public abstract void reset();
