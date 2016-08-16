@@ -27,20 +27,27 @@ import net.protyposis.android.spectaculum.gles.TextureShaderProgram;
  */
 public class FlipEffect extends ShaderEffect {
 
-    private int mMode;
+    public enum Mode {
+        NONE,
+        VERTICAL,
+        HORIZONTAL,
+        BOTH
+    }
+
+    private Mode mMode;
 
     @Override
     protected TextureShaderProgram initShaderProgram() {
         final TextureFlipShaderProgram flipShader = new TextureFlipShaderProgram();
-        mMode = 1;
+        mMode = Mode.VERTICAL;
 
-        flipShader.setMode(mMode);
+        flipShader.setMode(mMode.ordinal());
 
-        addParameter(new IntegerParameter("Mode", 0, 3, mMode, new IntegerParameter.Delegate() {
+        addParameter(new EnumParameter<>("Mode", Mode.class, mMode, new EnumParameter.Delegate<Mode>() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Mode value) {
                 mMode = value;
-                flipShader.setMode(mMode);
+                flipShader.setMode(mMode.ordinal());
             }
         }));
 
