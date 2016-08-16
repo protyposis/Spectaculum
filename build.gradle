@@ -3,9 +3,11 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.2'
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.novoda:bintray-release:0.3.4'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,13 +18,23 @@ allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        jcenter()
     }
 }
 
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
 ext {
-    packageBase = 'at.aau.itec.android'
-    playerModuleBase = packageBase + '.mediaplayer'
+    packageBase = 'net.protyposis.android'
+    playerModuleBase = packageBase + '.spectaculum'
     isLibrary = true
-    libraryVersionCode = 2
-    libraryVersionName = "1.2"
+    libraryVersionCode = 1
+    libraryVersionName = '1.0.0'
+    librarySnaphotEnabled = true
+
+    libraryVersionString = {
+        return libraryVersionName + (librarySnaphotEnabled ? '-SNAPSHOT' : '')
+    }
 }

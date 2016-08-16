@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2014 Mario Guggenberger <mg@protyposis.net>
+  ~
+  ~ This file is part of MediaPlayer-Extended.
+  ~
+  ~ MediaPlayer-Extended is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ MediaPlayer-Extended is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with MediaPlayer-Extended.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+
+    <string name="app_name">Spectaculum Demo</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_seekcurrentposition">Seek offset test: to current position</string>
+    <string name="action_seekcurrentpositionplus1ms">Seek offset test: to current position + 1ms</string>
+    <string name="action_seektoend">Seek to end test</string>
+    <string name="action_getcurrentposition">Toast current position</string>
+    <string name="title_activity_mediaplayerextended">MediaPlayer-Extended Demo</string>
+    <string name="title_activity_camera">Camera Demo</string>
+    <string name="title_activity_glimage_view">GLImageViewActivity</string>
+    <string name="toggle_parameters">Parameters</string>
+    <string name="save_frame">Save Frame</string>
+    <string name="switch_camera">Switch Camera</string>
+    <string name="effects">Effects</string>
+    <string name="parameter_reset_short">RST</string>
+    <string name="description_headline">Welcome to the Spectaculum Library Showcase!</string>
+    <string name="description_text">This technical demo shows the key features of the library in a very simple app and serves as a reference on how to use the components in Java code. This app is not intended to be used as a picture editor or video player application by end users. The library sources and a detailed description are available at the following link:</string>
+    <string name="library_url">https://github.com/protyposis/Spectaculum</string>
+    <string name="uri_missing">no file selected</string>
+    <string name="feature_mediaplayerextended">MediaPlayer-Extended</string>
+    <string name="feature_camera">Camera</string>
+    <string name="copyright_notice">Copyright © 2014–2016 Mario Guggenberger. Published under the GPLv3. http://www.gnu.org/licenses/gpl-3.0</string>
+    <string name="open_source_licenses">Open Source Licenses</string>
+    <string name="action_halfspeed">0.5x Speed</string>
+    <string name="action_doublespeed">2.0x Speed</string>
+    <string name="action_quadspeed">4.0x Speed</string>
+    <string name="action_normalspeed">1.0x Speed</string>
+    <string name="action_slowspeed">0.2x Speed</string>
+    <string name="zoom_pan_info">Zoom and pan the picture with touch gestures, double tap to reset the viewport.</string>
+    <string name="openvideo_description">Open a video file from any app (e.g. the web browser), or select one of these options:</string>
+    <string name="openvideo_pick">Pick a file</string>
+    <string name="openvideo_type">Paste or type URL</string>
+    <string name="openvideo_dash_hint">Hint: If the URL to a DASH MPD does not end in the .mpd extension, you can hint a DASH stream by prepending \'dash://\' in front of the actual URL.</string>
+
+</resources>
