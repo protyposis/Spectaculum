@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"/>
 
     <net.protyposis.android.spectaculum.VideoView
-        android:id="@+id/glvv"
+        android:id="@+id/videoview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"

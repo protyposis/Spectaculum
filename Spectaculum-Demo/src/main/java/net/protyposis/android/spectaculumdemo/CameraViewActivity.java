@@ -32,7 +32,7 @@ public class CameraViewActivity extends Activity {
 
     private static final String TAG = CameraViewActivity.class.getSimpleName();
 
-    private CameraView mGLCameraView;
+    private CameraView mCameraView;
 
     private GLEffects mEffectList;
 
@@ -41,19 +41,19 @@ public class CameraViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cameraview);
 
-        mGLCameraView = (CameraView) findViewById(R.id.glcv);
+        mCameraView = (CameraView) findViewById(R.id.cameraview);
 
-        mEffectList = new GLEffects(this, R.id.parameterlist, mGLCameraView);
+        mEffectList = new GLEffects(this, R.id.parameterlist, mCameraView);
         mEffectList.addEffects();
 
-        mGLCameraView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-camera"));
+        mCameraView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-camera"));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.common, menu);
         mEffectList.addToMenu(menu);
-        menu.findItem(R.id.action_switch_camera).setVisible(mGLCameraView.supportsCameraSwitch());
+        menu.findItem(R.id.action_switch_camera).setVisible(mCameraView.supportsCameraSwitch());
         return true;
     }
 
@@ -63,9 +63,9 @@ public class CameraViewActivity extends Activity {
         if(mEffectList.doMenuActions(item)) {
             return true;
         } else if(id == R.id.action_save_frame) {
-            mGLCameraView.captureFrame();
+            mCameraView.captureFrame();
         } else if(id == R.id.action_switch_camera) {
-            mGLCameraView.switchCamera();
+            mCameraView.switchCamera();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -73,19 +73,19 @@ public class CameraViewActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        mGLCameraView.onPause();
+        mCameraView.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mGLCameraView.onResume();
+        mCameraView.onResume();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // hand the event to the video view to process zoom/pan gestures
-        mGLCameraView.onTouchEvent(event);
+        mCameraView.onTouchEvent(event);
 
         return super.onTouchEvent(event);
     }

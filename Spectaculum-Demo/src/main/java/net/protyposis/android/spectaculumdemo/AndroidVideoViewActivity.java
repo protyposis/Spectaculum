@@ -37,7 +37,7 @@ public class AndroidVideoViewActivity extends Activity {
         setContentView(R.layout.activity_androidvideoview);
         Utils.setActionBarSubtitleEllipsizeMiddle(this);
 
-        mVideoView = (VideoView) findViewById(R.id.glvv);
+        mVideoView = (VideoView) findViewById(R.id.videoview);
         mProgress = (ProgressBar) findViewById(R.id.progress);
 
         mMediaPlayerControl = mVideoView;

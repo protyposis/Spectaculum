@@ -41,7 +41,7 @@ public class MediaPlayerExtendedViewActivity extends Activity {
     private static final String TAG = MediaPlayerExtendedViewActivity.class.getSimpleName();
 
     private Uri mVideoUri;
-    private MediaPlayerExtendedView mGLVideoView;
+    private MediaPlayerExtendedView mVideoView;
     private ProgressBar mProgress;
 
     private MediaController.MediaPlayerControl mMediaPlayerControl;
@@ -56,10 +56,10 @@ public class MediaPlayerExtendedViewActivity extends Activity {
         setContentView(R.layout.activity_mediaplayerextendedview); // reuse main layout
         Utils.setActionBarSubtitleEllipsizeMiddle(this);
 
-        mGLVideoView = (MediaPlayerExtendedView) findViewById(R.id.glvv);
+        mVideoView = (MediaPlayerExtendedView) findViewById(R.id.videoview);
         mProgress = (ProgressBar) findViewById(R.id.progress);
 
-        mMediaPlayerControl = mGLVideoView;
+        mMediaPlayerControl = mVideoView;
         mMediaController = new MediaController(this);
         mMediaController.setAnchorView(findViewById(R.id.container));
         mMediaController.setMediaPlayer(mMediaPlayerControl);
@@ -67,7 +67,7 @@ public class MediaPlayerExtendedViewActivity extends Activity {
 
         mProgress.setVisibility(View.VISIBLE);
 
-        mEffectList = new GLEffects(this, R.id.parameterlist, mGLVideoView);
+        mEffectList = new GLEffects(this, R.id.parameterlist, mVideoView);
         mEffectList.addEffects();
 
         if(savedInstanceState != null) {
@@ -85,26 +85,26 @@ public class MediaPlayerExtendedViewActivity extends Activity {
         mVideoUri = uri;
         getActionBar().setSubtitle(mVideoUri+"");
 
-        mGLVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer vp) {
                 if (position > 0) {
-                    mGLVideoView.seekTo(position);
+                    mVideoView.seekTo(position);
                 } else {
-                    mGLVideoView.seekTo(0); // display first frame
+                    mVideoView.seekTo(0); // display first frame
                 }
 
-                mGLVideoView.setPlaybackSpeed(speed);
+                mVideoView.setPlaybackSpeed(speed);
 
                 if (playback) {
-                    mGLVideoView.start();
+                    mVideoView.start();
                 }
 
                 mProgress.setVisibility(View.GONE);
                 mMediaController.setEnabled(true);
             }
         });
-        mGLVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 Toast.makeText(MediaPlayerExtendedViewActivity.this,
@@ -115,24 +115,24 @@ public class MediaPlayerExtendedViewActivity extends Activity {
                 return true;
             }
         });
-        mGLVideoView.setOnSeekListener(new MediaPlayer.OnSeekListener() {
+        mVideoView.setOnSeekListener(new MediaPlayer.OnSeekListener() {
             @Override
             public void onSeek(MediaPlayer mp) {
                 mProgress.setVisibility(View.VISIBLE);
             }
         });
-        mGLVideoView.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+        mVideoView.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
             @Override
             public void onSeekComplete(MediaPlayer mp) {
                 mProgress.setVisibility(View.GONE);
             }
         });
-        mGLVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-mediaplayerextended"));
+        mVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-mediaplayerextended"));
 
         Utils.uriToMediaSourceAsync(this, uri, new Utils.MediaSourceAsyncCallbackHandler() {
             @Override
             public void onMediaSourceLoaded(MediaSource mediaSource) {
-                mGLVideoView.setVideoSource(mediaSource);
+                mVideoView.setVideoSource(mediaSource);
             }
 
             @Override
@@ -158,39 +158,39 @@ public class MediaPlayerExtendedViewActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_slowspeed) {
-            mGLVideoView.setPlaybackSpeed(0.2f);
+            mVideoView.setPlaybackSpeed(0.2f);
             return true;
         } else if(id == R.id.action_halfspeed) {
-            mGLVideoView.setPlaybackSpeed(0.5f);
+            mVideoView.setPlaybackSpeed(0.5f);
             return true;
         } else if(id == R.id.action_doublespeed) {
-            mGLVideoView.setPlaybackSpeed(2.0f);
+            mVideoView.setPlaybackSpeed(2.0f);
             return true;
         } else if(id == R.id.action_quadspeed) {
-            mGLVideoView.setPlaybackSpeed(4.0f);
+            mVideoView.setPlaybackSpeed(4.0f);
             return true;
         } else if(id == R.id.action_normalspeed) {
-            mGLVideoView.setPlaybackSpeed(1.0f);
+            mVideoView.setPlaybackSpeed(1.0f);
             return true;
         } else if(id == R.id.action_seekcurrentposition) {
-            mGLVideoView.pause();
-            mGLVideoView.seekTo(mGLVideoView.getCurrentPosition());
+            mVideoView.pause();
+            mVideoView.seekTo(mVideoView.getCurrentPosition());
             return true;
         } else if(id == R.id.action_seekcurrentpositionplus1ms) {
-            mGLVideoView.pause();
-            mGLVideoView.seekTo(mGLVideoView.getCurrentPosition()+1);
+            mVideoView.pause();
+            mVideoView.seekTo(mVideoView.getCurrentPosition()+1);
             return true;
         } else if(id == R.id.action_seektoend) {
-            mGLVideoView.pause();
-            mGLVideoView.seekTo(mGLVideoView.getDuration());
+            mVideoView.pause();
+            mVideoView.seekTo(mVideoView.getDuration());
             return true;
         } else if(id == R.id.action_getcurrentposition) {
-            Toast.makeText(this, "current position: " + mGLVideoView.getCurrentPosition(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "current position: " + mVideoView.getCurrentPosition(), Toast.LENGTH_SHORT).show();
             return true;
         } else if(mEffectList.doMenuActions(item)) {
             return true;
         } else if(id == R.id.action_save_frame) {
-            mGLVideoView.captureFrame();
+            mVideoView.captureFrame();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -213,7 +213,7 @@ public class MediaPlayerExtendedViewActivity extends Activity {
         }
 
         // hand the event to the video view to process zoom/pan gestures
-        mGLVideoView.onTouchEvent(event);
+        mVideoView.onTouchEvent(event);
 
         return super.onTouchEvent(event);
     }
@@ -221,13 +221,13 @@ public class MediaPlayerExtendedViewActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        mGLVideoView.onPause();
+        mVideoView.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mGLVideoView.onResume();
+        mVideoView.onResume();
     }
 
     @Override
@@ -241,9 +241,9 @@ public class MediaPlayerExtendedViewActivity extends Activity {
         super.onSaveInstanceState(outState);
         if(mVideoUri != null) {
             outState.putParcelable("uri", mVideoUri);
-            outState.putBoolean("playing", mGLVideoView.isPlaying());
-            outState.putInt("position", mGLVideoView.getCurrentPosition());
-            outState.putFloat("playbackSpeed", mGLVideoView.getPlaybackSpeed());
+            outState.putBoolean("playing", mVideoView.isPlaying());
+            outState.putInt("position", mVideoView.getCurrentPosition());
+            outState.putFloat("playbackSpeed", mVideoView.getPlaybackSpeed());
         }
     }
 }

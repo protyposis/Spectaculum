@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"/>
 
     <net.protyposis.android.spectaculum.CameraView
-        android:id="@+id/glcv"
+        android:id="@+id/cameraview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
