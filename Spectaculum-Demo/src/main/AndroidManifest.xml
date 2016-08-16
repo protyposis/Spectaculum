@@ -8,8 +8,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- camera preview demo -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -26,8 +31,10 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="rtsp" />
                 <data android:scheme="http" android:host="*" android:pathPattern=".*\\.mpd" />
                 <data android:scheme="http" android:host="*" android:pathPattern=".*\\.mp4" />
@@ -38,6 +45,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="file" android:mimeType="video/*" />
@@ -53,6 +61,10 @@
         <activity
             android:name=".CameraViewActivity"
             android:label="@string/title_activity_camera" >
+        </activity>
+        <activity
+            android:name=".ImageViewActivity"
+            android:label="@string/title_activity_image" >
         </activity>
     </application>
 

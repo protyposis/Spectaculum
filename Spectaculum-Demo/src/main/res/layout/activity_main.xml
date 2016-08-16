@@ -81,17 +81,22 @@
             android:layout_marginTop="@dimen/activity_vertical_margin_half"
             android:text="@string/uri_missing"/>
 
-        <View style="@style/Divider"/>
-
         <Button
             android:id="@+id/glvideoview"
             style="@style/Feature.Button"
             android:text="@string/feature_mediaplayerextended"/>
 
+        <View style="@style/Divider"/>
+
         <Button
             android:id="@+id/glcameraview"
             style="@style/Feature.Button"
             android:text="@string/feature_camera"/>
+
+        <Button
+            android:id="@+id/imageview"
+            style="@style/Feature.Button"
+            android:text="@string/feature_imageview"/>
 
         <View style="@style/Divider"/>
 

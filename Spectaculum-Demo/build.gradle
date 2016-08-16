@@ -65,6 +65,7 @@ dependencies {
     compile 'net.protyposis.android.mediaplayer:mediaplayer-dash:3.1.0'
     compile project(':Spectaculum-Core')
     compile project(':Spectaculum-Camera')
+    compile project(':Spectaculum-Image')
     compile project(':Spectaculum-MediaPlayerExtended')
     compile project(':Spectaculum-Effect-FlowAbs')
     compile project(':Spectaculum-Effect-QrMarker')
