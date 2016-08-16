@@ -30,9 +30,15 @@ import net.protyposis.android.spectaculum.gles.immersive.EquirectangularSphereSh
  */
 public class EquirectangularSphereEffect extends ShaderEffect {
 
+    public enum Mode {
+        MONO,
+        STEREO_SBS,
+        STEREO_TAB,
+    }
+
     private float mRotX, mRotY, mRotZ;
     private float[] mRotationMatrix = new float[16];
-    private int mMode;
+    private Mode mMode;
 
     @Override
     protected TextureShaderProgram initShaderProgram() {
@@ -42,7 +48,7 @@ public class EquirectangularSphereEffect extends ShaderEffect {
         mRotY = 0.0f;
         mRotZ = 0.0f;
         Matrix.setIdentityM(mRotationMatrix, 0);
-        mMode = 0;
+        mMode = Mode.MONO;
 
         sphereShader.setRotationMatrix(mRotationMatrix);
 
@@ -67,13 +73,13 @@ public class EquirectangularSphereEffect extends ShaderEffect {
                 updateRotationMatrix(sphereShader);
             }
         }, "Sets the rotation angle around the Z-axis in degrees"));
-        addParameter(new IntegerParameter("VR Mode", 0, 2, mMode, new IntegerParameter.Delegate() {
+        addParameter(new EnumParameter<>("VR Mode", Mode.class, mMode, new EnumParameter.Delegate<Mode>() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Mode value) {
                 mMode = value;
-                sphereShader.setMode(mMode);
+                sphereShader.setMode(mMode.ordinal());
             }
-        }, "Sets the VR mode (mono, stereo SBS, stereo TAB"));
+        }, "Sets the VR mode"));
 
         return sphereShader;
     }

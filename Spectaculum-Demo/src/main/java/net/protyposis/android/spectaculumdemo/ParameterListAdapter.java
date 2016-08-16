@@ -22,9 +22,12 @@ package net.protyposis.android.spectaculumdemo;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.protyposis.android.spectaculum.SpectaculumView;
+import net.protyposis.android.spectaculum.effects.EnumParameter;
 import net.protyposis.android.spectaculum.effects.FloatParameter;
 import net.protyposis.android.spectaculum.effects.IntegerParameter;
 import net.protyposis.android.spectaculum.effects.Parameter;
@@ -71,12 +75,18 @@ public class ParameterListAdapter extends BaseAdapter {
         final Parameter parameter = getItem(position);
         View view = convertView;
 
-        if(convertView == null) {
-            view = mActivity.getLayoutInflater().inflate(R.layout.list_item_parameter_seekbar, parent, false);
+        if(convertView == null || convertView.getTag() != parameter.getType()) {
+            if(parameter.getType() == Parameter.Type.ENUM) {
+                view = mActivity.getLayoutInflater().inflate(R.layout.list_item_parameter_spinner, parent, false);
+            } else {
+                view = mActivity.getLayoutInflater().inflate(R.layout.list_item_parameter_seekbar, parent, false);
+            }
+            view.setTag(parameter.getType());
         }
 
         ((TextView) view.findViewById(R.id.name)).setText(parameter.getName());
         final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
+        final Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
         final TextView valueView = (TextView) view.findViewById(R.id.value);
         final Button resetButton = (Button) view.findViewById(R.id.reset);
 
@@ -153,6 +163,34 @@ public class ParameterListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     seekBar.setProgress((int) ((p.getDefault() - p.getMin()) * precision));
+                }
+            });
+        } else if (parameter.getType() == Parameter.Type.ENUM) {
+            final EnumParameter p = (EnumParameter) parameter;
+            final ArrayAdapter<Enum> adapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, p.getEnumValues());
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                    Toast.makeText(mActivity, p.getDescription(), Toast.LENGTH_SHORT).show();
+                    mTextureView.queueEvent(new Runnable() {
+                        @Override
+                        public void run() {
+                            p.setValue(p.getEnumValues()[position]);
+                        }
+                    });
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+            resetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    spinner.setSelection(adapter.getPosition(p.getDefault()));
                 }
             });
         }

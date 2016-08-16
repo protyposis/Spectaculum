@@ -30,7 +30,8 @@ public abstract class Parameter {
 
     public enum Type {
         INTEGER,
-        FLOAT
+        FLOAT,
+        ENUM
     }
 
     private String mName;
