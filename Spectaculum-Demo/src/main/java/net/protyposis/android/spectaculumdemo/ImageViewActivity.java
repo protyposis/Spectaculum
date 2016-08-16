@@ -22,11 +22,8 @@ package net.protyposis.android.spectaculumdemo;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -35,7 +32,6 @@ import android.view.MotionEvent;
 
 import net.protyposis.android.spectaculum.ImageView;
 
-import java.io.File;
 import java.io.IOException;
 
 public class ImageViewActivity extends Activity {
@@ -44,6 +40,7 @@ public class ImageViewActivity extends Activity {
 
     private ImageView mImageView;
     private GLEffects mEffectList;
+    private Uri mImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,23 +53,33 @@ public class ImageViewActivity extends Activity {
         mEffectList = new GLEffects(this, R.id.parameterlist, mImageView);
         mEffectList.addEffects();
 
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_LOAD_IMAGE);
+        if(savedInstanceState != null) {
+            // Load an already selected image (after configuration change)
+            loadImage((Uri)savedInstanceState.getParcelable("uri"));
+        } else {
+            // Show image selection dialog
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, REQUEST_LOAD_IMAGE);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_LOAD_IMAGE && resultCode == RESULT_OK) {
-            try {
-                Uri imageUri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                mImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                Log.e("ImageViewActivity", "error loading image", e);
-            }
+            loadImage(data.getData());
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void loadImage(Uri imageUri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+            mImageView.setImageBitmap(bitmap);
+            mImageUri = imageUri;
+        } catch (IOException e) {
+            Log.e("ImageViewActivity", "error loading image", e);
         }
     }
 
@@ -100,5 +107,13 @@ public class ImageViewActivity extends Activity {
         mImageView.onTouchEvent(event);
 
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mImageUri != null) {
+            outState.putParcelable("uri", mImageUri);
+        }
     }
 }
