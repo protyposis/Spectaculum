@@ -84,7 +84,17 @@ public class ParameterListAdapter extends BaseAdapter {
             view.setTag(parameter.getType());
         }
 
-        ((TextView) view.findViewById(R.id.name)).setText(parameter.getName());
+        TextView parameterName = (TextView) view.findViewById(R.id.name);
+        parameterName.setText(parameter.getName());
+        if(parameter.getDescription() != null) {
+            parameterName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mActivity, parameter.getDescription(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
         final Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
         final TextView valueView = (TextView) view.findViewById(R.id.value);
@@ -110,9 +120,6 @@ public class ParameterListAdapter extends BaseAdapter {
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-                    if(p.getDescription() != null) {
-                        Toast.makeText(mActivity, p.getDescription(), Toast.LENGTH_SHORT).show();
-                    }
                 }
 
                 @Override
@@ -148,9 +155,6 @@ public class ParameterListAdapter extends BaseAdapter {
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-                    if(p.getDescription() != null) {
-                        Toast.makeText(mActivity, p.getDescription(), Toast.LENGTH_SHORT).show();
-                    }
                 }
 
                 @Override
@@ -174,9 +178,6 @@ public class ParameterListAdapter extends BaseAdapter {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                    if(p.getDescription() != null) {
-                        Toast.makeText(mActivity, p.getDescription(), Toast.LENGTH_SHORT).show();
-                    }
                     mTextureView.queueEvent(new Runnable() {
                         @Override
                         public void run() {
