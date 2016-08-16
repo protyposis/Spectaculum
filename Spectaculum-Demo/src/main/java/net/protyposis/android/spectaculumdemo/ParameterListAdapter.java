@@ -174,7 +174,9 @@ public class ParameterListAdapter extends BaseAdapter {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                    Toast.makeText(mActivity, p.getDescription(), Toast.LENGTH_SHORT).show();
+                    if(p.getDescription() != null) {
+                        Toast.makeText(mActivity, p.getDescription(), Toast.LENGTH_SHORT).show();
+                    }
                     mTextureView.queueEvent(new Runnable() {
                         @Override
                         public void run() {
