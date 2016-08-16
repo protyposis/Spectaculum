@@ -20,10 +20,15 @@
 package net.protyposis.android.spectaculumdemo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -31,8 +36,11 @@ import android.view.MotionEvent;
 import net.protyposis.android.spectaculum.ImageView;
 
 import java.io.File;
+import java.io.IOException;
 
 public class ImageViewActivity extends Activity {
+
+    private static final int REQUEST_LOAD_IMAGE = 1;
 
     private ImageView mImageView;
     private GLEffects mEffectList;
@@ -48,11 +56,25 @@ public class ImageViewActivity extends Activity {
         mEffectList = new GLEffects(this, R.id.parameterlist, mImageView);
         mEffectList.addEffects();
 
-        mImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
-        //Bitmap bmp = BitmapFactory.decodeFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "glcameraview1410439388970.png").getPath());
-        //mImageView.setImageBitmap(bmp);
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_LOAD_IMAGE);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_LOAD_IMAGE && resultCode == RESULT_OK) {
+            try {
+                Uri imageUri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                mImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                Log.e("ImageViewActivity", "error loading image", e);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
