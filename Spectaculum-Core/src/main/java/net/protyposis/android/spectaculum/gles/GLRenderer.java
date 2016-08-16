@@ -36,9 +36,9 @@ import net.protyposis.android.spectaculum.effects.Effect;
 /**
  * Created by Mario on 14.06.2014.
  */
-public class GLVideoRenderer implements GLSurfaceView.Renderer {
+public class GLRenderer implements GLSurfaceView.Renderer {
 
-    private static final String TAG = GLVideoRenderer.class.getSimpleName();
+    private static final String TAG = GLRenderer.class.getSimpleName();
 
     public enum RenderRequest {
         DEFAULT,
@@ -94,7 +94,7 @@ public class GLVideoRenderer implements GLSurfaceView.Renderer {
     private OnEffectInitializedListener mOnEffectInitializedListener;
     private FrameRateCalculator mFrameRateCalculator;
 
-    public GLVideoRenderer() {
+    public GLRenderer() {
         Log.d(TAG, "ctor");
 
         mTexturedRectangle = new TexturedRectangle();

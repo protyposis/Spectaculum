@@ -37,17 +37,17 @@ import net.protyposis.android.spectaculum.gles.*;
  * Created by Mario on 14.06.2014.
  */
 public class SpectaculumView extends GLSurfaceView implements
-        GLVideoRenderer.OnExternalSurfaceTextureCreatedListener,
+        GLRenderer.OnExternalSurfaceTextureCreatedListener,
         SurfaceTexture.OnFrameAvailableListener,
-        Effect.Listener, GLVideoRenderer.OnEffectInitializedListener,
-        GLVideoRenderer.OnFrameCapturedCallback {
+        Effect.Listener, GLRenderer.OnEffectInitializedListener,
+        GLRenderer.OnFrameCapturedCallback {
 
     private static final String TAG = SpectaculumView.class.getSimpleName();
 
-    public interface OnEffectInitializedListener extends GLVideoRenderer.OnEffectInitializedListener {}
-    public interface OnFrameCapturedCallback extends GLVideoRenderer.OnFrameCapturedCallback {}
+    public interface OnEffectInitializedListener extends GLRenderer.OnEffectInitializedListener {}
+    public interface OnFrameCapturedCallback extends GLRenderer.OnFrameCapturedCallback {}
 
-    private GLVideoRenderer mRenderer;
+    private GLRenderer mRenderer;
     private Handler mRunOnUiThreadHandler = new Handler();
     private ScaleGestureDetector mScaleGestureDetector;
     private GestureDetector mGestureDetector;
@@ -89,7 +89,7 @@ public class SpectaculumView extends GLSurfaceView implements
 
         LibraryHelper.setContext(context);
 
-        mRenderer = new GLVideoRenderer();
+        mRenderer = new GLRenderer();
         mRenderer.setOnExternalSurfaceTextureCreatedListener(this);
         mRenderer.setOnEffectInitializedListener(this);
 
@@ -164,7 +164,7 @@ public class SpectaculumView extends GLSurfaceView implements
     public void setZoom(float zoomFactor) {
         mZoomLevel = zoomFactor;
         mRenderer.setZoomLevel(mZoomLevel);
-        requestRender(GLVideoRenderer.RenderRequest.GEOMETRY);
+        requestRender(GLRenderer.RenderRequest.GEOMETRY);
     }
 
     public float getZoomLevel() {
@@ -181,7 +181,7 @@ public class SpectaculumView extends GLSurfaceView implements
         mPanX = x;
         mPanY = y;
         mRenderer.setPan(-mPanX, mPanY);
-        requestRender(GLVideoRenderer.RenderRequest.GEOMETRY);
+        requestRender(GLRenderer.RenderRequest.GEOMETRY);
     }
 
     public float getPanX() {
@@ -337,7 +337,7 @@ public class SpectaculumView extends GLSurfaceView implements
             @Override
             public void run() {
                 mRenderer.selectEffect(index);
-                requestRender(GLVideoRenderer.RenderRequest.EFFECT);
+                requestRender(GLRenderer.RenderRequest.EFFECT);
             }
         });
     }
@@ -352,7 +352,7 @@ public class SpectaculumView extends GLSurfaceView implements
 
     @Override
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        requestRender(GLVideoRenderer.RenderRequest.ALL);
+        requestRender(GLRenderer.RenderRequest.ALL);
     }
 
     @Override
@@ -360,15 +360,19 @@ public class SpectaculumView extends GLSurfaceView implements
         if(mOnEffectInitializedListener != null) {
             mOnEffectInitializedListener.onEffectInitialized(effect);
         }
-        requestRender(GLVideoRenderer.RenderRequest.EFFECT);
+        requestRender(GLRenderer.RenderRequest.EFFECT);
     }
 
     @Override
     public void onEffectChanged(Effect effect) {
-        requestRender(GLVideoRenderer.RenderRequest.EFFECT);
+        requestRender(GLRenderer.RenderRequest.EFFECT);
     }
 
-    protected void requestRender(final GLVideoRenderer.RenderRequest renderRequest) {
+    /**
+     * Requests a render pass of the specified render pipeline section.
+     * @param renderRequest specifies the pipeline section to be rendered
+     */
+    protected void requestRender(final GLRenderer.RenderRequest renderRequest) {
         queueEvent(new Runnable() {
             @Override
             public void run() {
@@ -386,7 +390,7 @@ public class SpectaculumView extends GLSurfaceView implements
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                mRenderer.saveCurrentFrame(new GLVideoRenderer.OnFrameCapturedCallback() {
+                mRenderer.saveCurrentFrame(new GLRenderer.OnFrameCapturedCallback() {
                     @Override
                     public void onFrameCaptured(final Bitmap bitmap) {
                         mRunOnUiThreadHandler.post(new Runnable() {
