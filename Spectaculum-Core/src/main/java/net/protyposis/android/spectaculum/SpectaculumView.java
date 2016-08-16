@@ -344,10 +344,6 @@ public class SpectaculumView extends GLSurfaceView implements
         mOnEffectInitializedListener = listener;
     }
 
-    public void setOnFrameCapturedCallback(OnFrameCapturedCallback callback) {
-        mOnFrameCapturedCallback = callback;
-    }
-
     @Override
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
         requestRender(GLRenderer.RenderRequest.ALL);
@@ -381,8 +377,9 @@ public class SpectaculumView extends GLSurfaceView implements
     }
 
     /**
-     * Async request of the current frame from the GL renderer. The result will become available
-     * on the UI thread in #onFrameCaptured(Bitmap).
+     * Requests a capture of the current frame on the view. The frame is asynchronously requested
+     * from the renderer and will be passed back on the UI thread to {@link #onFrameCaptured(Bitmap)}
+     * and the event listener that can be set with {@link #setOnFrameCapturedCallback(OnFrameCapturedCallback)}.
      */
     public void captureFrame() {
         queueEvent(new Runnable() {
@@ -403,11 +400,22 @@ public class SpectaculumView extends GLSurfaceView implements
         });
     }
 
+    /**
+     * Receives a captured frame from the renderer. Can be overwritten in subclasses but must be
+     * called through. External callers should use {@link #setOnFrameCapturedCallback(OnFrameCapturedCallback)}.
+     */
     @Override
     public void onFrameCaptured(Bitmap bitmap) {
         if(mOnFrameCapturedCallback != null) {
             mOnFrameCapturedCallback.onFrameCaptured(bitmap);
         }
+    }
+
+    /**
+     * Sets a callback event handler that receives a bitmap of the captured frame.
+     */
+    public void setOnFrameCapturedCallback(OnFrameCapturedCallback callback) {
+        mOnFrameCapturedCallback = callback;
     }
 
     /**
