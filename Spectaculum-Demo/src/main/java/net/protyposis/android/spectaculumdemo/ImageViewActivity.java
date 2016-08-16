@@ -112,6 +112,18 @@ public class ImageViewActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mImageView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mImageView.onResume();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if(mImageUri != null) {
