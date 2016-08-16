@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.Surface;
 
 import net.protyposis.android.spectaculum.effects.Effect;
 import net.protyposis.android.spectaculum.gles.*;
@@ -37,7 +38,6 @@ import net.protyposis.android.spectaculum.gles.*;
  * Created by Mario on 14.06.2014.
  */
 public class SpectaculumView extends GLSurfaceView implements
-        GLRenderer.OnExternalSurfaceTextureCreatedListener,
         SurfaceTexture.OnFrameAvailableListener,
         Effect.Listener, GLRenderer.OnEffectInitializedListener,
         GLRenderer.OnFrameCapturedCallback {
@@ -90,7 +90,7 @@ public class SpectaculumView extends GLSurfaceView implements
         LibraryHelper.setContext(context);
 
         mRenderer = new GLRenderer();
-        mRenderer.setOnExternalSurfaceTextureCreatedListener(this);
+        mRenderer.setOnExternalSurfaceTextureCreatedListener(mExternalSurfaceTextureCreatedListener);
         mRenderer.setOnEffectInitializedListener(this);
 
         setEGLContextClientVersion(2);
@@ -298,25 +298,23 @@ public class SpectaculumView extends GLSurfaceView implements
         return super.dispatchTouchEvent(event);
     }
 
-    @Override
-    public void onExternalSurfaceTextureCreated(final ExternalSurfaceTexture surfaceTexture) {
-        // dispatch event to UI thread
-        mRunOnUiThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                onSurfaceTextureCreated(surfaceTexture.getSurfaceTexture());
-            }
-        });
-
-        surfaceTexture.setOnFrameAvailableListener(SpectaculumView.this);
+    /**
+     * Implement this method to receive the image source surface texture when it is ready to be used.
+     * This is the target texture where source image data (e.g. video frames) should be written to,
+     * to display them in the view.
+     * @param surfaceTexture the surface texture where image data should be written to
+     */
+    public void onSurfaceTextureCreated(SurfaceTexture surfaceTexture) {
+        // nothing to do here
     }
 
     /**
-     * Event handler that gets called when the video surface is ready to be used.
-     * Can be overwritten in a subclass.
-     * @param surfaceTexture the video surface texture
+     * Implement this method to receive the image source surface when it is ready to be used.
+     * This is the target surface where source image data (e.g. video frames) should be written to,
+     * to display them in the view.
+     * @param surface the surface where image data should be written to
      */
-    public void onSurfaceTextureCreated(SurfaceTexture surfaceTexture) {
+    public void onSurfaceCreated(Surface surface) {
         // nothing to do here
     }
 
@@ -432,4 +430,21 @@ public class SpectaculumView extends GLSurfaceView implements
             getHolder().setFixedSize(width, height);
         }
     }
+
+    private GLRenderer.OnExternalSurfaceTextureCreatedListener mExternalSurfaceTextureCreatedListener =
+            new GLRenderer.OnExternalSurfaceTextureCreatedListener() {
+        @Override
+        public void onExternalSurfaceTextureCreated(final ExternalSurfaceTexture surfaceTexture) {
+            // dispatch event to UI thread
+            mRunOnUiThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    onSurfaceTextureCreated(surfaceTexture.getSurfaceTexture());
+                    onSurfaceCreated(surfaceTexture.getSurface());
+                }
+            });
+
+            surfaceTexture.setOnFrameAvailableListener(SpectaculumView.this);
+        }
+    };
 }
