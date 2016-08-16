@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -60,8 +61,15 @@ public class ImageViewActivity extends Activity {
             loadImage((Uri)savedInstanceState.getParcelable("uri"));
         } else {
             // Show image selection dialog
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
+            Intent intent = null;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+            } else {
+                intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+            }
             startActivityForResult(intent, REQUEST_LOAD_IMAGE);
         }
     }
