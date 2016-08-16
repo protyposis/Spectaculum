@@ -75,8 +75,8 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         mVideoSelectButton = (Button) findViewById(R.id.videoselect);
         mVideoSelect2Button = (Button) findViewById(R.id.videoselect2);
         mAndroidVideoViewButton = (Button) findViewById(R.id.androidvideoview);
-        mMediaPlayerExtendedButton = (Button) findViewById(R.id.glvideoview);
-        mCameraButton = (Button) findViewById(R.id.glcameraview);
+        mMediaPlayerExtendedButton = (Button) findViewById(R.id.mediaplayerextendedvideoview);
+        mCameraButton = (Button) findViewById(R.id.cameraview);
         mImageButton = (Button) findViewById(R.id.imageview);
         mVideoUriText = (TextView) findViewById(R.id.videouri);
         mVideoUriTextColor = mVideoUriText.getCurrentTextColor();

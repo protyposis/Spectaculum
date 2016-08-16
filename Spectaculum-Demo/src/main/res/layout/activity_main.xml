@@ -87,14 +87,14 @@
             android:text="@string/feature_androidvideoview"/>
 
         <Button
-            android:id="@+id/glvideoview"
+            android:id="@+id/mediaplayerextendedvideoview"
             style="@style/Feature.Button"
             android:text="@string/feature_mediaplayerextended"/>
 
         <View style="@style/Divider"/>
 
         <Button
-            android:id="@+id/glcameraview"
+            android:id="@+id/cameraview"
             style="@style/Feature.Button"
             android:text="@string/feature_camera"/>
 
