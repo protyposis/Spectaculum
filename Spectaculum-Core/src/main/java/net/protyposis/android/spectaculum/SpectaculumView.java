@@ -303,6 +303,7 @@ public class SpectaculumView extends GLSurfaceView implements
      * This is the target texture where source image data (e.g. video frames) should be written to,
      * to display them in the view.
      * @param surfaceTexture the surface texture where image data should be written to
+     * @see #onSurfaceCreated(Surface)
      */
     public void onSurfaceTextureCreated(SurfaceTexture surfaceTexture) {
         // nothing to do here
@@ -313,11 +314,18 @@ public class SpectaculumView extends GLSurfaceView implements
      * This is the target surface where source image data (e.g. video frames) should be written to,
      * to display them in the view.
      * @param surface the surface where image data should be written to
+     * @see #onSurfaceTextureCreated(SurfaceTexture)
      */
     public void onSurfaceCreated(Surface surface) {
         // nothing to do here
     }
 
+    /**
+     * Adds one or more effects to the view. Added effects can then be activated/selected by calling
+     * {@link #selectEffect(int)}. The effect indices start at zero and are in the order that they
+     * are added to the view.
+     * @param effects effects to add
+     */
     public void addEffect(final Effect... effects) {
         for(Effect effect : effects) {
             effect.setListener(this);
@@ -330,6 +338,10 @@ public class SpectaculumView extends GLSurfaceView implements
         });
     }
 
+    /**
+     * Selects/activates the effect with the given index as it has been added through {@link #addEffect(Effect...)}.
+     * @param index the index of the effect to activate
+     */
     public void selectEffect(final int index) {
         queueEvent(new Runnable() {
             @Override
@@ -340,15 +352,12 @@ public class SpectaculumView extends GLSurfaceView implements
         });
     }
 
-    public void setOnEffectInitializedListener(OnEffectInitializedListener listener) {
-        mOnEffectInitializedListener = listener;
-    }
-
-    @Override
-    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        requestRender(GLRenderer.RenderRequest.ALL);
-    }
-
+    /**
+     * Gets called when an effect has been initialized after being selected for the first time. Can
+     * be overwritten in subclasses but must be called through. External callers should use
+     * {@link #setOnEffectInitializedListener(OnEffectInitializedListener)}.
+     * @param effect the initialized effect
+     */
     @Override
     public void onEffectInitialized(Effect effect) {
         if(mOnEffectInitializedListener != null) {
@@ -357,9 +366,34 @@ public class SpectaculumView extends GLSurfaceView implements
         requestRender(GLRenderer.RenderRequest.EFFECT);
     }
 
+    /**
+     * Sets an event listener that gets called when a selected effect has been initialized, that
+     * is when it is selected ({@link #selectEffect(int)}) for the first time.
+     * This can take some time when a lot of data (framebuffers, textures, ...) is loaded.
+     */
+    public void setOnEffectInitializedListener(OnEffectInitializedListener listener) {
+        mOnEffectInitializedListener = listener;
+    }
+
+    /**
+     * Gets called when a parameter of an effect has changed. This method then triggers a fresh
+     * rendering of the effect. Can be overridden in subclasses but must be called through.
+     * @param effect the effect of which a parameter value has changed
+     */
     @Override
     public void onEffectChanged(Effect effect) {
         requestRender(GLRenderer.RenderRequest.EFFECT);
+    }
+
+    /**
+     * Gets called when a new image frame has been written to the surface texture and requests a
+     * fresh rendering of the view. The texture can be obtained through {@link #onSurfaceTextureCreated(SurfaceTexture)}.
+     * Can be overridden in subclasses but must be called through.
+     * @param surfaceTexture the updated surface texture
+     */
+    @Override
+    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        requestRender(GLRenderer.RenderRequest.ALL);
     }
 
     /**
