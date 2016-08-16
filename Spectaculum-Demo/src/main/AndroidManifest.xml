@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="at.aau.itec.android.mediaplayerdemo.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,8 +63,8 @@
             android:label="@string/title_activity_camera" >
         </activity>
         <activity
-            android:name="at.aau.itec.android.mediaplayerdemo.GLImageViewActivity"
-            android:label="@string/title_activity_glimage_view" >
+            android:name=".ImageViewActivity"
+            android:label="@string/title_activity_image" >
         </activity>
     </application>
 

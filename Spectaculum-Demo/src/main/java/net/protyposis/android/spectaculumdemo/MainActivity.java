@@ -53,6 +53,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
     private Button mVideoSelect2Button;
     private Button mMediaPlayerExtendedButton;
     private Button mCameraButton;
+    private Button mImageButton;
 
     private TextView mVideoUriText;
     private int mVideoUriTextColor;
@@ -74,6 +75,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         mVideoSelect2Button = (Button) findViewById(R.id.videoselect2);
         mMediaPlayerExtendedButton = (Button) findViewById(R.id.glvideoview);
         mCameraButton = (Button) findViewById(R.id.glcameraview);
+        mImageButton = (Button) findViewById(R.id.imageview);
         mVideoUriText = (TextView) findViewById(R.id.videouri);
         mVideoUriTextColor = mVideoUriText.getCurrentTextColor();
 
@@ -113,6 +115,12 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, CameraViewActivity.class).setData(mVideoUri));
+            }
+        });
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ImageViewActivity.class));
             }
         });
         ((Button) findViewById(R.id.licenses)).setOnClickListener(new View.OnClickListener() {
@@ -157,13 +165,6 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
 
         updateUri(uri);
         versionInfos();
-
-        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GLImageViewActivity.class));
-            }
-        });
     }
 
     @Override
@@ -247,6 +248,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         components.put("Spectaculum-Demo", net.protyposis.android.spectaculumdemo.BuildConfig.class);
         components.put("Spectaculum", net.protyposis.android.spectaculum.BuildConfig.class);
         components.put("Spectaculum-Camera", net.protyposis.android.spectaculum.camera.BuildConfig.class);
+        components.put("Spectaculum-Image", net.protyposis.android.spectaculum.image.BuildConfig.class);
         components.put("Spectaculum-MediaPlayerExtended", net.protyposis.android.spectaculum.mediaplayerextended.BuildConfig.class);
         components.put("Spectaculum-Effect-Immersive", net.protyposis.android.spectaculum.gles.immersive.BuildConfig.class);
         components.put("Spectaculum-Effect-FlowAbs", net.protyposis.android.spectaculum.gles.flowabs.BuildConfig.class);

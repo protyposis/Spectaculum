@@ -120,6 +120,7 @@
     <orderEntry type="library" exported="" name="mediaplayer-3.1.0" level="project" />
     <orderEntry type="library" exported="" name="okio-1.2.0" level="project" />
     <orderEntry type="module" module-name="Spectaculum-Core" exported="" />
+    <orderEntry type="module" module-name="Spectaculum-Image" exported="" />
     <orderEntry type="module" module-name="Spectaculum-Effect-Immersive" exported="" />
     <orderEntry type="module" module-name="Spectaculum-Camera" exported="" />
     <orderEntry type="module" module-name="Spectaculum-MediaPlayerExtended" exported="" />

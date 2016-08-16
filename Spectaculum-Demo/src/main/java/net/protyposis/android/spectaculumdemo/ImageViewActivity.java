@@ -17,49 +17,46 @@
  * along with ITEC MediaPlayer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.aau.itec.android.mediaplayerdemo;
+package net.protyposis.android.spectaculumdemo;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
+import net.protyposis.android.spectaculum.ImageView;
+
 import java.io.File;
 
-import at.aau.itec.android.mediaplayer.GLImageView;
-import at.aau.itec.android.mediaplayerdemo.R;
+public class ImageViewActivity extends Activity {
 
-public class GLImageViewActivity extends Activity {
-
-    private GLImageView mGLImageView;
+    private ImageView mImageView;
     private GLEffects mEffectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_glimageview);
+        setContentView(R.layout.activity_imageview);
 
-        mGLImageView = (GLImageView) findViewById(R.id.imageview);
-        mGLImageView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "glimageview"));
+        mImageView = (ImageView) findViewById(R.id.imageview);
+        mImageView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-image"));
 
-        mEffectList = new GLEffects(this, R.id.parameterlist, mGLImageView);
+        mEffectList = new GLEffects(this, R.id.parameterlist, mImageView);
         mEffectList.addEffects();
 
-        //test.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
-        Bitmap bmp = BitmapFactory.decodeFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "glcameraview1410439388970.png").getPath());
-        mGLImageView.setImageBitmap(bmp);
+        mImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        //Bitmap bmp = BitmapFactory.decodeFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "glcameraview1410439388970.png").getPath());
+        //mImageView.setImageBitmap(bmp);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.glvideoview, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         mEffectList.addToMenu(menu);
         return true;
     }
@@ -70,7 +67,7 @@ public class GLImageViewActivity extends Activity {
         if(mEffectList.doMenuActions(item)) {
             return true;
         } else if(id == R.id.action_save_frame) {
-            mGLImageView.captureFrame();
+            mImageView.captureFrame();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -78,7 +75,7 @@ public class GLImageViewActivity extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // hand the event to the image view to process zoom/pan gestures
-        mGLImageView.onTouchEvent(event);
+        mImageView.onTouchEvent(event);
 
         return super.onTouchEvent(event);
     }
