@@ -55,6 +55,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".AndroidVideoViewActivity"
+            android:label="@string/title_activity_androidvideoview" >
+        </activity>
+        <activity
             android:name=".MediaPlayerExtendedViewActivity"
             android:label="@string/title_activity_mediaplayerextended" >
         </activity>

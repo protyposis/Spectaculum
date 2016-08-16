@@ -25,6 +25,7 @@
     <string name="action_seekcurrentpositionplus1ms">Seek offset test: to current position + 1ms</string>
     <string name="action_seektoend">Seek to end test</string>
     <string name="action_getcurrentposition">Toast current position</string>
+    <string name="title_activity_androidvideoview">VideoView (Android API) Demo</string>
     <string name="title_activity_mediaplayerextended">MediaPlayer-Extended Demo</string>
     <string name="title_activity_camera">Camera Demo</string>
     <string name="title_activity_image">Image Demo</string>
@@ -37,6 +38,7 @@
     <string name="description_text">This technical demo shows the key features of the library in a very simple app and serves as a reference on how to use the components in Java code. This app is not intended to be used as a picture editor or video player application by end users. The library sources and a detailed description are available at the following link:</string>
     <string name="library_url">https://github.com/protyposis/Spectaculum</string>
     <string name="uri_missing">no file selected</string>
+    <string name="feature_androidvideoview">Android API (VideoView)</string>
     <string name="feature_mediaplayerextended">MediaPlayer-Extended</string>
     <string name="feature_camera">Camera</string>
     <string name="copyright_notice">Copyright © 2014–2016 Mario Guggenberger. Published under the GPLv3. http://www.gnu.org/licenses/gpl-3.0</string>

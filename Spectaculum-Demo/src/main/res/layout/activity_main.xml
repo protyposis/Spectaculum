@@ -82,6 +82,11 @@
             android:text="@string/uri_missing"/>
 
         <Button
+            android:id="@+id/androidvideoview"
+            style="@style/Feature.Button"
+            android:text="@string/feature_androidvideoview"/>
+
+        <Button
             android:id="@+id/glvideoview"
             style="@style/Feature.Button"
             android:text="@string/feature_mediaplayerextended"/>

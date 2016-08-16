@@ -66,6 +66,7 @@ dependencies {
     compile project(':Spectaculum-Core')
     compile project(':Spectaculum-Camera')
     compile project(':Spectaculum-Image')
+    compile project(':Spectaculum-MediaPlayer')
     compile project(':Spectaculum-MediaPlayerExtended')
     compile project(':Spectaculum-Effect-FlowAbs')
     compile project(':Spectaculum-Effect-QrMarker')
