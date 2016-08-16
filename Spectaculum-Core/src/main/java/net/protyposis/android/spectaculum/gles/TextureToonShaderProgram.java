@@ -25,6 +25,6 @@ package net.protyposis.android.spectaculum.gles;
 public class TextureToonShaderProgram extends TextureShaderProgram {
 
     public TextureToonShaderProgram() {
-        super("fs_texture_simpletoon.s");
+        super("fs_texture_simpletoon.glsl");
     }
 }

@@ -30,7 +30,7 @@ public class ContrastBrightnessAdjustmentShaderProgram extends TextureShaderProg
     private int mBrightnessHandle;
 
     public ContrastBrightnessAdjustmentShaderProgram() {
-        super("fs_adjust_contrast_brightness.s");
+        super("fs_adjust_contrast_brightness.glsl");
 
         mContrastHandle = GLES20.glGetUniformLocation(mProgramHandle, "contrast");
         GLUtils.checkError("glGetUniformLocation contrast");

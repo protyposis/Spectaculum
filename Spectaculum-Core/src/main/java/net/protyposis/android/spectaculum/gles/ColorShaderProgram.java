@@ -31,7 +31,7 @@ public class ColorShaderProgram extends ShaderProgram {
     protected int mColorHandle;
 
     public ColorShaderProgram() {
-        super("vs_color.s", "fs_color.s");
+        super("vs_color.glsl", "fs_color.glsl");
 
         // NOTE this could be moved to shape objects (would result in more overhead by multiple calls,
         //      but gives more freedom with the usage of shader variables)

@@ -31,7 +31,7 @@ public class TextureSobelShaderProgram extends TextureShaderProgram {
     private int mColorHandle;
 
     public TextureSobelShaderProgram() {
-        super("fs_texture_sobel.s");
+        super("fs_texture_sobel.glsl");
 
         mThresholdLHandle = GLES20.glGetUniformLocation(mProgramHandle, "thresholdL");
         GLUtils.checkError("glGetUniformLocation thresholdL");

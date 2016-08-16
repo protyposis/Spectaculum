@@ -65,7 +65,7 @@ public class TextureKernelShaderProgram extends TextureShaderProgram {
     protected int mColorAdjustHandle;
 
     public TextureKernelShaderProgram(Kernel kernel) {
-        super("fs_texture_kernel.s");
+        super("fs_texture_kernel.glsl");
 
         mKernelHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Kernel");
         GLUtils.checkError("glGetUniformLocation u_Kernel");

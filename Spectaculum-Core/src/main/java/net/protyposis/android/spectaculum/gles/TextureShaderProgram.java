@@ -34,11 +34,11 @@ public class TextureShaderProgram extends ShaderProgram {
     protected int mTextureHandle;
 
     public TextureShaderProgram() {
-        this("vs_texture.s", "fs_texture.s");
+        this("vs_texture.glsl", "fs_texture.glsl");
     }
 
     public TextureShaderProgram(String fragmentShaderName) {
-        this("vs_texture.s", fragmentShaderName);
+        this("vs_texture.glsl", fragmentShaderName);
     }
 
     protected TextureShaderProgram(String vertexShaderName, String fragmentShaderName) {

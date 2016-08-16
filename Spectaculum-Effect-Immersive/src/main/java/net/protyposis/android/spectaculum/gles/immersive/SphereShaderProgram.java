@@ -32,7 +32,7 @@ public class SphereShaderProgram extends TextureShaderProgram {
     protected int mRotationMatrixHandle;
 
     public SphereShaderProgram() {
-        super("fs_sphere.s");
+        super("fs_sphere.glsl");
 
         mRotationMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "rotation");
         GLUtils.checkError("glGetUniformLocation rotation");

@@ -29,7 +29,7 @@ public class TextureFlipShaderProgram extends TextureShaderProgram {
     protected int mModeHandle;
 
     public TextureFlipShaderProgram() {
-        super("fs_texture_flip.s");
+        super("fs_texture_flip.glsl");
 
         mModeHandle = GLES20.glGetUniformLocation(mProgramHandle, "mode");
         GLUtils.checkError("glGetUniformLocation mode");

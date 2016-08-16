@@ -32,7 +32,7 @@ public class ColorFilterShaderProgram extends TextureShaderProgram {
     protected int mColorHandle;
 
     public ColorFilterShaderProgram() {
-        super("fs_colorfilter.s");
+        super("fs_colorfilter.glsl");
 
         mColorHandle = GLES20.glGetUniformLocation(mProgramHandle, "color");
         GLUtils.checkError("glGetUniformLocation color");

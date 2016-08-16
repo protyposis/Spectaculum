@@ -27,7 +27,7 @@ import android.opengl.GLES20;
 public class ReadExternalTextureShaderProgram extends TextureShaderProgram {
 
     public ReadExternalTextureShaderProgram() {
-        super("fs_texture_readexternal.s");
+        super("fs_texture_readexternal.glsl");
     }
 
     public void setTexture(ExternalSurfaceTexture texture) {
