@@ -81,12 +81,4 @@ public class CameraViewActivity extends Activity {
         super.onResume();
         mCameraView.onResume();
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // hand the event to the video view to process zoom/pan gestures
-        mCameraView.onTouchEvent(event);
-
-        return super.onTouchEvent(event);
-    }
 }

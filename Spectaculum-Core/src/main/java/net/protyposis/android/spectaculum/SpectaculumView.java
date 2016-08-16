@@ -193,8 +193,9 @@ public class SpectaculumView extends GLSurfaceView implements
     }
 
     /**
-     * Enables or disables touch zoom/pan gestures. Even when enabled, touch gestures do only work
-     * when they are also passed  from a parent container to {@link #onTouchEvent(MotionEvent)}.
+     * Enables or disables touch zoom/pan gestures. When disabled, a parent container (e.g. an activity)
+     * can still pass touch events to this view's {@link #onTouchEvent(MotionEvent)} to process
+     * zoom/pan gestures.
      * @see #isTouchEnabled()
      */
     public void setTouchEnabled(boolean enabled) {
@@ -202,8 +203,7 @@ public class SpectaculumView extends GLSurfaceView implements
     }
 
     /**
-     * Checks if touch gestures are enabled. Touch gestures are enabled by default but need the motion
-     * events to be passed from the view container.
+     * Checks if touch gestures are enabled. Touch gestures are enabled by default.
      * @see #setTouchEnabled(boolean)
      */
     public boolean isTouchEnabled() {
@@ -280,25 +280,22 @@ public class SpectaculumView extends GLSurfaceView implements
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(!mTouchEnabled) {
-            return false;
-        }
-        mScaleGestureDetector.onTouchEvent(event);
-        mGestureDetector.onTouchEvent(event);
-        return true;
+        /*
+         * NOTE: These calls should not be simplified to a logical chain, because the evaluation
+         * would stop at the first true value and not execute the following functions.
+         */
+        boolean event1 = mScaleGestureDetector.onTouchEvent(event);
+        boolean event2 = mGestureDetector.onTouchEvent(event);
+        return event1 || event2;
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        /* A view unfortunately cannot be transparent to touch events (pass them to a lower layer)
-         * and at the same time consume them, which would be desirable here for the view to detect
-         * pan and zoom gestures but still hand touches down so the activity can toggle the
-         * MediaController when touching this view.
-         * The workaround is to never consume touch events by returning false here and always
-         * handing them to the next layer. The target layer (e.g. activity) then processes the event
-         * as it wants, and should pass it on to this class' #onTouchEvent.
-         */
-        return false;
+        if(!mTouchEnabled) {
+            // Touch events are disabled and we return false to route all events to the parent
+            return false;
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     @Override

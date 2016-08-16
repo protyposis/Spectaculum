@@ -112,14 +112,6 @@ public class ImageViewActivity extends Activity {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // hand the event to the image view to process zoom/pan gestures
-        mImageView.onTouchEvent(event);
-
-        return super.onTouchEvent(event);
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if(mImageUri != null) {
