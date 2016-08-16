@@ -32,6 +32,7 @@ public class SphereEffect extends ShaderEffect {
 
     private float mRotX, mRotY, mRotZ;
     private float[] mRotationMatrix = new float[16];
+    private int mMode;
 
     @Override
     protected TextureShaderProgram initShaderProgram() {
@@ -41,6 +42,7 @@ public class SphereEffect extends ShaderEffect {
         mRotY = 0.0f;
         mRotZ = 0.0f;
         Matrix.setIdentityM(mRotationMatrix, 0);
+        mMode = 0;
 
         sphereShader.setRotationMatrix(mRotationMatrix);
 
@@ -65,6 +67,13 @@ public class SphereEffect extends ShaderEffect {
                 updateRotationMatrix(sphereShader);
             }
         }, "Sets the rotation angle around the Z-axis in degrees"));
+        addParameter(new IntegerParameter("VR Mode", 0, 2, mMode, new IntegerParameter.Delegate() {
+            @Override
+            public void setValue(int value) {
+                mMode = value;
+                sphereShader.setMode(mMode);
+            }
+        }, "Sets the VR mode (mono, stereo SBS, stereo TAB"));
 
         return sphereShader;
     }

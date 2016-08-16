@@ -30,16 +30,28 @@ import net.protyposis.android.spectaculum.gles.TextureShaderProgram;
 public class SphereShaderProgram extends TextureShaderProgram {
 
     protected int mRotationMatrixHandle;
+    protected int mModeHandle;
 
     public SphereShaderProgram() {
         super("fs_sphere.glsl");
 
         mRotationMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "rotation");
         GLUtils.checkError("glGetUniformLocation rotation");
+
+        mModeHandle = GLES20.glGetUniformLocation(mProgramHandle, "mode");
+        GLUtils.checkError("glGetUniformLocation mode");
     }
 
     public void setRotationMatrix(float[] rotationMatrix) {
         use();
         GLES20.glUniformMatrix4fv(mRotationMatrixHandle, 1, false, rotationMatrix, 0);
+    }
+
+    public void setMode(int mode) {
+        if(mode < 0 || mode > 2) {
+            throw new RuntimeException("mode must be in range [0, 2]");
+        }
+        use();
+        GLES20.glUniform1i(mModeHandle, mode);
     }
 }
