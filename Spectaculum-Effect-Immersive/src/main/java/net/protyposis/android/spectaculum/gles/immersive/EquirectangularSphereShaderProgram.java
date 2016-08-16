@@ -27,13 +27,13 @@ import net.protyposis.android.spectaculum.gles.TextureShaderProgram;
 /**
  * Created by Mario on 11.08.2016.
  */
-public class SphereShaderProgram extends TextureShaderProgram {
+public class EquirectangularSphereShaderProgram extends TextureShaderProgram {
 
     protected int mRotationMatrixHandle;
     protected int mModeHandle;
 
-    public SphereShaderProgram() {
-        super("fs_sphere.glsl");
+    public EquirectangularSphereShaderProgram() {
+        super("fs_equirectangularsphere.glsl");
 
         mRotationMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "rotation");
         GLUtils.checkError("glGetUniformLocation rotation");

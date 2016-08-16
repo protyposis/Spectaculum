@@ -23,12 +23,12 @@ import android.opengl.Matrix;
 
 import net.protyposis.android.spectaculum.gles.GLUtils;
 import net.protyposis.android.spectaculum.gles.TextureShaderProgram;
-import net.protyposis.android.spectaculum.gles.immersive.SphereShaderProgram;
+import net.protyposis.android.spectaculum.gles.immersive.EquirectangularSphereShaderProgram;
 
 /**
  * Created by Mario on 11.08.2016.
  */
-public class SphereEffect extends ShaderEffect {
+public class EquirectangularSphereEffect extends ShaderEffect {
 
     private float mRotX, mRotY, mRotZ;
     private float[] mRotationMatrix = new float[16];
@@ -36,7 +36,7 @@ public class SphereEffect extends ShaderEffect {
 
     @Override
     protected TextureShaderProgram initShaderProgram() {
-        final SphereShaderProgram sphereShader = new SphereShaderProgram();
+        final EquirectangularSphereShaderProgram sphereShader = new EquirectangularSphereShaderProgram();
 
         mRotX = 0.0f;
         mRotY = 0.0f;
@@ -78,7 +78,7 @@ public class SphereEffect extends ShaderEffect {
         return sphereShader;
     }
 
-    private void updateRotationMatrix(SphereShaderProgram sphereShader) {
+    private void updateRotationMatrix(EquirectangularSphereShaderProgram sphereShader) {
         GLUtils.Matrix.setRotateEulerM(mRotationMatrix, 0, mRotX, mRotY, mRotZ);
         sphereShader.setRotationMatrix(mRotationMatrix);
     }

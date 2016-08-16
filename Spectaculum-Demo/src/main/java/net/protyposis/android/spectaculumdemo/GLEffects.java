@@ -47,7 +47,7 @@ import net.protyposis.android.spectaculum.effects.SimpleToonEffect;
 import net.protyposis.android.spectaculum.effects.SobelEffect;
 import net.protyposis.android.spectaculum.gles.GLUtils;
 import net.protyposis.android.spectaculumdemo.testeffect.ColorFilterEffect;
-import net.protyposis.android.spectaculum.effects.SphereEffect;
+import net.protyposis.android.spectaculum.effects.EquirectangularSphereEffect;
 
 /**
  * Created by Mario on 18.07.2014.
@@ -87,7 +87,7 @@ public class GLEffects implements SpectaculumView.OnEffectInitializedListener {
         mEffects.add(new ColorFilterEffect());
 
         // Immersive filters
-        mEffects.add(new SphereEffect());
+        mEffects.add(new EquirectangularSphereEffect());
 
         // FlowAbs filters
         FlowAbsEffect flowAbsEffect = new FlowAbsEffect();
