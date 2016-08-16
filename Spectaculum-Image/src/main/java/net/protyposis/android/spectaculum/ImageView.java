@@ -63,6 +63,7 @@ public class ImageView extends SpectaculumView {
         mVideoWidth = mBitmap.getWidth();
         mVideoHeight = mBitmap.getHeight();
         updateSourceResolution(mVideoWidth, mVideoHeight);
+        requestLayout();
         tryLoadBitmap();
     }
 
