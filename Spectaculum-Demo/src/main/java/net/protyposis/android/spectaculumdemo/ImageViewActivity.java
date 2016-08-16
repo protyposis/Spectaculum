@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 import net.protyposis.android.spectaculum.ImageView;
+import net.protyposis.android.spectaculum.SpectaculumView;
 
 import java.io.IOException;
 
@@ -48,6 +49,7 @@ public class ImageViewActivity extends Activity {
         setContentView(R.layout.activity_imageview);
 
         mImageView = (ImageView) findViewById(R.id.imageview);
+        mImageView.setPipelineResolution(SpectaculumView.PipelineResolution.VIEW);
         mImageView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-image"));
 
         mEffectList = new GLEffects(this, R.id.parameterlist, mImageView);
