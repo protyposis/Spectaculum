@@ -85,9 +85,11 @@ public class GLEffects implements SpectaculumView.OnEffectInitializedListener {
 
         // custom filters
         mEffects.add(new ColorFilterEffect());
+
+        // Immersive filters
         mEffects.add(new SphereEffect());
 
-        // MediaPlayer-GLES-FlowAbs filters
+        // FlowAbs filters
         FlowAbsEffect flowAbsEffect = new FlowAbsEffect();
         mEffects.add(flowAbsEffect);
         mEffects.add(flowAbsEffect.getNoiseTextureEffect());
@@ -99,7 +101,7 @@ public class GLEffects implements SpectaculumView.OnEffectInitializedListener {
         mEffects.add(flowAbsEffect.getFDOGEffect());
         mEffects.add(flowAbsEffect.getTangentFlowMapEffect());
 
-        // MediaPlayer-GLES-QrMarker filters
+        // QrMarker filters
         QrMarkerEffect qrMarkerEffect = new QrMarkerEffect();
         //mEffects.add(qrMarkerEffect);
         mEffects.add(qrMarkerEffect.getCannyEdgeEffect());
