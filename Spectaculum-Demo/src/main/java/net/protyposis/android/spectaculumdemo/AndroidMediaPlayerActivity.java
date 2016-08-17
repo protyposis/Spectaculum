@@ -261,7 +261,7 @@ public class AndroidMediaPlayerActivity extends Activity implements
 
     @Override
     public int getAudioSessionId() {
-        return mMediaPlayer.getAudioSessionId();
+        return mMediaPlayer != null ? mMediaPlayer.getAudioSessionId() : 0;
     }
 
 }
