@@ -87,6 +87,11 @@
             android:text="@string/feature_androidvideoview"/>
 
         <Button
+            android:id="@+id/androidmediaplayer"
+            style="@style/Feature.Button"
+            android:text="@string/feature_androidmediaplayer"/>
+
+        <Button
             android:id="@+id/mediaplayerextendedvideoview"
             style="@style/Feature.Button"
             android:text="@string/feature_mediaplayerextended"/>
