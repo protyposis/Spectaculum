@@ -52,6 +52,7 @@ public class ImageViewActivity extends Activity {
         mImageView = (ImageView) findViewById(R.id.imageview);
         mImageView.setPipelineResolution(PipelineResolution.VIEW);
         mImageView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-image"));
+        mImageView.setTouchEnabled(true); // enable zoom&pan
 
         mEffectList = new GLEffects(this, R.id.parameterlist, mImageView);
         mEffectList.addEffects();

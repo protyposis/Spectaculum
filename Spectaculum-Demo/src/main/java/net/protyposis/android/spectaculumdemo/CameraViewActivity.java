@@ -47,6 +47,7 @@ public class CameraViewActivity extends Activity {
         mEffectList.addEffects();
 
         mCameraView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-camera"));
+        mCameraView.setTouchEnabled(true); // enable zoom&pan
     }
 
     @Override

@@ -62,7 +62,7 @@ public class SpectaculumView extends GLSurfaceView implements
     private float mPanX;
     private float mPanY;
     private float mPanSnappingRange = 0.02f;
-    private boolean mTouchEnabled = true;
+    private boolean mTouchEnabled = false;
 
     protected int mImageWidth;
     protected int mImageHeight;
@@ -205,7 +205,7 @@ public class SpectaculumView extends GLSurfaceView implements
     }
 
     /**
-     * Checks if touch gestures are enabled. Touch gestures are enabled by default.
+     * Checks if touch gestures are enabled. Touch gestures are disabled by default.
      * @see #setTouchEnabled(boolean)
      */
     public boolean isTouchEnabled() {
