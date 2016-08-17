@@ -55,7 +55,6 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
     private Button mImageButton;
 
     private TextView mVideoUriText;
-    private int mVideoUriTextColor;
     private Uri mVideoUri;
 
     @Override
@@ -79,7 +78,6 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         mCameraButton = (Button) findViewById(R.id.cameraview);
         mImageButton = (Button) findViewById(R.id.imageview);
         mVideoUriText = (TextView) findViewById(R.id.videouri);
-        mVideoUriTextColor = mVideoUriText.getCurrentTextColor();
 
         mVideoSelectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +140,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
                 startActivity(new Intent(MainActivity.this, ImageViewActivity.class));
             }
         });
-        ((Button) findViewById(R.id.licenses)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.licenses)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WebView licensesWebView = new WebView(MainActivity.this);
@@ -207,7 +205,10 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         if(uri == null) {
             mVideoUriText.setText(getString(R.string.uri_missing));
 
+            mAndroidVideoViewButton.setEnabled(false);
+            mAndroidMediaPlayerButton.setEnabled(false);
             mMediaPlayerExtendedButton.setEnabled(false);
+            mExoPlayerButton.setEnabled(false);
         } else {
             updateUri(null); // disable buttons
 
@@ -225,10 +226,12 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
 
             String text = uri.toString();
             mVideoUriText.setText(text);
-            mVideoUriText.setTextColor(mVideoUriTextColor);
             mVideoUri = uri;
 
+            mAndroidVideoViewButton.setEnabled(true);
+            mAndroidMediaPlayerButton.setEnabled(true);
             mMediaPlayerExtendedButton.setEnabled(true);
+            mExoPlayerButton.setEnabled(true);
 
             PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                     .edit().putString("lastUri", uri.toString()).commit();
