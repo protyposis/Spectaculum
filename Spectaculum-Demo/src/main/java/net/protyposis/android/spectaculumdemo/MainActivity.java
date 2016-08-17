@@ -114,13 +114,13 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         mAndroidVideoViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AndroidVideoViewActivity.class).setData(mVideoUri));
+                startActivity(new Intent(MainActivity.this, VideoViewActivity.class).setData(mVideoUri));
             }
         });
         mAndroidMediaPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AndroidMediaPlayerActivity.class).setData(mVideoUri));
+                startActivity(new Intent(MainActivity.this, MediaPlayerActivity.class).setData(mVideoUri));
             }
         });
         mMediaPlayerExtendedButton.setOnClickListener(new View.OnClickListener() {

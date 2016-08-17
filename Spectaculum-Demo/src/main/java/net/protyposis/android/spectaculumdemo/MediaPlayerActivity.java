@@ -15,10 +15,10 @@ import java.io.IOException;
 /**
  * Created by Mario on 16.08.2016.
  */
-public class AndroidMediaPlayerActivity extends SpectaculumDemoBaseActivity implements
+public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
         InputSurfaceHolder.Callback {
 
-    private static final String TAG = AndroidMediaPlayerActivity.class.getSimpleName();
+    private static final String TAG = MediaPlayerActivity.class.getSimpleName();
 
     private SpectaculumView mVideoView;
     private Bundle mSavedInstanceState;
@@ -26,7 +26,7 @@ public class AndroidMediaPlayerActivity extends SpectaculumDemoBaseActivity impl
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_androidmediaplayer);
+        setContentView(R.layout.activity_mediaplayer);
         super.onCreate(savedInstanceState);
 
         mVideoView = (SpectaculumView) findViewById(R.id.spectaculum);
@@ -82,7 +82,7 @@ public class AndroidMediaPlayerActivity extends SpectaculumDemoBaseActivity impl
         mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                Toast.makeText(AndroidMediaPlayerActivity.this,
+                Toast.makeText(MediaPlayerActivity.this,
                         "Cannot play the video, see logcat for the detailed exception",
                         Toast.LENGTH_LONG).show();
                 hideProgressIndicator();

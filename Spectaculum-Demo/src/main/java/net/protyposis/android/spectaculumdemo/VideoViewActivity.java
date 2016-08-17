@@ -10,15 +10,15 @@ import net.protyposis.android.spectaculum.VideoView;
 /**
  * Created by Mario on 16.08.2016.
  */
-public class AndroidVideoViewActivity extends SpectaculumDemoBaseActivity {
+public class VideoViewActivity extends SpectaculumDemoBaseActivity {
 
-    private static final String TAG = AndroidVideoViewActivity.class.getSimpleName();
+    private static final String TAG = VideoViewActivity.class.getSimpleName();
 
     private VideoView mVideoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_androidvideoview);
+        setContentView(R.layout.activity_videoview);
         super.onCreate(savedInstanceState);
 
         mVideoView = (VideoView) findViewById(R.id.spectaculum);
@@ -57,7 +57,7 @@ public class AndroidVideoViewActivity extends SpectaculumDemoBaseActivity {
         mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                Toast.makeText(AndroidVideoViewActivity.this,
+                Toast.makeText(VideoViewActivity.this,
                         "Cannot play the video, see logcat for the detailed exception",
                         Toast.LENGTH_LONG).show();
                 hideProgressIndicator();

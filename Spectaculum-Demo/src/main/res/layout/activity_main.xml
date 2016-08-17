@@ -84,12 +84,12 @@
         <Button
             android:id="@+id/androidvideoview"
             style="@style/Feature.Button"
-            android:text="@string/feature_androidvideoview"/>
+            android:text="@string/feature_videoview"/>
 
         <Button
             android:id="@+id/androidmediaplayer"
             style="@style/Feature.Button"
-            android:text="@string/feature_androidmediaplayer"/>
+            android:text="@string/feature_mediaplayer"/>
 
         <Button
             android:id="@+id/mediaplayerextendedvideoview"
