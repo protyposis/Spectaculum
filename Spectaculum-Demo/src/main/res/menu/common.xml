@@ -31,7 +31,9 @@
         android:title="@string/effects"
         android:icon="@drawable/ic_action_picture"
         android:showAsAction="ifRoom|withText">
-        <menu></menu>
+        <menu>
+            <!-- items will be programmatically added -->
+        </menu>
     </item>
 
     <item android:id="@+id/action_toggle_parameters"
