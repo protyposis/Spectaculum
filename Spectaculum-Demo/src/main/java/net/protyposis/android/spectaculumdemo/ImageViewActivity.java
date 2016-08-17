@@ -35,29 +35,26 @@ import net.protyposis.android.spectaculum.PipelineResolution;
 
 import java.io.IOException;
 
-public class ImageViewActivity extends Activity {
+public class ImageViewActivity extends SpectaculumDemoBaseActivity {
 
     private static final int REQUEST_LOAD_IMAGE = 1;
 
     private ImageView mImageView;
-    private EffectManager mEffectList;
-    private Uri mImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imageview);
+        super.onCreate(savedInstanceState);
 
-        mImageView = (ImageView) findViewById(R.id.imageview);
+        mImageView = (ImageView) findViewById(R.id.spectaculum);
         mImageView.setPipelineResolution(PipelineResolution.VIEW);
         mImageView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-image"));
         mImageView.setTouchEnabled(true); // enable zoom&pan
 
-        mEffectList = new EffectManager(this, R.id.parameterlist, mImageView);
-        mEffectList.addEffects();
-
+        // Load previous image or open image picker
         if(savedInstanceState != null) {
             // Load an already selected image (after configuration change)
+            // uri is stored in the parent activity
             loadImage((Uri)savedInstanceState.getParcelable("uri"));
         } else {
             // Show image selection dialog
@@ -77,6 +74,7 @@ public class ImageViewActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_LOAD_IMAGE && resultCode == RESULT_OK) {
+            // An image has been picked, load it
             loadImage(data.getData());
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -85,50 +83,11 @@ public class ImageViewActivity extends Activity {
 
     private void loadImage(Uri imageUri) {
         try {
-            getActionBar().setSubtitle(imageUri + "");
+            setMediaUri(imageUri);
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
             mImageView.setImageBitmap(bitmap);
-            mImageUri = imageUri;
         } catch (IOException e) {
             Log.e("ImageViewActivity", "error loading image", e);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common, menu);
-        mEffectList.addToMenu(menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(mEffectList.doMenuActions(item)) {
-            return true;
-        } else if(id == R.id.action_save_frame) {
-            mImageView.captureFrame();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mImageView.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mImageView.onResume();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if(mImageUri != null) {
-            outState.putParcelable("uri", mImageUri);
         }
     }
 }

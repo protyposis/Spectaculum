@@ -1,18 +1,12 @@
 package net.protyposis.android.spectaculumdemo;
 
-import android.app.Activity;
 import android.media.MediaCodec;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.Surface;
-import android.view.View;
 import android.widget.MediaController;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.exoplayer.ExoPlaybackException;
@@ -36,43 +30,25 @@ import java.io.IOException;
 /**
  * Created by Mario on 17.08.2016.
  */
-public class ExoPlayerActivity extends Activity implements
-        InputSurfaceHolder.Callback, MediaController.MediaPlayerControl {
+public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
+        InputSurfaceHolder.Callback {
 
     private static final String TAG = ExoPlayerActivity.class.getSimpleName();
 
-    private Uri mVideoUri;
     private SpectaculumView mVideoView;
-    private ProgressBar mProgress;
     private Bundle mSavedInstanceState;
-
-    private MediaController mMediaController;
     private ExoPlayer mExoPlayer;
     private PlayerControl mExoPlayerControl;
 
-    private EffectManager mEffectList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exoplayer);
-        Utils.setActionBarSubtitleEllipsizeMiddle(this);
+        super.onCreate(savedInstanceState);
 
-        mVideoView = (SpectaculumView) findViewById(R.id.videoview);
-        mProgress = (ProgressBar) findViewById(R.id.progress);
-
+        mVideoView = (SpectaculumView) findViewById(R.id.spectaculum);
         mVideoView.getInputHolder().addCallback(this);
 
-        //mMediaPlayerControl = mVideoView;
-        mMediaController = new MediaController(this);
-        mMediaController.setAnchorView(findViewById(R.id.container));
-        mMediaController.setMediaPlayer(this);
-        mMediaController.setEnabled(false);
-
-        mProgress.setVisibility(View.VISIBLE);
-
-        mEffectList = new EffectManager(this, R.id.parameterlist, mVideoView);
-        mEffectList.addEffects();
+        initMediaController(mMediaPlayerControl);
 
         mSavedInstanceState = savedInstanceState;
     }
@@ -99,8 +75,7 @@ public class ExoPlayerActivity extends Activity implements
     }
 
     private void initPlayer(Uri uri, final int position, final boolean playback) throws IOException {
-        mVideoUri = uri;
-        getActionBar().setSubtitle(mVideoUri + "");
+        setMediaUri(uri);
         final boolean[] waitingForFirstOnPrepared = {true};
 
         // Set up an ExoPlayer
@@ -141,6 +116,7 @@ public class ExoPlayerActivity extends Activity implements
         mExoPlayer.prepare(videoRenderer, audioRenderer);
         mExoPlayer.sendMessage(videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE,
                 mVideoView.getInputHolder().getSurface());
+        mExoPlayerControl = new PlayerControl(mExoPlayer);
         mExoPlayer.addListener(new ExoPlayer.Listener() {
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
@@ -153,8 +129,8 @@ public class ExoPlayerActivity extends Activity implements
                         mExoPlayerControl.start();
                     }
 
-                    mProgress.setVisibility(View.GONE);
-                    mMediaController.setEnabled(true);
+                    hideProgressIndicator();
+                    getMediaControllerWidget().setEnabled(true);
 
                     /* Because we want to replicate MediaPlayer's OnPreparedListener that is only
                      * fired once when the player is ready, we set this value to false to not
@@ -171,142 +147,84 @@ public class ExoPlayerActivity extends Activity implements
                 Toast.makeText(ExoPlayerActivity.this,
                         "Cannot play the video, see logcat for the detailed exception",
                         Toast.LENGTH_LONG).show();
-                mProgress.setVisibility(View.GONE);
-                mMediaController.setEnabled(false);
+                hideProgressIndicator();
+                getMediaControllerWidget().setEnabled(false);
             }
         });
-        mExoPlayerControl = new PlayerControl(mExoPlayer);
 
         mVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-exoplayerview"));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.common, menu);
-        mEffectList.addToMenu(menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (mEffectList.doMenuActions(item)) {
-            return true;
-        } else if (id == R.id.action_save_frame) {
-            mVideoView.captureFrame();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            long durationMs = event.getEventTime() - event.getDownTime();
-            /* The media controller is only getting toggled by simple taps.  If a certain amount of
-             * time passes between the DOWN and UP actions, it can be considered as not being a
-             * simple tap any more and the media controller is not getting toggled.
-             */
-            if (durationMs < 500) {
-                if (mMediaController.isShowing()) {
-                    mMediaController.hide();
-                } else {
-                    mMediaController.show();
-                }
-            }
-        }
-
-        // hand the event to the video view to process zoom/pan gestures
-        mVideoView.onTouchEvent(event);
-
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mVideoView.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mVideoView.onResume();
-    }
-
-    @Override
     protected void onStop() {
         mExoPlayer.release();
-        mMediaController.hide();
         super.onStop();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mVideoUri != null) {
-            outState.putParcelable("uri", mVideoUri);
+        if (mVideoView != null) {
+            // the uri is stored in the base activity
             outState.putBoolean("playing", mExoPlayerControl.isPlaying());
             outState.putInt("position", mExoPlayerControl.getCurrentPosition());
         }
     }
 
-    @Override
-    public void start() {
-        if (mExoPlayer != null) mExoPlayerControl.start();
-    }
+    private MediaController.MediaPlayerControl mMediaPlayerControl = new MediaController.MediaPlayerControl() {
+        @Override
+        public void start() {
+            if (mExoPlayer != null) mExoPlayerControl.start();
+        }
 
-    @Override
-    public void pause() {
-        if (mExoPlayer != null) mExoPlayerControl.pause();
-    }
+        @Override
+        public void pause() {
+            if (mExoPlayer != null) mExoPlayerControl.pause();
+        }
 
-    @Override
-    public int getDuration() {
-        return mExoPlayer != null ? (int)mExoPlayer.getDuration() : 0;
-    }
+        @Override
+        public int getDuration() {
+            return mExoPlayer != null ? (int)mExoPlayer.getDuration() : 0;
+        }
 
-    @Override
-    public int getCurrentPosition() {
-        return mExoPlayer != null ? (int)mExoPlayer.getCurrentPosition() : 0;
-    }
+        @Override
+        public int getCurrentPosition() {
+            return mExoPlayer != null ? (int)mExoPlayer.getCurrentPosition() : 0;
+        }
 
-    @Override
-    public void seekTo(int pos) {
-        if (mExoPlayer != null) mExoPlayer.seekTo(pos);
-    }
+        @Override
+        public void seekTo(int pos) {
+            if (mExoPlayer != null) mExoPlayer.seekTo(pos);
+        }
 
-    @Override
-    public boolean isPlaying() {
-        return mExoPlayer != null && mExoPlayerControl.isPlaying();
-    }
+        @Override
+        public boolean isPlaying() {
+            return mExoPlayer != null && mExoPlayerControl.isPlaying();
+        }
 
-    @Override
-    public int getBufferPercentage() {
-        return 0;
-    }
+        @Override
+        public int getBufferPercentage() {
+            return 0;
+        }
 
-    @Override
-    public boolean canPause() {
-        return true;
-    }
+        @Override
+        public boolean canPause() {
+            return true;
+        }
 
-    @Override
-    public boolean canSeekBackward() {
-        return true;
-    }
+        @Override
+        public boolean canSeekBackward() {
+            return true;
+        }
 
-    @Override
-    public boolean canSeekForward() {
-        return true;
-    }
+        @Override
+        public boolean canSeekForward() {
+            return true;
+        }
 
-    @Override
-    public int getAudioSessionId() {
-        return mExoPlayer != null ? mExoPlayerControl.getAudioSessionId() : 0;
-    }
-
+        @Override
+        public int getAudioSessionId() {
+            return mExoPlayer != null ? mExoPlayerControl.getAudioSessionId() : 0;
+        }
+    };
 }

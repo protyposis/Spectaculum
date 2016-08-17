@@ -27,32 +27,25 @@ import android.view.MenuItem;
 import net.protyposis.android.spectaculum.CameraView;
 
 
-public class CameraViewActivity extends Activity {
+public class CameraViewActivity extends SpectaculumDemoBaseActivity {
 
     private static final String TAG = CameraViewActivity.class.getSimpleName();
 
     private CameraView mCameraView;
 
-    private EffectManager mEffectList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cameraview);
+        super.onCreate(savedInstanceState);
 
-        mCameraView = (CameraView) findViewById(R.id.cameraview);
-
-        mEffectList = new EffectManager(this, R.id.parameterlist, mCameraView);
-        mEffectList.addEffects();
-
+        mCameraView = (CameraView) findViewById(R.id.spectaculum);
         mCameraView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-camera"));
         mCameraView.setTouchEnabled(true); // enable zoom&pan
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common, menu);
-        mEffectList.addToMenu(menu);
+        super.onCreateOptionsMenu(menu);
         menu.findItem(R.id.action_switch_camera).setVisible(mCameraView.supportsCameraSwitch());
         return true;
     }
@@ -60,25 +53,9 @@ public class CameraViewActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(mEffectList.doMenuActions(item)) {
-            return true;
-        } else if(id == R.id.action_save_frame) {
-            mCameraView.captureFrame();
-        } else if(id == R.id.action_switch_camera) {
+        if(id == R.id.action_switch_camera) {
             mCameraView.switchCamera();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mCameraView.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mCameraView.onResume();
     }
 }

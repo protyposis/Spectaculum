@@ -29,7 +29,7 @@
     tools:context=".ExoPlayerActivity">
 
     <net.protyposis.android.spectaculum.SpectaculumView
-        android:id="@+id/videoview"
+        android:id="@+id/spectaculum"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"/>

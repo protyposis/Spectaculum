@@ -28,7 +28,7 @@
     tools:context=".ImageViewActivity">
 
     <net.protyposis.android.spectaculum.ImageView
-        android:id="@+id/imageview"
+        android:id="@+id/spectaculum"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true" />

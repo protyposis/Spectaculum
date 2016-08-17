@@ -36,21 +36,4 @@
     <item android:id="@+id/action_quadspeed"
         android:title="@string/action_quadspeed" />
 
-    <item android:id="@+id/action_seekcurrentposition"
-        android:title="@string/action_seekcurrentposition" />
-
-    <item android:id="@+id/action_seekcurrentpositionplus1ms"
-        android:title="@string/action_seekcurrentpositionplus1ms" />
-
-    <item android:id="@+id/action_seektoend"
-        android:title="@string/action_seektoend" />
-
-    <item android:id="@+id/action_getcurrentposition"
-        android:title="@string/action_getcurrentposition" />
-
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:visible="false"/>
 </menu>
