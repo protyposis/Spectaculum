@@ -56,6 +56,9 @@ public class ImageViewActivity extends SpectaculumDemoBaseActivity {
             // Load an already selected image (after configuration change)
             // uri is stored in the parent activity
             loadImage((Uri)savedInstanceState.getParcelable("uri"));
+        } else if(getIntent().getData() != null) {
+            // The intent-filter probably caught an url, open it...
+            loadImage(getIntent().getData());
         } else {
             // Show image selection dialog
             Intent intent = null;

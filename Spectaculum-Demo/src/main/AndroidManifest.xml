@@ -36,7 +36,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="rtsp" />
-                <data android:scheme="http" android:host="*" android:pathPattern=".*\\.mpd" />
                 <data android:scheme="http" android:host="*" android:pathPattern=".*\\.mp4" />
                 <data android:scheme="http" android:host="*" android:pathPattern=".*\\.webm" />
                 <data android:scheme="http" android:host="*" android:pathPattern=".*\\.mp3" />
@@ -77,6 +76,21 @@
         <activity
             android:name=".ImageViewActivity"
             android:label="@string/title_activity_image" >
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="*" android:pathPattern=".*\\.jpg" />
+                <data android:scheme="http" android:host="*" android:pathPattern=".*\\.png" />
+                <data android:scheme="http" android:host="*" android:pathPattern=".*\\.bmp" />
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="file" android:mimeType="image/*" />
+                <data android:scheme="content" android:mimeType="image/*" />
+            </intent-filter>
         </activity>
     </application>
 
