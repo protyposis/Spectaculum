@@ -101,6 +101,9 @@ public class Utils {
         return false;
     }
 
+    /**
+     * An implementation of the OnFrameCapturedCallback that saves captured frames to png files.
+     */
     public static class OnFrameCapturedCallback implements SpectaculumView.OnFrameCapturedCallback {
 
         private Context mContext;
