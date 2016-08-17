@@ -28,6 +28,7 @@
     <string name="title_activity_androidvideoview">VideoView (Android API) Demo</string>
     <string name="title_activity_androidmediaplayer">MediaPlayer (Android API) Demo</string>
     <string name="title_activity_mediaplayerextended">MediaPlayer-Extended Demo</string>
+    <string name="title_activity_exoplayer">ExoPlayer Demo</string>
     <string name="title_activity_camera">Camera Demo</string>
     <string name="title_activity_image">Image Demo</string>
     <string name="toggle_parameters">Parameters</string>
@@ -42,6 +43,7 @@
     <string name="feature_androidvideoview">Android API: VideoView</string>
     <string name="feature_androidmediaplayer">Android API: MediaPlayer</string>
     <string name="feature_mediaplayerextended">MediaPlayer-Extended</string>
+    <string name="feature_exoplayer">ExoPlayer</string>
     <string name="feature_camera">Camera</string>
     <string name="copyright_notice">Copyright © 2014–2016 Mario Guggenberger. Published under the GPLv3. http://www.gnu.org/licenses/gpl-3.0</string>
     <string name="open_source_licenses">Open Source Licenses</string>
