@@ -101,7 +101,7 @@ public class VideoView extends SpectaculumView implements
     }
 
     private void openVideo() {
-        if (mUri == null || getInputHolder() != null) {
+        if (mUri == null || getInputHolder().getSurface() == null) {
             // not ready for playback yet, will be called again later
             return;
         }

@@ -113,7 +113,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
     }
 
     private void openVideo() {
-        if (mSource == null || getInputHolder() == null) {
+        if (mSource == null || getInputHolder().getSurface() == null) {
             // not ready for playback yet, will be called again later
             return;
         }

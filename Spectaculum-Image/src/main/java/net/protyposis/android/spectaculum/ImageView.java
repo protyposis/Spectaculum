@@ -64,7 +64,7 @@ public class ImageView extends SpectaculumView {
     }
 
     private void tryLoadBitmap() {
-        if(mBitmap != null && getInputHolder() != null) {
+        if(mBitmap != null && getInputHolder().getSurface() != null) {
             SurfaceTexture st = getInputHolder().getSurfaceTexture();
             Surface s = getInputHolder().getSurface();
 

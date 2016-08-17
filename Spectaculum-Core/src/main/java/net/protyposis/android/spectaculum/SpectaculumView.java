@@ -94,6 +94,8 @@ public class SpectaculumView extends GLSurfaceView implements
         mRenderer.setOnExternalSurfaceTextureCreatedListener(mExternalSurfaceTextureCreatedListener);
         mRenderer.setOnEffectInitializedListener(this);
 
+        mInputSurfaceHolder = new InputSurfaceHolder();
+
         setEGLContextClientVersion(2);
         setRenderer(mRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -304,6 +306,10 @@ public class SpectaculumView extends GLSurfaceView implements
      * The input surface holder holds the surface and surface texture to which input data, i.e. image
      * data from some source that should be processed and displayed, should be written to display
      * it in the view.
+     *
+     * External callers should add a callback to the holder through {@link InputSurfaceHolder#addCallback(InputSurfaceHolder.Callback)}
+     * to be notified about this event in {@link InputSurfaceHolder.Callback#surfaceCreated(InputSurfaceHolder)}.
+     *
      * @param inputSurfaceHolder the input surface holder which holds the surface where image data should be written to
      */
     public void onInputSurfaceCreated(InputSurfaceHolder inputSurfaceHolder) {
@@ -312,11 +318,14 @@ public class SpectaculumView extends GLSurfaceView implements
 
     /**
      * Gets the input surface holder that holds the surface where image data should be written to
-     * for processing and display. The holder is only available once {@link #onInputSurfaceCreated(InputSurfaceHolder)}
-     * has been called.
+     * for processing and display. The holder is always available but only holds an actual surface
+     * after {@link #onInputSurfaceCreated(InputSurfaceHolder)} respectively
+     * {@link InputSurfaceHolder.Callback#surfaceCreated(InputSurfaceHolder)} have been called.
+     *
      * The input surface holder holds the input surface (texture) that is used to write image data
      * into the processing pipeline, opposed to the surface holder from {@link #getHolder()} that holds
      * the surface to which the final result of the processing pipeline will be written to for display.
+     *
      * @return the input surface holder or null if it is not available yet
      */
     public InputSurfaceHolder getInputHolder() {
@@ -486,7 +495,7 @@ public class SpectaculumView extends GLSurfaceView implements
                 @Override
                 public void run() {
                     // Create an input surface holder and call the event handler
-                    mInputSurfaceHolder = new InputSurfaceHolder(surfaceTexture);
+                    mInputSurfaceHolder.update(surfaceTexture);
                     onInputSurfaceCreated(mInputSurfaceHolder);
                 }
             });
