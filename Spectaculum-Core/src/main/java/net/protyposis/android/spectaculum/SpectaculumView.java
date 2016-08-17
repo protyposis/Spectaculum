@@ -56,7 +56,7 @@ public class SpectaculumView extends GLSurfaceView implements
     private OnEffectInitializedListener mOnEffectInitializedListener;
     private OnFrameCapturedCallback mOnFrameCapturedCallback;
 
-    private PipelineResolution mPipelineResolution = PipelineResolution.VIEW;
+    private PipelineResolution mPipelineResolution = PipelineResolution.SOURCE;
 
     private float mZoomLevel = 1.0f;
     private float mZoomSnappingRange = 0.02f;
