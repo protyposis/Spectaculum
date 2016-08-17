@@ -48,6 +48,7 @@ public class SpectaculumView extends GLSurfaceView implements
     public interface OnFrameCapturedCallback extends GLRenderer.OnFrameCapturedCallback {}
 
     private GLRenderer mRenderer;
+    private InputSurfaceHolder mInputSurfaceHolder;
     private Handler mRunOnUiThreadHandler = new Handler();
     private ScaleGestureDetector mScaleGestureDetector;
     private GestureDetector mGestureDetector;
@@ -55,7 +56,7 @@ public class SpectaculumView extends GLSurfaceView implements
     private OnEffectInitializedListener mOnEffectInitializedListener;
     private OnFrameCapturedCallback mOnFrameCapturedCallback;
 
-    private PipelineResolution mPipelineResolution = PipelineResolution.SOURCE;
+    private PipelineResolution mPipelineResolution = PipelineResolution.VIEW;
 
     private float mZoomLevel = 1.0f;
     private float mZoomSnappingRange = 0.02f;
@@ -299,25 +300,27 @@ public class SpectaculumView extends GLSurfaceView implements
     }
 
     /**
-     * Implement this method to receive the image source surface texture when it is ready to be used.
-     * This is the target texture where source image data (e.g. video frames) should be written to,
-     * to display them in the view.
-     * @param surfaceTexture the surface texture where image data should be written to
-     * @see #onSurfaceCreated(Surface)
+     * Implement this method to receive the input surface holder when it is ready to be used.
+     * The input surface holder holds the surface and surface texture to which input data, i.e. image
+     * data from some source that should be processed and displayed, should be written to display
+     * it in the view.
+     * @param inputSurfaceHolder the input surface holder which holds the surface where image data should be written to
      */
-    public void onSurfaceTextureCreated(SurfaceTexture surfaceTexture) {
+    public void onInputSurfaceCreated(InputSurfaceHolder inputSurfaceHolder) {
         // nothing to do here
     }
 
     /**
-     * Implement this method to receive the image source surface when it is ready to be used.
-     * This is the target surface where source image data (e.g. video frames) should be written to,
-     * to display them in the view.
-     * @param surface the surface where image data should be written to
-     * @see #onSurfaceTextureCreated(SurfaceTexture)
+     * Gets the input surface holder that holds the surface where image data should be written to
+     * for processing and display. The holder is only available once {@link #onInputSurfaceCreated(InputSurfaceHolder)}
+     * has been called.
+     * The input surface holder holds the input surface (texture) that is used to write image data
+     * into the processing pipeline, opposed to the surface holder from {@link #getHolder()} that holds
+     * the surface to which the final result of the processing pipeline will be written to for display.
+     * @return the input surface holder or null if it is not available yet
      */
-    public void onSurfaceCreated(Surface surface) {
-        // nothing to do here
+    public InputSurfaceHolder getInputHolder() {
+        return mInputSurfaceHolder;
     }
 
     /**
@@ -387,7 +390,8 @@ public class SpectaculumView extends GLSurfaceView implements
 
     /**
      * Gets called when a new image frame has been written to the surface texture and requests a
-     * fresh rendering of the view. The texture can be obtained through {@link #onSurfaceTextureCreated(SurfaceTexture)}.
+     * fresh rendering of the view. The texture can be obtained through {@link #onInputSurfaceCreated(InputSurfaceHolder)}
+     * or {@link #getInputHolder()}.
      * Can be overridden in subclasses but must be called through.
      * @param surfaceTexture the updated surface texture
      */
@@ -481,8 +485,9 @@ public class SpectaculumView extends GLSurfaceView implements
             mRunOnUiThreadHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    onSurfaceTextureCreated(surfaceTexture.getSurfaceTexture());
-                    onSurfaceCreated(surfaceTexture.getSurface());
+                    // Create an input surface holder and call the event handler
+                    mInputSurfaceHolder = new InputSurfaceHolder(surfaceTexture);
+                    onInputSurfaceCreated(mInputSurfaceHolder);
                 }
             });
 

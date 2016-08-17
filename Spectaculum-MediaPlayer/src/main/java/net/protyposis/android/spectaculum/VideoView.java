@@ -20,14 +20,12 @@
 package net.protyposis.android.spectaculum;
 
 import android.content.Context;
-import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.widget.MediaController;
 import android.widget.Toast;
@@ -48,7 +46,6 @@ public class VideoView extends SpectaculumView implements
     private static final String TAG = VideoView.class.getSimpleName();
 
     private MediaPlayer mPlayer;
-    private Surface mVideoSurface;
     private int mSeekWhenPrepared;
     private int mCurrentBufferPercentage;
 
@@ -104,7 +101,7 @@ public class VideoView extends SpectaculumView implements
     }
 
     private void openVideo() {
-        if (mUri == null || mVideoSurface == null) {
+        if (mUri == null || getInputHolder() != null) {
             // not ready for playback yet, will be called again later
             return;
         }
@@ -112,7 +109,7 @@ public class VideoView extends SpectaculumView implements
         release();
 
         mPlayer = new MediaPlayer();
-        mPlayer.setSurface(mVideoSurface);
+        mPlayer.setSurface(getInputHolder().getSurface());
         mPlayer.setOnPreparedListener(mPreparedListener);
         mPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
         mPlayer.setOnSeekCompleteListener(mSeekCompleteListener);
@@ -208,8 +205,7 @@ public class VideoView extends SpectaculumView implements
     }
 
     @Override
-    public void onSurfaceTextureCreated(SurfaceTexture surfaceTexture) {
-        mVideoSurface = new Surface(surfaceTexture);
+    public void onInputSurfaceCreated(InputSurfaceHolder inputSurfaceHolder) {
         openVideo();
     }
 

@@ -34,8 +34,6 @@ import net.protyposis.android.spectaculum.gles.ExternalSurfaceTexture;
 public class ImageView extends SpectaculumView {
 
     private Bitmap mBitmap;
-    private SurfaceTexture mSurfaceTexture;
-    private Surface mSurface;
 
     public ImageView(Context context) {
         super(context);
@@ -52,14 +50,7 @@ public class ImageView extends SpectaculumView {
     }
 
     @Override
-    public void onSurfaceTextureCreated(SurfaceTexture surfaceTexture) {
-        mSurfaceTexture = surfaceTexture;
-        tryLoadBitmap();
-    }
-
-    @Override
-    public void onSurfaceCreated(Surface surface) {
-        mSurface = surface;
+    public void onInputSurfaceCreated(InputSurfaceHolder inputSurfaceHolder) {
         tryLoadBitmap();
     }
 
@@ -73,12 +64,17 @@ public class ImageView extends SpectaculumView {
     }
 
     private void tryLoadBitmap() {
-        if(mBitmap != null && mSurfaceTexture != null && mSurface != null) {
-            mSurfaceTexture.setDefaultBufferSize(mBitmap.getWidth(), mBitmap.getHeight());
+        if(mBitmap != null && getInputHolder() != null) {
+            SurfaceTexture st = getInputHolder().getSurfaceTexture();
+            Surface s = getInputHolder().getSurface();
 
-            Canvas c = mSurface.lockCanvas(null);
+            // First set the texture resolution
+            st.setDefaultBufferSize(mBitmap.getWidth(), mBitmap.getHeight());
+
+            // Then draw the image data
+            Canvas c = s.lockCanvas(null);
             c.drawBitmap(mBitmap, 0, 0, null);
-            mSurface.unlockCanvasAndPost(c);
+            s.unlockCanvasAndPost(c);
         }
     }
 }

@@ -48,7 +48,6 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     private MediaSource mSource;
     private MediaPlayer mPlayer;
-    private Surface mVideoSurface;
     private int mSeekWhenPrepared;
 
     private MediaPlayer.OnPreparedListener mOnPreparedListener;
@@ -114,7 +113,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
     }
 
     private void openVideo() {
-        if (mSource == null || mVideoSurface == null) {
+        if (mSource == null || getInputHolder() == null) {
             // not ready for playback yet, will be called again later
             return;
         }
@@ -122,7 +121,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
         release();
 
         mPlayer = new MediaPlayer();
-        mPlayer.setSurface(mVideoSurface);
+        mPlayer.setSurface(getInputHolder().getSurface());
         mPlayer.setOnPreparedListener(mPreparedListener);
         mPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
         mPlayer.setOnSeekListener(mSeekListener);
@@ -229,8 +228,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
     }
 
     @Override
-    public void onSurfaceTextureCreated(SurfaceTexture surfaceTexture) {
-        mVideoSurface = new Surface(surfaceTexture);
+    public void onInputSurfaceCreated(InputSurfaceHolder inputSurfaceHolder) {
         openVideo();
     }
 

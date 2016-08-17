@@ -32,7 +32,6 @@ public class ExternalSurfaceTexture extends Texture implements SurfaceTexture.On
     private static final long NANOTIME_SECOND = 1000000000;
 
     private SurfaceTexture mSurfaceTexture;
-    private Surface mSurface;
     private SurfaceTexture.OnFrameAvailableListener mOnFrameAvailableListener;
     private boolean mFrameAvailable;
 
@@ -55,16 +54,11 @@ public class ExternalSurfaceTexture extends Texture implements SurfaceTexture.On
         // This surface texture needs to be fed to the media player; through it,
         // the picture data will be written into the texture.
         mSurfaceTexture = new SurfaceTexture(mTexture);
-        mSurface = new Surface(mSurfaceTexture);
         mSurfaceTexture.setOnFrameAvailableListener(this);
     }
 
     public SurfaceTexture getSurfaceTexture() {
         return mSurfaceTexture;
-    }
-
-    public Surface getSurface() {
-        return mSurface;
     }
 
     public void setOnFrameAvailableListener(SurfaceTexture.OnFrameAvailableListener l) {

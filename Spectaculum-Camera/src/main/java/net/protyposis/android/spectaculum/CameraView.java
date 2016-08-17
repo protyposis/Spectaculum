@@ -39,7 +39,6 @@ public class CameraView extends SpectaculumView {
 
     private static final String TAG = CameraView.class.getSimpleName();
 
-    private SurfaceTexture mSurfaceTexture;
     private Camera mCamera;
     private int mCameraId;
 
@@ -76,8 +75,7 @@ public class CameraView extends SpectaculumView {
     }
 
     @Override
-    public void onSurfaceTextureCreated(SurfaceTexture surfaceTexture) {
-        mSurfaceTexture = surfaceTexture;
+    public void onInputSurfaceCreated(InputSurfaceHolder inputSurfaceHolder) {
         startCamera();
     }
 
@@ -133,7 +131,7 @@ public class CameraView extends SpectaculumView {
                 mCamera.setDisplayOrientation(result);
 
                 // setup preview
-                mCamera.setPreviewTexture(mSurfaceTexture);
+                mCamera.setPreviewTexture(getInputHolder().getSurfaceTexture());
                 mCamera.startPreview();
 
                 if(result == 0 || result == 180) {
