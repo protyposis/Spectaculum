@@ -21,7 +21,6 @@ package net.protyposis.android.spectaculum;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -135,15 +134,15 @@ public class CameraView extends SpectaculumView {
                 mCamera.startPreview();
 
                 if(result == 0 || result == 180) {
-                    mVideoWidth = mCamera.getParameters().getPreviewSize().width;
-                    mVideoHeight = mCamera.getParameters().getPreviewSize().height;
+                    mImageWidth = mCamera.getParameters().getPreviewSize().width;
+                    mImageHeight = mCamera.getParameters().getPreviewSize().height;
                 } else {
                     // swap width/height in portrait mode for a correct aspect ratio
-                    mVideoHeight = mCamera.getParameters().getPreviewSize().width;
-                    mVideoWidth = mCamera.getParameters().getPreviewSize().height;
+                    mImageHeight = mCamera.getParameters().getPreviewSize().width;
+                    mImageWidth = mCamera.getParameters().getPreviewSize().height;
                 }
 
-                updateSourceResolution(mVideoWidth, mVideoHeight);
+                updateResolution(mImageWidth, mImageHeight);
             }
         } catch (IOException e) {
             e.printStackTrace();

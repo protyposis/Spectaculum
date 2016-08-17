@@ -29,7 +29,6 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.Surface;
 
 import net.protyposis.android.spectaculum.effects.Effect;
 import net.protyposis.android.spectaculum.gles.*;
@@ -65,8 +64,8 @@ public class SpectaculumView extends GLSurfaceView implements
     private float mPanSnappingRange = 0.02f;
     private boolean mTouchEnabled = true;
 
-    protected int mVideoWidth;
-    protected int mVideoHeight;
+    protected int mImageWidth;
+    protected int mImageHeight;
 
     public SpectaculumView(Context context) {
         super(context);
@@ -222,9 +221,9 @@ public class SpectaculumView extends GLSurfaceView implements
         Log.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "
                 + MeasureSpec.toString(heightMeasureSpec) + ")");
 
-        int width = getDefaultSize(mVideoWidth, widthMeasureSpec);
-        int height = getDefaultSize(mVideoHeight, heightMeasureSpec);
-        if (mVideoWidth > 0 && mVideoHeight > 0) {
+        int width = getDefaultSize(mImageWidth, widthMeasureSpec);
+        int height = getDefaultSize(mImageHeight, heightMeasureSpec);
+        if (mImageWidth > 0 && mImageHeight > 0) {
 
             int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
             int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -237,17 +236,17 @@ public class SpectaculumView extends GLSurfaceView implements
                 height = heightSpecSize;
 
                 // for compatibility, we adjust size based on aspect ratio
-                if ( mVideoWidth * height  < width * mVideoHeight ) {
+                if ( mImageWidth * height  < width * mImageHeight) {
                     //Log.i("@@@", "image too wide, correcting");
-                    width = height * mVideoWidth / mVideoHeight;
-                } else if ( mVideoWidth * height  > width * mVideoHeight ) {
+                    width = height * mImageWidth / mImageHeight;
+                } else if ( mImageWidth * height  > width * mImageHeight) {
                     //Log.i("@@@", "image too tall, correcting");
-                    height = width * mVideoHeight / mVideoWidth;
+                    height = width * mImageHeight / mImageWidth;
                 }
             } else if (widthSpecMode == MeasureSpec.EXACTLY) {
                 // only the width is fixed, adjust the height to match aspect ratio if possible
                 width = widthSpecSize;
-                height = width * mVideoHeight / mVideoWidth;
+                height = width * mImageHeight / mImageWidth;
                 if (heightSpecMode == MeasureSpec.AT_MOST && height > heightSpecSize) {
                     // couldn't match aspect ratio within the constraints
                     height = heightSpecSize;
@@ -255,24 +254,24 @@ public class SpectaculumView extends GLSurfaceView implements
             } else if (heightSpecMode == MeasureSpec.EXACTLY) {
                 // only the height is fixed, adjust the width to match aspect ratio if possible
                 height = heightSpecSize;
-                width = height * mVideoWidth / mVideoHeight;
+                width = height * mImageWidth / mImageHeight;
                 if (widthSpecMode == MeasureSpec.AT_MOST && width > widthSpecSize) {
                     // couldn't match aspect ratio within the constraints
                     width = widthSpecSize;
                 }
             } else {
                 // neither the width nor the height are fixed, try to use actual video size
-                width = mVideoWidth;
-                height = mVideoHeight;
+                width = mImageWidth;
+                height = mImageHeight;
                 if (heightSpecMode == MeasureSpec.AT_MOST && height > heightSpecSize) {
                     // too tall, decrease both width and height
                     height = heightSpecSize;
-                    width = height * mVideoWidth / mVideoHeight;
+                    width = height * mImageWidth / mImageHeight;
                 }
                 if (widthSpecMode == MeasureSpec.AT_MOST && width > widthSpecSize) {
                     // too wide, decrease both width and height
                     width = widthSpecSize;
-                    height = width * mVideoHeight / mVideoWidth;
+                    height = width * mImageHeight / mImageWidth;
                 }
             }
         } else {
@@ -480,10 +479,28 @@ public class SpectaculumView extends GLSurfaceView implements
         return mPipelineResolution;
     }
 
-    protected void updateSourceResolution(int width, int height) {
+    /**
+     * Sets the resolution of the source data and recomputes the layout. This implicitly also sets
+     * the resolution of the view output surface if pipeline resolution mode {@link PipelineResolution#SOURCE}
+     * is set. In SOURCE mode, output will therefore be computed in the input resolution and then
+     * at the very end scaled (most often downscaled) to fit the view in the layout.
+     *
+     * TODO decouple input, processing and output resolution
+     *
+     * @param width the width of the input image data
+     * @param height the height of the input image data
+     */
+    public void updateResolution(int width, int height) {
+        mImageWidth = width;
+        mImageHeight = height;
+
+        // If desired, set output resolution to source resolution
         if (width != 0 && height != 0 && mPipelineResolution == PipelineResolution.SOURCE) {
             getHolder().setFixedSize(width, height);
         }
+
+        // Resize view according to the new size to fit the layout
+        requestLayout();
     }
 
     private GLRenderer.OnExternalSurfaceTextureCreatedListener mExternalSurfaceTextureCreatedListener =

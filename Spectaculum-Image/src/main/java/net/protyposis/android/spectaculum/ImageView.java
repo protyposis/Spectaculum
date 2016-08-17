@@ -26,8 +26,6 @@ import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.view.Surface;
 
-import net.protyposis.android.spectaculum.gles.ExternalSurfaceTexture;
-
 /**
  * Created by maguggen on 02.10.2014.
  */
@@ -56,10 +54,7 @@ public class ImageView extends SpectaculumView {
 
     public void setImageBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
-        mVideoWidth = mBitmap.getWidth();
-        mVideoHeight = mBitmap.getHeight();
-        updateSourceResolution(mVideoWidth, mVideoHeight);
-        requestLayout();
+        updateResolution(mBitmap.getWidth(), mBitmap.getHeight());
         tryLoadBitmap();
     }
 

@@ -20,13 +20,11 @@
 package net.protyposis.android.spectaculum;
 
 import android.content.Context;
-import android.graphics.SurfaceTexture;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.widget.MediaController;
 import android.widget.Toast;
@@ -326,12 +324,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
             new MediaPlayer.OnVideoSizeChangedListener() {
         @Override
         public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-            mVideoWidth = width;
-            mVideoHeight = height;
-
-            updateSourceResolution(mVideoWidth, mVideoHeight);
-
-            requestLayout();
+            updateResolution(width, height);
         }
     };
 
