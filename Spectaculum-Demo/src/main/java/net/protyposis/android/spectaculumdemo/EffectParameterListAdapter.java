@@ -43,13 +43,13 @@ import net.protyposis.android.spectaculum.effects.Parameter;
 /**
  * Created by Mario on 06.09.2014.
  */
-public class ParameterListAdapter extends BaseAdapter {
+public class EffectParameterListAdapter extends BaseAdapter {
 
     private Activity mActivity;
     private SpectaculumView mTextureView;
     public List<Parameter> mParameters;
 
-    public ParameterListAdapter(Activity activity, SpectaculumView textureView, List<Parameter> parameters) {
+    public EffectParameterListAdapter(Activity activity, SpectaculumView textureView, List<Parameter> parameters) {
         mActivity = activity;
         mTextureView = textureView;
         mParameters = new ArrayList<Parameter>(parameters);

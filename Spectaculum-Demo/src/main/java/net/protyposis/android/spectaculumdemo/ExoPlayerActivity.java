@@ -50,7 +50,7 @@ public class ExoPlayerActivity extends Activity implements
     private ExoPlayer mExoPlayer;
     private PlayerControl mExoPlayerControl;
 
-    private GLEffects mEffectList;
+    private EffectManager mEffectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class ExoPlayerActivity extends Activity implements
 
         mProgress.setVisibility(View.VISIBLE);
 
-        mEffectList = new GLEffects(this, R.id.parameterlist, mVideoView);
+        mEffectList = new EffectManager(this, R.id.parameterlist, mVideoView);
         mEffectList.addEffects();
 
         mSavedInstanceState = savedInstanceState;

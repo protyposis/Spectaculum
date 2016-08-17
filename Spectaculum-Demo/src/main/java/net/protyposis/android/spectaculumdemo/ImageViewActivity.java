@@ -29,7 +29,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 
 import net.protyposis.android.spectaculum.ImageView;
 import net.protyposis.android.spectaculum.PipelineResolution;
@@ -41,7 +40,7 @@ public class ImageViewActivity extends Activity {
     private static final int REQUEST_LOAD_IMAGE = 1;
 
     private ImageView mImageView;
-    private GLEffects mEffectList;
+    private EffectManager mEffectList;
     private Uri mImageUri;
 
     @Override
@@ -54,7 +53,7 @@ public class ImageViewActivity extends Activity {
         mImageView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-image"));
         mImageView.setTouchEnabled(true); // enable zoom&pan
 
-        mEffectList = new GLEffects(this, R.id.parameterlist, mImageView);
+        mEffectList = new EffectManager(this, R.id.parameterlist, mImageView);
         mEffectList.addEffects();
 
         if(savedInstanceState != null) {

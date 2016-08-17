@@ -47,7 +47,7 @@ public class MediaPlayerExtendedViewActivity extends Activity {
     private MediaController.MediaPlayerControl mMediaPlayerControl;
     private MediaController mMediaController;
 
-    private GLEffects mEffectList;
+    private EffectManager mEffectList;
 
 
     @Override
@@ -74,7 +74,7 @@ public class MediaPlayerExtendedViewActivity extends Activity {
 
         mProgress.setVisibility(View.VISIBLE);
 
-        mEffectList = new GLEffects(this, R.id.parameterlist, mVideoView);
+        mEffectList = new EffectManager(this, R.id.parameterlist, mVideoView);
         mEffectList.addEffects();
 
         if(savedInstanceState != null) {

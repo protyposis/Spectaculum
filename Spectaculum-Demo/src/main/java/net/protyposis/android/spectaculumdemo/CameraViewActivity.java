@@ -23,7 +23,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 
 import net.protyposis.android.spectaculum.CameraView;
 
@@ -34,7 +33,7 @@ public class CameraViewActivity extends Activity {
 
     private CameraView mCameraView;
 
-    private GLEffects mEffectList;
+    private EffectManager mEffectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class CameraViewActivity extends Activity {
 
         mCameraView = (CameraView) findViewById(R.id.cameraview);
 
-        mEffectList = new GLEffects(this, R.id.parameterlist, mCameraView);
+        mEffectList = new EffectManager(this, R.id.parameterlist, mCameraView);
         mEffectList.addEffects();
 
         mCameraView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-camera"));

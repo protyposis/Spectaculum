@@ -34,7 +34,7 @@ public class AndroidMediaPlayerActivity extends Activity implements
     private MediaController mMediaController;
     private MediaPlayer mMediaPlayer;
 
-    private GLEffects mEffectList;
+    private EffectManager mEffectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class AndroidMediaPlayerActivity extends Activity implements
 
         mProgress.setVisibility(View.VISIBLE);
 
-        mEffectList = new GLEffects(this, R.id.parameterlist, mVideoView);
+        mEffectList = new EffectManager(this, R.id.parameterlist, mVideoView);
         mEffectList.addEffects();
 
         mSavedInstanceState = savedInstanceState;

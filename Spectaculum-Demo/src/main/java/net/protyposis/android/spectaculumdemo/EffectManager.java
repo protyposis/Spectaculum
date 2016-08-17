@@ -52,24 +52,24 @@ import net.protyposis.android.spectaculum.effects.EquirectangularSphereEffect;
 /**
  * Created by Mario on 18.07.2014.
  *
- * Helper class for easy effect handling in the video and camera players.
+ * Helper class for easy effect handling in the Spectaculum views.
  */
-public class GLEffects implements SpectaculumView.OnEffectInitializedListener {
+public class EffectManager implements SpectaculumView.OnEffectInitializedListener {
 
     private Activity mActivity;
     private ViewGroup mParameterListView;
-    private ParameterListAdapter mParameterListAdapter;
+    private EffectParameterListAdapter mParameterListAdapter;
     private MenuItem mParameterToggleMenuItem;
-    private SpectaculumView mGLView;
+    private SpectaculumView mSpectaculumView;
     private List<Effect> mEffects;
     private Effect mSelectedEffect;
 
-    public GLEffects(Activity activity, int parameterListViewId, SpectaculumView glView) {
+    public EffectManager(Activity activity, int parameterListViewId, SpectaculumView glView) {
         mActivity = activity;
         mParameterListView = (ViewGroup) activity.findViewById(parameterListViewId);
-        mGLView = glView;
+        mSpectaculumView = glView;
         mEffects = new ArrayList<Effect>();
-        mGLView.setOnEffectInitializedListener(this);
+        mSpectaculumView.setOnEffectInitializedListener(this);
 
         // MediaPlayer-GLES filters
         mEffects.add(new NoEffect());
@@ -108,7 +108,7 @@ public class GLEffects implements SpectaculumView.OnEffectInitializedListener {
     }
 
     public void addEffects() {
-        mGLView.addEffect(mEffects.toArray(new Effect[mEffects.size()]));
+        mSpectaculumView.addEffect(mEffects.toArray(new Effect[mEffects.size()]));
     }
 
     public List<String> getEffectNames() {
@@ -131,7 +131,7 @@ public class GLEffects implements SpectaculumView.OnEffectInitializedListener {
         }
 
         mSelectedEffect = effect;
-        mGLView.selectEffect(index);
+        mSpectaculumView.selectEffect(index);
         return true;
     }
 
@@ -168,7 +168,7 @@ public class GLEffects implements SpectaculumView.OnEffectInitializedListener {
 
     public void viewEffectParameters(Effect effect) {
         if(effect.hasParameters()) {
-            mParameterListAdapter = new ParameterListAdapter(mActivity, mGLView, effect.getParameters());
+            mParameterListAdapter = new EffectParameterListAdapter(mActivity, mSpectaculumView, effect.getParameters());
             mParameterListView.removeAllViews();
             for(int i = 0; i < mParameterListAdapter.getCount(); i++) {
                 mParameterListView.addView(mParameterListAdapter.getView(i, null, null));
