@@ -85,6 +85,7 @@ public class ImageViewActivity extends Activity {
 
     private void loadImage(Uri imageUri) {
         try {
+            getActionBar().setSubtitle(imageUri + "");
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
             mImageView.setImageBitmap(bitmap);
             mImageUri = imageUri;
