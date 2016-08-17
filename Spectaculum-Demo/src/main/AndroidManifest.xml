@@ -67,6 +67,10 @@
             android:label="@string/title_activity_mediaplayerextended" >
         </activity>
         <activity
+            android:name=".ExoPlayerActivity"
+            android:label="@string/title_activity_exoplayer" >
+        </activity>
+        <activity
             android:name=".CameraViewActivity"
             android:label="@string/title_activity_camera" >
         </activity>

@@ -96,6 +96,11 @@
             style="@style/Feature.Button"
             android:text="@string/feature_mediaplayerextended"/>
 
+        <Button
+            android:id="@+id/exoplayervideoview"
+            style="@style/Feature.Button"
+            android:text="@string/feature_exoplayer"/>
+
         <View style="@style/Divider"/>
 
         <Button

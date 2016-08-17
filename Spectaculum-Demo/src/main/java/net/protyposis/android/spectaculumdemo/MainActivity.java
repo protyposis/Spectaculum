@@ -54,6 +54,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
     private Button mAndroidVideoViewButton;
     private Button mAndroidMediaPlayerButton;
     private Button mMediaPlayerExtendedButton;
+    private Button mExoPlayerButton;
     private Button mCameraButton;
     private Button mImageButton;
 
@@ -78,6 +79,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         mAndroidVideoViewButton = (Button) findViewById(R.id.androidvideoview);
         mAndroidMediaPlayerButton = (Button) findViewById(R.id.androidmediaplayer);
         mMediaPlayerExtendedButton = (Button) findViewById(R.id.mediaplayerextendedvideoview);
+        mExoPlayerButton = (Button) findViewById(R.id.exoplayervideoview);
         mCameraButton = (Button) findViewById(R.id.cameraview);
         mImageButton = (Button) findViewById(R.id.imageview);
         mVideoUriText = (TextView) findViewById(R.id.videouri);
@@ -125,6 +127,12 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MediaPlayerExtendedViewActivity.class).setData(mVideoUri));
+            }
+        });
+        mExoPlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ExoPlayerActivity.class).setData(mVideoUri));
             }
         });
         mCameraButton.setOnClickListener(new View.OnClickListener() {
