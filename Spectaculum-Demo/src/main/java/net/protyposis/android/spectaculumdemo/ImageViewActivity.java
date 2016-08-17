@@ -19,7 +19,6 @@
 
 package net.protyposis.android.spectaculumdemo;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -27,8 +26,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import net.protyposis.android.spectaculum.ImageView;
 import net.protyposis.android.spectaculum.PipelineResolution;

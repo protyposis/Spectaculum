@@ -23,7 +23,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,8 +38,6 @@ import io.fabric.sdk.android.Fabric;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import net.protyposis.android.mediaplayer.MediaSource;
 
 public class MainActivity extends Activity implements VideoURIInputDialogFragment.OnVideoURISelectedListener {
 

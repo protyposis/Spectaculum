@@ -22,7 +22,6 @@ package net.protyposis.android.spectaculum.gles;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
-import android.view.Surface;
 
 /**
  * @author Mario Guggenberger

@@ -21,13 +21,11 @@ package net.protyposis.android.spectaculumdemo;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.protyposis.android.mediaplayer.MediaPlayer;
-import net.protyposis.android.mediaplayer.MediaSource;
 import net.protyposis.android.mediaplayer.UriSource;
 import net.protyposis.android.spectaculum.MediaPlayerExtendedView;
 
