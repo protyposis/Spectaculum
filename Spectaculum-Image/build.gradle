@@ -26,10 +26,10 @@ dependencies {
 
 publish {
     userOrg = 'protyposis'
-    groupId = playerModuleBase
+    groupId = packageBase
     artifactId = 'spectaculum-image'
     publishVersion = libraryVersionString()
-    desc = 'Image source support for Spectaculum'
+    desc = 'ImageView for Spectaculum'
     website = 'https://github.com/protyposis/Spectaculum'
     licences = ['GPL-3.0']
 }

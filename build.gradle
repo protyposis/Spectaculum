@@ -27,8 +27,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    packageBase = 'net.protyposis.android'
-    playerModuleBase = packageBase + '.spectaculum'
+    packageBase = 'net.protyposis.android.spectaculum'
     isLibrary = true
     libraryVersionCode = 1
     libraryVersionName = '1.0.0'

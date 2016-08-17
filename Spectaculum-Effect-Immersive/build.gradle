@@ -26,11 +26,11 @@ dependencies {
 
 publish {
     userOrg = 'protyposis'
-    groupId = playerModuleBase
-    artifactId = 'mediaplayer-gles-immersive'
+    groupId = packageBase
+    artifactId = 'spectaculum-effect-immersive'
     publishVersion = libraryVersionString()
-    desc = 'MediaPlayer-Extended GLES immersive video (360°) shaders'
-    website = 'https://github.com/protyposis/MediaPlayer-Extended'
+    desc = 'Support for immersive 360° & 3D VR content'
+    website = 'https://github.com/protyposis/Spectaculum'
     licences = ['GPL-3.0']
 }
 

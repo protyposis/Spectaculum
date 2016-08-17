@@ -27,11 +27,11 @@ dependencies {
 
 publish {
     userOrg = 'protyposis'
-    groupId = playerModuleBase
+    groupId = packageBase
     artifactId = 'spectaculum-mediaplayerextended'
     publishVersion = libraryVersionString()
-    desc = 'MediaPlayer-Extended support module'
-    website = 'https://github.com/protyposis/MediaPlayer-Extended'
+    desc = 'MediaPlayer-Extended support for Spectaculum'
+    website = 'https://github.com/protyposis/Spectaculum'
     licences = ['GPL-3.0']
 }
 

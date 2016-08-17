@@ -26,10 +26,10 @@ dependencies {
 
 publish {
     userOrg = 'protyposis'
-    groupId = playerModuleBase
-    artifactId = 'spectaculum-image'
+    groupId = packageBase
+    artifactId = 'spectaculum-mediaplayer'
     publishVersion = libraryVersionString()
-    desc = 'Image source support for Spectaculum'
+    desc = 'VideoView substitute for Spectaculum'
     website = 'https://github.com/protyposis/Spectaculum'
     licences = ['GPL-3.0']
 }

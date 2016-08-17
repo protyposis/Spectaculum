@@ -26,11 +26,11 @@ dependencies {
 
 publish {
     userOrg = 'protyposis'
-    groupId = playerModuleBase
-    artifactId = 'mediaplayer-gles-flowabs'
+    groupId = packageBase
+    artifactId = 'spectaculum-effect-flowabs'
     publishVersion = libraryVersionString()
-    desc = 'MediaPlayer-Extended GLES FlowAbs shaders'
-    website = 'https://github.com/protyposis/MediaPlayer-Extended'
+    desc = 'FlowAbs shader effects'
+    website = 'https://github.com/protyposis/Spectaculum'
     licences = ['GPL-3.0']
 }
 

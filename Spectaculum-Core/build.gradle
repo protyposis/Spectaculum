@@ -25,11 +25,11 @@ dependencies {
 
 publish {
     userOrg = 'protyposis'
-    groupId = playerModuleBase
-    artifactId = 'mediaplayer-gles'
+    groupId = packageBase
+    artifactId = 'spectaculum'
     publishVersion = libraryVersionString()
-    desc = 'MediaPlayer-Extended GLES extension module'
-    website = 'https://github.com/protyposis/MediaPlayer-Extended'
+    desc = 'A spectacular view widget for visual media content on Android'
+    website = 'https://github.com/protyposis/Spectaculum'
     licences = ['GPL-3.0']
 }
 

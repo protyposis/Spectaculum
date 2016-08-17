@@ -26,11 +26,11 @@ dependencies {
 
 publish {
     userOrg = 'protyposis'
-    groupId = playerModuleBase
+    groupId = packageBase
     artifactId = 'spectaculum-camera'
     publishVersion = libraryVersionString()
-    desc = 'Android camera support module'
-    website = 'https://github.com/protyposis/MediaPlayer-Extended'
+    desc = 'CameraView for Spectaculum'
+    website = 'https://github.com/protyposis/Spectaculum'
     licences = ['GPL-3.0']
 }
 
