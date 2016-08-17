@@ -176,8 +176,6 @@ public class SpectaculumView extends GLSurfaceView implements
     /**
      * Sets the panning of the texture in the view. (0.0, 0.0) centers the texture and means no
      * panning, (-1.0, -1.0) moves the texture to the lower right quarter.
-     * @param x
-     * @param y
      */
     public void setPan(float x, float y) {
         mPanX = x;

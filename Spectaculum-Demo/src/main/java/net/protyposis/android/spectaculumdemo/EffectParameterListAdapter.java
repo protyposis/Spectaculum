@@ -52,7 +52,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
     public EffectParameterListAdapter(Activity activity, SpectaculumView textureView, List<Parameter> parameters) {
         mActivity = activity;
         mTextureView = textureView;
-        mParameters = new ArrayList<Parameter>(parameters);
+        mParameters = new ArrayList<>(parameters);
     }
 
     @Override

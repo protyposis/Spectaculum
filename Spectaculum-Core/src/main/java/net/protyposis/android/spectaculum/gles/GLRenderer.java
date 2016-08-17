@@ -99,7 +99,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 
         mTexturedRectangle = new TexturedRectangle();
 
-        mEffects = new ArrayList<Effect>();
+        mEffects = new ArrayList<>();
     }
 
     public void setOnExternalSurfaceTextureCreatedListener(OnExternalSurfaceTextureCreatedListener l) {

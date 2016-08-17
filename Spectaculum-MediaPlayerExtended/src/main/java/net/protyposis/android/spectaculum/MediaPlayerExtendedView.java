@@ -81,7 +81,6 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     /**
      * @see android.widget.VideoView#setVideoPath(String)
-     * @param path
      * @deprecated only for compatibility with Android API
      */
     @Deprecated
@@ -91,7 +90,6 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     /**
      * @see android.widget.VideoView#setVideoURI(android.net.Uri)
-     * @param uri
      * @deprecated only for compatibility with Android API
      */
     @Deprecated
@@ -101,8 +99,6 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     /**
      * @see android.widget.VideoView#setVideoURI(android.net.Uri, Map)
-     * @param uri
-     * @param headers
      * @deprecated only for compatibility with Android API
      */
     @Deprecated

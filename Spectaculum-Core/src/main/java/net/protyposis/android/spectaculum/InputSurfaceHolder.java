@@ -23,7 +23,7 @@ public class InputSurfaceHolder {
          *
          * @param holder The SurfaceHolder whose surface is being created.
          */
-        public void surfaceCreated(InputSurfaceHolder holder);
+        void surfaceCreated(InputSurfaceHolder holder);
 
         /**
          * This is called immediately before a surface is being destroyed. After
@@ -34,7 +34,7 @@ public class InputSurfaceHolder {
          *
          * @param holder The SurfaceHolder whose surface is being destroyed.
          */
-        public void surfaceDestroyed(InputSurfaceHolder holder);
+        void surfaceDestroyed(InputSurfaceHolder holder);
     }
 
     private List<Callback> mCallbacks;

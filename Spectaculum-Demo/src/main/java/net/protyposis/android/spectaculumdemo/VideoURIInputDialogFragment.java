@@ -81,6 +81,6 @@ public class VideoURIInputDialogFragment extends DialogFragment {
     }
 
     public interface OnVideoURISelectedListener {
-        public void onVideoURISelected(Uri uri);
+        void onVideoURISelected(Uri uri);
     }
 }

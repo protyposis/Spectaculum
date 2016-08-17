@@ -44,7 +44,7 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
             }
         }
         mName = name;
-        mParameters = new ArrayList<Parameter>();
+        mParameters = new ArrayList<>();
     }
 
     public BaseEffect() {

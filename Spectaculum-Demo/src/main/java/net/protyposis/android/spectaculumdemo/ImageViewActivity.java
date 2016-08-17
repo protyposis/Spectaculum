@@ -58,7 +58,7 @@ public class ImageViewActivity extends SpectaculumDemoBaseActivity {
             loadImage(getIntent().getData());
         } else {
             // Show image selection dialog
-            Intent intent = null;
+            Intent intent;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                 intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");

@@ -84,7 +84,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
             public void onClick(View v) {
                 // open the picker...
                 Log.d(TAG, "opening video picker...");
-                Intent intent = null;
+                Intent intent;
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                     intent = new Intent(Intent.ACTION_PICK);
                     intent.setType("video/*");
@@ -240,7 +240,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
 
     private void versionInfos() {
         String versionInfos = "";
-        Map<String, Class> components = new LinkedHashMap<String, Class>();
+        Map<String, Class> components = new LinkedHashMap<>();
         components.put("Spectaculum-Demo", net.protyposis.android.spectaculumdemo.BuildConfig.class);
         components.put("Spectaculum", net.protyposis.android.spectaculum.BuildConfig.class);
         components.put("Spectaculum-Camera", net.protyposis.android.spectaculum.camera.BuildConfig.class);

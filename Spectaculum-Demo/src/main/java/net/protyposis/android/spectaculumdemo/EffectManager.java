@@ -68,7 +68,7 @@ public class EffectManager implements SpectaculumView.OnEffectInitializedListene
         mActivity = activity;
         mParameterListView = (ViewGroup) activity.findViewById(parameterListViewId);
         mSpectaculumView = glView;
-        mEffects = new ArrayList<Effect>();
+        mEffects = new ArrayList<>();
         mSpectaculumView.setOnEffectInitializedListener(this);
 
         // MediaPlayer-GLES filters
@@ -112,7 +112,7 @@ public class EffectManager implements SpectaculumView.OnEffectInitializedListene
     }
 
     public List<String> getEffectNames() {
-        List<String> effectNames = new ArrayList<String>();
+        List<String> effectNames = new ArrayList<>();
         for(Effect effect : mEffects) {
             effectNames.add(effect.getName());
         }
