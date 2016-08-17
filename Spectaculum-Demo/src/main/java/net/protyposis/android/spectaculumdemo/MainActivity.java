@@ -41,7 +41,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.protyposis.android.mediaplayer.MediaSource;
-import net.protyposis.android.mediaplayer.dash.DashSource;
 
 public class MainActivity extends Activity implements VideoURIInputDialogFragment.OnVideoURISelectedListener {
 
@@ -227,32 +226,15 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
                 }
             }
 
-            mVideoUriText.setText("Loading...");
+            String text = uri.toString();
+            mVideoUriText.setText(text);
+            mVideoUriText.setTextColor(mVideoUriTextColor);
+            mVideoUri = uri;
 
-            Utils.uriToMediaSourceAsync(MainActivity.this, uri, new Utils.MediaSourceAsyncCallbackHandler() {
-                @Override
-                public void onMediaSourceLoaded(MediaSource mediaSource) {
-                    String text = uri.toString();
-                    if (mediaSource instanceof DashSource) {
-                        text = "DASH: " + text;
-                    }
-                    mVideoUriText.setText(text);
-                    mVideoUriText.setTextColor(mVideoUriTextColor);
-                    mVideoUri = uri;
+            mMediaPlayerExtendedButton.setEnabled(true);
 
-                    mMediaPlayerExtendedButton.setEnabled(true);
-
-                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                            .edit().putString("lastUri", uri.toString()).commit();
-                }
-
-                @Override
-                public void onException(Exception e) {
-                    mVideoUriText.setText("Error loading video" + (e.getMessage() != null ? ": " + e.getMessage() : " :("));
-                    mVideoUriText.setTextColor(Color.RED);
-                    Log.e(TAG, "Error loading video", e);
-                }
-            });
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                    .edit().putString("lastUri", uri.toString()).commit();
         }
     }
 
@@ -268,7 +250,6 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         components.put("Spectaculum-Effect-FlowAbs", net.protyposis.android.spectaculum.gles.flowabs.BuildConfig.class);
         components.put("Spectaculum-Effect-QrMarker", net.protyposis.android.spectaculum.gles.qrmarker.BuildConfig.class);
         components.put("MediaPlayer", net.protyposis.android.mediaplayer.BuildConfig.class);
-        components.put("MediaPlayer-DASH", net.protyposis.android.mediaplayer.dash.BuildConfig.class);
 
         Iterator<String> componentIterator = components.keySet().iterator();
         while(componentIterator.hasNext()) {

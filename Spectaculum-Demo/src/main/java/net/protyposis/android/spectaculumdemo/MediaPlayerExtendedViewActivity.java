@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import net.protyposis.android.mediaplayer.MediaPlayer;
 import net.protyposis.android.mediaplayer.MediaSource;
+import net.protyposis.android.mediaplayer.UriSource;
 import net.protyposis.android.spectaculum.MediaPlayerExtendedView;
 
 
@@ -102,18 +103,7 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
             }
         });
         mVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-mediaplayerextended"));
-
-        Utils.uriToMediaSourceAsync(this, uri, new Utils.MediaSourceAsyncCallbackHandler() {
-            @Override
-            public void onMediaSourceLoaded(MediaSource mediaSource) {
-                mVideoView.setVideoSource(mediaSource);
-            }
-
-            @Override
-            public void onException(Exception e) {
-                Log.e(TAG, "error loading video", e);
-            }
-        });
+        mVideoView.setVideoSource(new UriSource(this, uri));
     }
 
     @Override
