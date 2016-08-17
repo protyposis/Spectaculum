@@ -68,12 +68,12 @@ public class SpectaculumView extends GLSurfaceView implements
     protected int mVideoWidth;
     protected int mVideoHeight;
 
-    protected SpectaculumView(Context context) {
+    public SpectaculumView(Context context) {
         super(context);
         init(context);
     }
 
-    protected SpectaculumView(Context context, AttributeSet attrs) {
+    public SpectaculumView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
