@@ -78,7 +78,6 @@
         <TextView
             android:id="@+id/videouri"
             style="@style/Feature.Description"
-            android:layout_marginTop="@dimen/activity_vertical_margin_half"
             android:text="@string/uri_missing"/>
 
         <Button
