@@ -61,12 +61,6 @@ public class ExoPlayerActivity extends Activity implements
         mVideoView = (SpectaculumView) findViewById(R.id.videoview);
         mProgress = (ProgressBar) findViewById(R.id.progress);
 
-        /*
-         * Disable touch event processing in the view to receive the event in this activity. This way,
-         * we can intercept single touch events to toggle the media controller and then pass them back
-         * to the view for further processing.
-         */
-        mVideoView.setTouchEnabled(false);
         mVideoView.getInputHolder().addCallback(this);
 
         //mMediaPlayerControl = mVideoView;
