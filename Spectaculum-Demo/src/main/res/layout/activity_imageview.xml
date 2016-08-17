@@ -33,22 +33,6 @@
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="30dp">
-        <LinearLayout
-            android:id="@+id/parameterlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#55000000"
-            android:padding="10dp"
-            android:visibility="gone">
-        </LinearLayout>
-    </ScrollView>
+    <include layout="@layout/effectparameterpanel" />
 
 </RelativeLayout>
