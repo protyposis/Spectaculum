@@ -92,7 +92,7 @@ public class SpectaculumView extends GLSurfaceView implements
 
         mRenderer = new GLRenderer();
         mRenderer.setOnExternalSurfaceTextureCreatedListener(mExternalSurfaceTextureCreatedListener);
-        mRenderer.setOnEffectInitializedListener(this);
+        mRenderer.setEffectEventListener(this);
 
         mInputSurfaceHolder = new InputSurfaceHolder();
 

@@ -132,7 +132,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         this.mOnExternalSurfaceTextureCreatedListener = l;
     }
 
-    public void setOnEffectInitializedListener(EffectEventListener l) {
+    public void setEffectEventListener(EffectEventListener l) {
         this.mEffectEventListener = l;
     }
 
