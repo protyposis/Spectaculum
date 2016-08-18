@@ -41,6 +41,15 @@ public interface Effect {
 
     void apply(Texture2D source, Framebuffer target);
 
+    /**
+     * Sets a parameter handler for the parameters of this effect. The parameter handler takes
+     * care that the parameter values are set on the correct thread (i.e. the GL thread).
+     * Setting the handler on the effect makes sure that it is automatically set on its parameters.
+     * @see Parameter#setHandler(ParameterHandler)
+     * @param handler a handler to set, or null to unset
+     */
+    void setParameterHandler(ParameterHandler handler);
+
     void addParameter(Parameter param);
 
     List<Parameter> getParameters();

@@ -32,6 +32,7 @@ import android.view.ScaleGestureDetector;
 
 import net.protyposis.android.spectaculum.effects.Effect;
 import net.protyposis.android.spectaculum.effects.EffectException;
+import net.protyposis.android.spectaculum.effects.ParameterHandler;
 import net.protyposis.android.spectaculum.gles.*;
 
 /**
@@ -339,6 +340,7 @@ public class SpectaculumView extends GLSurfaceView implements
     public void addEffect(final Effect... effects) {
         for(Effect effect : effects) {
             effect.setListener(this);
+            effect.setParameterHandler(new ParameterHandler(this));
         }
         queueEvent(new Runnable() {
             @Override

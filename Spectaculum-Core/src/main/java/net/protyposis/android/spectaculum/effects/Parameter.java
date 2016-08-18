@@ -43,6 +43,7 @@ public abstract class Parameter<T> {
     private Delegate<T> mDelegate;
     private String mDescription;
     private Listener mListener;
+    private ParameterHandler mHandler;
 
     protected Parameter(String name, Type type, Delegate<T> delegate) {
         mName = name;
@@ -84,7 +85,27 @@ public abstract class Parameter<T> {
     }
 
     protected void setDelegateValue(final T value) {
-        mDelegate.setValue(value);
+        if(mHandler != null) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mDelegate.setValue(value);
+                }
+            });
+        } else {
+            mDelegate.setValue(value);
+        }
         fireParameterChanged();
+    }
+
+    /**
+     * Sets a ParameterHandler on which parameter value changes will be executed. Parameter values
+     * need to be set on the GL thread where the effect that the parameter belongs is active, and
+     * this handler can be used to hand the parameter setting over to the GL thread.
+     * If no handler is set, parameters will be set on the caller thread.
+     * @param handler the parameter handler to set, or null to unset
+     */
+    public void setHandler(ParameterHandler handler) {
+        mHandler = handler;
     }
 }

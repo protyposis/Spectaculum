@@ -109,12 +109,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     final int value = progress + p.getMin();
-                    mSpectaculumView.queueEvent(new Runnable() {
-                        @Override
-                        public void run() {
-                            p.setValue(value);
-                        }
-                    });
+                    p.setValue(value);
                     valueView.setText(String.format("%d", value));
                 }
 
@@ -144,12 +139,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
                     final float value = (progress / (float) precision) + p.getMin();
-                    mSpectaculumView.queueEvent(new Runnable() {
-                        @Override
-                        public void run() {
-                            p.setValue(value);
-                        }
-                    });
+                    p.setValue(value);
                     valueView.setText(String.format("%.2f", value));
                 }
 
@@ -178,12 +168,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                    mSpectaculumView.queueEvent(new Runnable() {
-                        @Override
-                        public void run() {
-                            p.setValue(p.getEnumValues()[position]);
-                        }
-                    });
+                    p.setValue(p.getEnumValues()[position]);
                 }
 
                 @Override

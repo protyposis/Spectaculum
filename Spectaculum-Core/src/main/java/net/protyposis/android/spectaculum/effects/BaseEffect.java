@@ -34,6 +34,7 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
     private List<Parameter> mParameters;
     private boolean mInitialized;
     private Listener mListener;
+    private ParameterHandler mParameterHandler;
 
     public BaseEffect(String name) {
         if(name == null) {
@@ -65,9 +66,18 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
     public abstract void apply(Texture2D source, Framebuffer target);
 
     @Override
+    public void setParameterHandler(ParameterHandler handler) {
+        mParameterHandler = handler;
+        for(Parameter p: getParameters()) {
+            p.setHandler(handler);
+        }
+    }
+
+    @Override
     public void addParameter(Parameter parameter) {
         mParameters.add(parameter);
         parameter.setListener(this);
+        parameter.setHandler(mParameterHandler);
     }
 
     @Override
