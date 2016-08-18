@@ -363,9 +363,12 @@ public class SpectaculumView extends GLSurfaceView implements
     }
 
     /**
-     * Gets called when an effect has been initialized after being selected for the first time. Can
-     * be overwritten in subclasses but must be called through. External callers should use
-     * {@link #setOnEffectInitializedListener(EffectEventListener)}.
+     * Gets called when an effect has been initialized after being selected for the first time
+     * with {@link #selectEffect(int)}. Effect initialization happens asynchronously and can take
+     * some time when a lot of data (framebuffers, textures, ...) is loaded.
+     * Can be overwritten in subclasses but must be called through. External callers should use
+     * {@link #setEffectEventListener(EffectEventListener)}.
+     * @param index the index of the initialized effect
      * @param effect the initialized effect
      */
     @Override
@@ -376,6 +379,13 @@ public class SpectaculumView extends GLSurfaceView implements
         requestRender(GLRenderer.RenderRequest.EFFECT);
     }
 
+    /**
+     * Gets called when an effect has been successfully selected with {@link #selectEffect(int)}.
+     * Can be overwritten in subclasses but must be called through. External callers should use
+     * {@link #setEffectEventListener(EffectEventListener)}.
+     * @param index the index of the selected effect
+     * @param effect the selected effect
+     */
     @Override
     public void onEffectSelected(int index, Effect effect) {
         if(mOnEffectInitializedListener != null) {
@@ -383,6 +393,13 @@ public class SpectaculumView extends GLSurfaceView implements
         }
     }
 
+    /**
+     * Gets called when an effect selection with {@link #selectEffect(int)} fails.
+     * Can be overwritten in subclasses but must be called through. External callers should use
+     * {@link #setEffectEventListener(EffectEventListener)}.
+     * @param index the index of the failed effect
+     * @param effect the failed effect
+     */
     @Override
     public void onEffectError(int index, Effect effect, EffectException e) {
         Log.e(TAG, "effect error", e);
@@ -392,9 +409,8 @@ public class SpectaculumView extends GLSurfaceView implements
     }
 
     /**
-     * Sets an event listener that gets called when a selected effect has been initialized, that
-     * is when it is selected ({@link #selectEffect(int)}) for the first time.
-     * This can take some time when a lot of data (framebuffers, textures, ...) is loaded.
+     * Sets an event listener that gets called when effect-related event happens.
+     * @param listener the event listener to be called on an event
      */
     public void setOnEffectInitializedListener(EffectEventListener listener) {
         mOnEffectInitializedListener = listener;
