@@ -53,7 +53,7 @@ public class SpectaculumView extends GLSurfaceView implements
     private ScaleGestureDetector mScaleGestureDetector;
     private GestureDetector mGestureDetector;
 
-    private EffectEventListener mOnEffectInitializedListener;
+    private EffectEventListener mEffectEventListener;
     private OnFrameCapturedCallback mOnFrameCapturedCallback;
 
     private PipelineResolution mPipelineResolution = PipelineResolution.SOURCE;
@@ -373,8 +373,8 @@ public class SpectaculumView extends GLSurfaceView implements
      */
     @Override
     public void onEffectInitialized(int index, Effect effect) {
-        if(mOnEffectInitializedListener != null) {
-            mOnEffectInitializedListener.onEffectInitialized(index, effect);
+        if(mEffectEventListener != null) {
+            mEffectEventListener.onEffectInitialized(index, effect);
         }
         requestRender(GLRenderer.RenderRequest.EFFECT);
     }
@@ -388,8 +388,8 @@ public class SpectaculumView extends GLSurfaceView implements
      */
     @Override
     public void onEffectSelected(int index, Effect effect) {
-        if(mOnEffectInitializedListener != null) {
-            mOnEffectInitializedListener.onEffectSelected(index, effect);
+        if(mEffectEventListener != null) {
+            mEffectEventListener.onEffectSelected(index, effect);
         }
     }
 
@@ -403,8 +403,8 @@ public class SpectaculumView extends GLSurfaceView implements
     @Override
     public void onEffectError(int index, Effect effect, EffectException e) {
         Log.e(TAG, "effect error", e);
-        if(mOnEffectInitializedListener != null) {
-            mOnEffectInitializedListener.onEffectError(index, effect, e);
+        if(mEffectEventListener != null) {
+            mEffectEventListener.onEffectError(index, effect, e);
         }
     }
 
@@ -412,8 +412,8 @@ public class SpectaculumView extends GLSurfaceView implements
      * Sets an event listener that gets called when effect-related event happens.
      * @param listener the event listener to be called on an event
      */
-    public void setOnEffectInitializedListener(EffectEventListener listener) {
-        mOnEffectInitializedListener = listener;
+    public void setEffectEventListener(EffectEventListener listener) {
+        mEffectEventListener = listener;
     }
 
     /**

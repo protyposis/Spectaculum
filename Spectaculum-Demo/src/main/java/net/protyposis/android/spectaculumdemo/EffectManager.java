@@ -70,7 +70,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener {
         mParameterListView = (ViewGroup) activity.findViewById(parameterListViewId);
         mSpectaculumView = glView;
         mEffects = new ArrayList<>();
-        mSpectaculumView.setOnEffectInitializedListener(this);
+        mSpectaculumView.setEffectEventListener(this);
 
         // MediaPlayer-GLES filters
         mEffects.add(new NoEffect());
