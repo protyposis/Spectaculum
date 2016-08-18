@@ -171,6 +171,11 @@ public class SpectaculumView extends GLSurfaceView implements
         requestRender(GLRenderer.RenderRequest.GEOMETRY);
     }
 
+    /**
+     * Gets the zoom level.
+     * @see #setZ(float) for an explanation if the value
+     * @return
+     */
     public float getZoomLevel() {
         return mZoomLevel;
     }
@@ -186,10 +191,16 @@ public class SpectaculumView extends GLSurfaceView implements
         requestRender(GLRenderer.RenderRequest.GEOMETRY);
     }
 
+    /**
+     * Gets the horizontal panning. Zero means centered, positive is to the left.
+     */
     public float getPanX() {
         return mPanX;
     }
 
+    /**
+     * Gets the vertical panning. Zero means centered, positive is to the bottom.
+     */
     public float getPanY() {
         return mPanY;
     }
