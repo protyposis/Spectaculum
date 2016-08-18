@@ -31,6 +31,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
 import net.protyposis.android.spectaculum.effects.Effect;
+import net.protyposis.android.spectaculum.effects.EffectException;
 import net.protyposis.android.spectaculum.gles.*;
 
 /**
@@ -38,12 +39,12 @@ import net.protyposis.android.spectaculum.gles.*;
  */
 public class SpectaculumView extends GLSurfaceView implements
         SurfaceTexture.OnFrameAvailableListener,
-        Effect.Listener, GLRenderer.OnEffectInitializedListener,
+        Effect.Listener, GLRenderer.EffectEventListener,
         GLRenderer.OnFrameCapturedCallback {
 
     private static final String TAG = SpectaculumView.class.getSimpleName();
 
-    public interface OnEffectInitializedListener extends GLRenderer.OnEffectInitializedListener {}
+    public interface EffectEventListener extends GLRenderer.EffectEventListener {}
     public interface OnFrameCapturedCallback extends GLRenderer.OnFrameCapturedCallback {}
 
     private GLRenderer mRenderer;
@@ -52,7 +53,7 @@ public class SpectaculumView extends GLSurfaceView implements
     private ScaleGestureDetector mScaleGestureDetector;
     private GestureDetector mGestureDetector;
 
-    private OnEffectInitializedListener mOnEffectInitializedListener;
+    private EffectEventListener mOnEffectInitializedListener;
     private OnFrameCapturedCallback mOnFrameCapturedCallback;
 
     private PipelineResolution mPipelineResolution = PipelineResolution.SOURCE;
@@ -355,14 +356,8 @@ public class SpectaculumView extends GLSurfaceView implements
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                try {
-                    mRenderer.selectEffect(index);
-                    requestRender(GLRenderer.RenderRequest.EFFECT);
-                } catch (Exception e) {
-                    Log.e(TAG, "Effect loading failed", e);
-                } catch (OutOfMemoryError e) {
-                    Log.e(TAG, "Not enough memory for this effect, try to lower resolution", e);
-                }
+                mRenderer.selectEffect(index);
+                requestRender(GLRenderer.RenderRequest.EFFECT);
             }
         });
     }
@@ -370,15 +365,30 @@ public class SpectaculumView extends GLSurfaceView implements
     /**
      * Gets called when an effect has been initialized after being selected for the first time. Can
      * be overwritten in subclasses but must be called through. External callers should use
-     * {@link #setOnEffectInitializedListener(OnEffectInitializedListener)}.
+     * {@link #setOnEffectInitializedListener(EffectEventListener)}.
      * @param effect the initialized effect
      */
     @Override
-    public void onEffectInitialized(Effect effect) {
+    public void onEffectInitialized(int index, Effect effect) {
         if(mOnEffectInitializedListener != null) {
-            mOnEffectInitializedListener.onEffectInitialized(effect);
+            mOnEffectInitializedListener.onEffectInitialized(index, effect);
         }
         requestRender(GLRenderer.RenderRequest.EFFECT);
+    }
+
+    @Override
+    public void onEffectSelected(int index, Effect effect) {
+        if(mOnEffectInitializedListener != null) {
+            mOnEffectInitializedListener.onEffectSelected(index, effect);
+        }
+    }
+
+    @Override
+    public void onEffectError(int index, Effect effect, EffectException e) {
+        Log.e(TAG, "effect error", e);
+        if(mOnEffectInitializedListener != null) {
+            mOnEffectInitializedListener.onEffectError(index, effect, e);
+        }
     }
 
     /**
@@ -386,7 +396,7 @@ public class SpectaculumView extends GLSurfaceView implements
      * is when it is selected ({@link #selectEffect(int)}) for the first time.
      * This can take some time when a lot of data (framebuffers, textures, ...) is loaded.
      */
-    public void setOnEffectInitializedListener(OnEffectInitializedListener listener) {
+    public void setOnEffectInitializedListener(EffectEventListener listener) {
         mOnEffectInitializedListener = listener;
     }
 

@@ -32,6 +32,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import net.protyposis.android.spectaculum.effects.Effect;
+import net.protyposis.android.spectaculum.effects.EffectException;
 
 /**
  * Created by Mario on 14.06.2014.
@@ -57,8 +58,33 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         void onExternalSurfaceTextureCreated(ExternalSurfaceTexture surfaceTexture);
     }
 
-    public interface OnEffectInitializedListener {
-        void onEffectInitialized(Effect effect);
+    /**
+     * Callback interface for effect-related events.
+     */
+    public interface EffectEventListener {
+
+        /**
+         * Gets called when an effect has been initialized which happens when an effect is
+         * selected for the first time.
+         * @param index the index of the initialized effect
+         * @param effect the initialized effect
+         */
+        void onEffectInitialized(int index, Effect effect);
+
+        /**
+         * Gets called when an effect has been successfully selected.
+         * @param index the index of the selected effect
+         * @param effect the selected effect
+         */
+        void onEffectSelected(int index, Effect effect);
+
+        /**
+         * Gets called when an error related to an effect happens, e.g. during initialization.
+         * @param index the index of the failed effect
+         * @param effect the failed effect
+         * @param e the exception carrying the cause of failure
+         */
+        void onEffectError(int index, Effect effect, EffectException e);
     }
 
     public interface OnFrameCapturedCallback {
@@ -91,7 +117,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     private RenderRequest mRenderRequest;
 
     private OnExternalSurfaceTextureCreatedListener mOnExternalSurfaceTextureCreatedListener;
-    private OnEffectInitializedListener mOnEffectInitializedListener;
+    private EffectEventListener mEffectEventListener;
     private FrameRateCalculator mFrameRateCalculator;
 
     public GLRenderer() {
@@ -106,8 +132,8 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         this.mOnExternalSurfaceTextureCreatedListener = l;
     }
 
-    public void setOnEffectInitializedListener(OnEffectInitializedListener l) {
-        this.mOnEffectInitializedListener = l;
+    public void setOnEffectInitializedListener(EffectEventListener l) {
+        this.mEffectEventListener = l;
     }
 
     public void setRenderRequest(RenderRequest renderRequest) {
@@ -257,12 +283,22 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         Effect effect = mEffects.get(index); // keep in a local variable until initialized, in case initialization fails
         if(!effect.isInitialized()) {
             Log.d(TAG, "initializing effect " + effect.getName());
-            effect.init(mWidth, mHeight);
-            if(mOnEffectInitializedListener != null) {
-                mOnEffectInitializedListener.onEffectInitialized(effect);
+            try {
+                effect.init(mWidth, mHeight);
+                if (mEffectEventListener != null) {
+                    mEffectEventListener.onEffectInitialized(index, effect);
+                }
+            } catch (OutOfMemoryError | Exception e) {
+                if (mEffectEventListener != null) {
+                    mEffectEventListener.onEffectError(index, effect, new EffectException(e));
+                }
+                return;
             }
         }
         mEffect = effect;
+        if(mEffectEventListener != null) {
+            mEffectEventListener.onEffectSelected(index, effect);
+        }
     }
 
     public void saveCurrentFrame(OnFrameCapturedCallback callback) {

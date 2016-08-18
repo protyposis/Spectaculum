@@ -32,6 +32,7 @@ import java.util.List;
 
 import net.protyposis.android.spectaculum.SpectaculumView;
 import net.protyposis.android.spectaculum.effects.ContrastBrightnessAdjustmentEffect;
+import net.protyposis.android.spectaculum.effects.EffectException;
 import net.protyposis.android.spectaculum.effects.FlowAbsSubEffect;
 import net.protyposis.android.spectaculum.effects.QrMarkerEffect;
 import net.protyposis.android.spectaculum.effects.Effect;
@@ -54,7 +55,7 @@ import net.protyposis.android.spectaculum.effects.EquirectangularSphereEffect;
  *
  * Helper class for easy effect handling in the Spectaculum views.
  */
-public class EffectManager implements SpectaculumView.OnEffectInitializedListener {
+public class EffectManager implements SpectaculumView.EffectEventListener {
 
     private Activity mActivity;
     private ViewGroup mParameterListView;
@@ -187,7 +188,7 @@ public class EffectManager implements SpectaculumView.OnEffectInitializedListene
     }
 
     @Override
-    public void onEffectInitialized(final Effect effect) {
+    public void onEffectInitialized(int index, final Effect effect) {
         /* When an effect is chosen for the first time, it gets initialized in the GL renderer. Some
          * effects also declare their effects in the initialization routine, opposed to the constructor,
          * in which case they are not immediately available at the first selection. In this case,
@@ -197,6 +198,27 @@ public class EffectManager implements SpectaculumView.OnEffectInitializedListene
             @Override
             public void run() {
                 viewEffectParameters(effect);
+            }
+        });
+    }
+
+    @Override
+    public void onEffectSelected(int index, Effect effect) {
+
+    }
+
+    @Override
+    public void onEffectError(int index, final Effect effect, final EffectException e) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(e.getCause() != null) {
+                    Throwable cause = e.getCause();
+                    Toast.makeText(mActivity, "Effect " + cause.getClass().getSimpleName() + ": " + cause.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mActivity, "EffectException: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                selectEffect(0); // select the NoEffect to get rid of the parameter control panel
             }
         });
     }
