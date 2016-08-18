@@ -194,12 +194,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener {
          * in which case they are not immediately available at the first selection. In this case,
          * the GL renderer fires this event and the parameters can be queried again.
          */
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                viewEffectParameters(effect);
-            }
-        });
+         viewEffectParameters(effect);
     }
 
     @Override
@@ -209,17 +204,12 @@ public class EffectManager implements SpectaculumView.EffectEventListener {
 
     @Override
     public void onEffectError(int index, final Effect effect, final EffectException e) {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(e.getCause() != null) {
-                    Throwable cause = e.getCause();
-                    Toast.makeText(mActivity, "Effect " + cause.getClass().getSimpleName() + ": " + cause.getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(mActivity, "EffectException: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                selectEffect(0); // select the NoEffect to get rid of the parameter control panel
-            }
-        });
+        if(e.getCause() != null) {
+            Throwable cause = e.getCause();
+            Toast.makeText(mActivity, "Effect " + cause.getClass().getSimpleName() + ": " + cause.getMessage(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mActivity, "EffectException: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        selectEffect(0); // select the NoEffect to get rid of the parameter control panel of the failed effect
     }
 }

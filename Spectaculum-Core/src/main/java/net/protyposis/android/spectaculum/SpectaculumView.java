@@ -92,7 +92,7 @@ public class SpectaculumView extends GLSurfaceView implements
 
         mRenderer = new GLRenderer();
         mRenderer.setOnExternalSurfaceTextureCreatedListener(mExternalSurfaceTextureCreatedListener);
-        mRenderer.setEffectEventListener(this);
+        mRenderer.setEffectEventListener(mRendererEffectEventListener);
 
         mInputSurfaceHolder = new InputSurfaceHolder();
 
@@ -548,6 +548,41 @@ public class SpectaculumView extends GLSurfaceView implements
             });
 
             surfaceTexture.setOnFrameAvailableListener(SpectaculumView.this);
+        }
+    };
+
+    /**
+     * Effect event listener that transfers the events to the UI thread.
+     */
+    private EffectEventListener mRendererEffectEventListener = new EffectEventListener() {
+        @Override
+        public void onEffectInitialized(final int index, final Effect effect) {
+            mRunOnUiThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    SpectaculumView.this.onEffectInitialized(index, effect);
+                }
+            });
+        }
+
+        @Override
+        public void onEffectSelected(final int index, final Effect effect) {
+            mRunOnUiThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    SpectaculumView.this.onEffectSelected(index, effect);
+                }
+            });
+        }
+
+        @Override
+        public void onEffectError(final int index, final Effect effect, final EffectException e) {
+            mRunOnUiThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    SpectaculumView.this.onEffectError(index, effect, e);
+                }
+            });
         }
     };
 }
