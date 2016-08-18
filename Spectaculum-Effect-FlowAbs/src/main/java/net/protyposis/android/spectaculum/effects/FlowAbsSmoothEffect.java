@@ -37,13 +37,13 @@ public class FlowAbsSmoothEffect extends FlowAbsSubEffect {
 
         addParameter(new IntegerParameter("Type", 0, 3, mType, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mType = value;
             }
         }));
         addParameter(new FloatParameter("Sigma", 0f, 10f, mSigma, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mSigma = value;
             }
         }));

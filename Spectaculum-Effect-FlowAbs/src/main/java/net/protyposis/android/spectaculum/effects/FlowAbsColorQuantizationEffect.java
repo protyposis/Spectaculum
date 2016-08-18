@@ -39,19 +39,19 @@ public class FlowAbsColorQuantizationEffect extends FlowAbsSubEffect {
 
         addParameter(new IntegerParameter("Filter", 0, 2, mFilter, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mFilter = value;
             }
         }));
         addParameter(new IntegerParameter("Bins", 0, 20, mNumBins, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mNumBins = value;
             }
         }));
         addParameter(new FloatParameter("phiQ", 0f, 10f, mPhiQ, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mPhiQ = value;
             }
         }));

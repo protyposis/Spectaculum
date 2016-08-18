@@ -35,7 +35,7 @@ public class FlowAbsTangentFlowMapEffect extends FlowAbsSubEffect {
 
         addParameter(new FloatParameter("Sigma", 0f, 10f, mSigma, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mSigma = value;
             }
         }));

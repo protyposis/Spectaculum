@@ -3,27 +3,21 @@ package net.protyposis.android.spectaculum.effects;
 /**
  * Created by Mario on 16.08.2016.
  */
-public class EnumParameter<T extends Enum<T>> extends Parameter {
-
-    public interface Delegate<T> {
-        void setValue(T value);
-    }
+public class EnumParameter<T extends Enum<T>> extends Parameter<T> {
 
     private T mDefault;
     private T mValue;
-    private Delegate mDelegate;
     private T[] mValues;
 
-    public EnumParameter(String name, Class<T> enumClass, T init, Delegate delegate, String description) {
-        super(name, Type.ENUM, description);
+    public EnumParameter(String name, Class<T> enumClass, T init, Delegate<T> delegate, String description) {
+        super(name, Type.ENUM, delegate, description);
         mDefault = init;
         mValue = init;
-        mDelegate = delegate;
 
         mValues = enumClass.getEnumConstants();
     }
 
-    public EnumParameter(String name, Class<T> enumClass, T init, Delegate delegate) {
+    public EnumParameter(String name, Class<T> enumClass, T init, Delegate<T> delegate) {
         this(name, enumClass, init, delegate, null);
     }
 
@@ -33,7 +27,7 @@ public class EnumParameter<T extends Enum<T>> extends Parameter {
 
     public void setValue(T value) {
         mValue = value;
-        setDelegateValue();
+        setDelegateValue(mValue);
     }
 
 
@@ -48,11 +42,6 @@ public class EnumParameter<T extends Enum<T>> extends Parameter {
     @Override
     public void reset() {
         mValue = mDefault;
-        setDelegateValue();
-    }
-
-    private void setDelegateValue() {
-        mDelegate.setValue(mValue);
-        fireParameterChanged();
+        setDelegateValue(mValue);
     }
 }

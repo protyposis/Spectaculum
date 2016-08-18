@@ -43,28 +43,28 @@ public class ColorFilterEffect extends ShaderEffect {
 
         addParameter(new FloatParameter("Red", 0.0f, 1.0f, mR, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mR = value;
                 colorFilterShader.setColor(mR, mG, mB, mA);
             }
         }));
         addParameter(new FloatParameter("Green", 0.0f, 1.0f, mG, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mG = value;
                 colorFilterShader.setColor(mR, mG, mB, mA);
             }
         }));
         addParameter(new FloatParameter("Blue", 0.0f, 1.0f, mB, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mB = value;
                 colorFilterShader.setColor(mR, mG, mB, mA);
             }
         }));
         addParameter(new FloatParameter("Alpha", 0.0f, 1.0f, mA, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mA = value;
                 colorFilterShader.setColor(mR, mG, mB, mA);
             }

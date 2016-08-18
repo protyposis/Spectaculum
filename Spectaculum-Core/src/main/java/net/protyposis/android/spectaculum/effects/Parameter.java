@@ -22,7 +22,11 @@ package net.protyposis.android.spectaculum.effects;
 /**
  * Created by maguggen on 21.08.2014.
  */
-public abstract class Parameter {
+public abstract class Parameter<T> {
+
+    public interface Delegate<T> {
+        void setValue(T value);
+    }
 
     interface Listener {
         void onParameterChanged(Parameter parameter);
@@ -36,16 +40,18 @@ public abstract class Parameter {
 
     private String mName;
     private Type mType;
+    private Delegate<T> mDelegate;
     private String mDescription;
     private Listener mListener;
 
-    protected Parameter(String name, Type type) {
+    protected Parameter(String name, Type type, Delegate<T> delegate) {
         mName = name;
         mType = type;
+        mDelegate = delegate;
     }
 
-    public Parameter(String name, Type type, String description) {
-        this(name, type);
+    public Parameter(String name, Type type, Delegate<T> delegate, String description) {
+        this(name, type, delegate);
         this.mDescription = description;
     }
 
@@ -55,6 +61,10 @@ public abstract class Parameter {
 
     public String getName() {
         return mName;
+    }
+
+    protected Delegate<T> getDelegate() {
+        return mDelegate;
     }
 
     public String getDescription() {
@@ -71,5 +81,10 @@ public abstract class Parameter {
         if(mListener != null) {
             mListener.onParameterChanged(this);
         }
+    }
+
+    protected void setDelegateValue(final T value) {
+        mDelegate.setValue(value);
+        fireParameterChanged();
     }
 }

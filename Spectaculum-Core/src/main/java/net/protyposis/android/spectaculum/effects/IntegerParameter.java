@@ -22,25 +22,22 @@ package net.protyposis.android.spectaculum.effects;
 /**
  * Created by maguggen on 21.08.2014.
  */
-public class IntegerParameter extends Parameter {
+public class IntegerParameter extends Parameter<Integer> {
 
-    public interface Delegate {
-        void setValue(int value);
+    public interface Delegate extends Parameter.Delegate<Integer> {
     }
 
     private int mMin;
     private int mMax;
     private int mDefault;
     private int mValue;
-    private Delegate mDelegate;
 
     public IntegerParameter(String name, int min, int max, int init, Delegate delegate, String description) {
-        super(name, Type.INTEGER, description);
+        super(name, Type.INTEGER, delegate, description);
         mMin = min;
         mMax = max;
         mDefault = init;
         mValue = init;
-        mDelegate = delegate;
     }
 
     public IntegerParameter(String name, int min, int max, int init, Delegate delegate) {
@@ -51,9 +48,9 @@ public class IntegerParameter extends Parameter {
         return mValue;
     }
 
-    public void setValue(int value) {
+    public void setValue(Integer value) {
         mValue = value;
-        setDelegateValue();
+        setDelegateValue(mValue);
     }
 
     public int getMin() {
@@ -71,11 +68,6 @@ public class IntegerParameter extends Parameter {
     @Override
     public void reset() {
         mValue = mDefault;
-        setDelegateValue();
-    }
-
-    private void setDelegateValue() {
-        mDelegate.setValue(mValue);
-        fireParameterChanged();
+        setDelegateValue(mValue);
     }
 }

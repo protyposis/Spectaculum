@@ -22,25 +22,22 @@ package net.protyposis.android.spectaculum.effects;
 /**
  * Created by maguggen on 21.08.2014.
  */
-public class FloatParameter extends Parameter {
+public class FloatParameter extends Parameter<Float> {
 
-    public interface Delegate {
-        void setValue(float value);
+    public interface Delegate extends Parameter.Delegate<Float> {
     }
 
     private float mMin;
     private float mMax;
     private float mDefault;
     private float mValue;
-    private Delegate mDelegate;
 
     public FloatParameter(String name, float min, float max, float init, Delegate delegate, String description) {
-        super(name, Type.FLOAT, description);
+        super(name, Type.FLOAT, delegate, description);
         mMin = min;
         mMax = max;
         mDefault = init;
         mValue = init;
-        mDelegate = delegate;
     }
 
     public FloatParameter(String name, float min, float max, float init, Delegate delegate) {
@@ -51,9 +48,9 @@ public class FloatParameter extends Parameter {
         return mValue;
     }
 
-    public void setValue(float value) {
+    public void setValue(Float value) {
         mValue = value;
-        setDelegateValue();
+        setDelegateValue(mValue);
     }
 
     public float getMin() {
@@ -71,11 +68,6 @@ public class FloatParameter extends Parameter {
     @Override
     public void reset() {
         mValue = mDefault;
-        setDelegateValue();
-    }
-
-    private void setDelegateValue() {
-        mDelegate.setValue(mValue);
-        fireParameterChanged();
+        setDelegateValue(mValue);
     }
 }

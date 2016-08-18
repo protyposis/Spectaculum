@@ -54,21 +54,21 @@ public class EquirectangularSphereEffect extends ShaderEffect {
 
         addParameter(new FloatParameter("RotX", -360.0f, 360.0f, mRotX, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mRotX = value;
                 updateRotationMatrix(sphereShader);
             }
         }, "Sets the rotation angle around the X-axis in degrees"));
         addParameter(new FloatParameter("RotY", -360.0f, 360.0f, mRotY, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mRotY = -value; // invert to rotate to the right with a positive value
                 updateRotationMatrix(sphereShader);
             }
         }, "Sets the rotation angle around the Y-axis in degrees"));
         addParameter(new FloatParameter("RotZ", -360.0f, 360.0f, mRotZ, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mRotZ = value;
                 updateRotationMatrix(sphereShader);
             }

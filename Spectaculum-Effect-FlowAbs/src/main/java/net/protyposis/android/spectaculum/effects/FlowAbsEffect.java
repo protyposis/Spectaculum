@@ -83,126 +83,126 @@ public class FlowAbsEffect extends BaseEffect {
 
         addParameter(new FloatParameter("SST Sigma", 0f, 10f, mSstSigma, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mSstSigma = value;
             }
         }));
 
         addParameter(new IntegerParameter("BF N E", 0, 10, mBfNE, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mBfNE = value;
             }
         }));
         addParameter(new IntegerParameter("BF N A", 0, 10, mBfNA, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mBfNA = value;
             }
         }));
         addParameter(new FloatParameter("BF sigmaD", 0f, 10f, mBfSigmaD, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mBfSigmaD = value;
             }
         }));
         addParameter(new FloatParameter("BF sigmaR", 0f, 10f, mBfSigmaR, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mBfSigmaR = value;
             }
         }));
 
         addParameter(new IntegerParameter("(F)DOG Type", 0, 1, mFDogType, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mFDogType = value;
             }
         }));
         addParameter(new IntegerParameter("(F)DOG N", 0, 10, mFDogN, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mFDogN = value;
             }
         }));
         addParameter(new FloatParameter("(F)DOG sigmaE", 0f, 10f, mFDogSigmaE, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mFDogSigmaE = value;
             }
         }));
         addParameter(new FloatParameter("(F)DOG sigmaR", 0f, 10f, mFDogSigmaR, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mFDogSigmaR = value;
             }
         }));
         addParameter(new FloatParameter("FDOG sigmaM", 0f, 10f, mFDogSigmaM, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mFDogSigmaM = value;
             }
         }));
         addParameter(new FloatParameter("(F)DOG tau", 0f, 10f, mFDogTau, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mFDogTau = value;
             }
         }));
         addParameter(new FloatParameter("(F)DOG phi", 0f, 10f, mFDogPhi, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mFDogPhi = value;
             }
         }));
 
         addParameter(new IntegerParameter("CQ Filter", 0, 2, mCqFilter, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mCqFilter = value;
             }
         }));
         addParameter(new IntegerParameter("CQ Bins", 0, 20, mCqNumBins, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mCqNumBins = value;
             }
         }));
         addParameter(new FloatParameter("CQ phiQ", 0f, 10f, mCqPhiQ, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mCqPhiQ = value;
             }
         }));
 
         addParameter(new FloatParameter("Edge R", 0f, 1f, mEdgeColor[0], new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mEdgeColor[0] = value;
             }
         }));
         addParameter(new FloatParameter("Edge G", 0f, 1f, mEdgeColor[1], new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mEdgeColor[1] = value;
             }
         }));
         addParameter(new FloatParameter("Edge B", 0f, 1f, mEdgeColor[2], new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mEdgeColor[2] = value;
             }
         }));
 
         addParameter(new IntegerParameter("FS Type", 0, 3, mFsType, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mFsType = value;
             }
         }));
         addParameter(new FloatParameter("FS Sigma", 0f, 10f, mFsSigma, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mFsSigma = value;
             }
         }));

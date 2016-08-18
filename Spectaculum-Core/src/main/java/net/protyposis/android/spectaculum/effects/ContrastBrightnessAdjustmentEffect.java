@@ -39,14 +39,14 @@ public class ContrastBrightnessAdjustmentEffect extends ShaderEffect {
 
         addParameter(new FloatParameter("Contrast", 0.0f, 5.0f, mContrast, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mContrast = value;
                 adjustmentsShader.setContrast(mContrast);
             }
         }));
         addParameter(new FloatParameter("Brightness", 0.0f, 5.0f, mBrightness, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mBrightness = value;
                 adjustmentsShader.setBrightness(mBrightness);
             }

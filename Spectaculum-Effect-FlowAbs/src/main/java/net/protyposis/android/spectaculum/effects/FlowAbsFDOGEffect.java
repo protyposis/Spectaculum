@@ -48,43 +48,43 @@ public class FlowAbsFDOGEffect extends FlowAbsSubEffect {
 
         addParameter(new FloatParameter("Sigma", 0f, 10f, mSigma, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mSigma = value;
             }
         }));
         addParameter(new IntegerParameter("N", 0, 10, mN, new IntegerParameter.Delegate() {
             @Override
-            public void setValue(int value) {
+            public void setValue(Integer value) {
                 mN = value;
             }
         }));
         addParameter(new FloatParameter("sigmaE", 0f, 10f, mSigmaE, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mSigmaE = value;
             }
         }));
         addParameter(new FloatParameter("sigmaR", 0f, 10f, mSigmaR, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mSigmaR = value;
             }
         }));
         addParameter(new FloatParameter("sigmaM", 0f, 10f, mSigmaM, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mSigmaM = value;
             }
         }));
         addParameter(new FloatParameter("tau", 0f, 10f, mTau, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mTau = value;
             }
         }));
         addParameter(new FloatParameter("phi", 0f, 10f, mPhi, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mPhi = value;
             }
         }));

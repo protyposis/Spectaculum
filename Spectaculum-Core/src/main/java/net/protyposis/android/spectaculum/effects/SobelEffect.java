@@ -46,35 +46,35 @@ public class SobelEffect extends ShaderEffect {
 
         addParameter(new FloatParameter("Low", 0.0f, 1.0f, mLow, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mLow = value;
                 sobelShader.setThreshold(mLow, mHigh);
             }
         }));
         addParameter(new FloatParameter("High", 0.0f, 1.0f, mHigh, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mHigh = value;
                 sobelShader.setThreshold(mLow, mHigh);
             }
         }));
         addParameter(new FloatParameter("Red", 0.0f, 1.0f, mR, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mR = value;
                 sobelShader.setColor(mR, mG, mB);
             }
         }));
         addParameter(new FloatParameter("Green", 0.0f, 1.0f, mG, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mG = value;
                 sobelShader.setColor(mR, mG, mB);
             }
         }));
         addParameter(new FloatParameter("Blue", 0.0f, 1.0f, mB, new FloatParameter.Delegate() {
             @Override
-            public void setValue(float value) {
+            public void setValue(Float value) {
                 mB = value;
                 sobelShader.setColor(mR, mG, mB);
             }
