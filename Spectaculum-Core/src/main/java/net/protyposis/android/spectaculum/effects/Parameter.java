@@ -20,6 +20,7 @@
 package net.protyposis.android.spectaculum.effects;
 
 /**
+ * Interface to a parameter of an effect.
  * Created by maguggen on 21.08.2014.
  */
 public interface Parameter<T> {
@@ -28,24 +29,51 @@ public interface Parameter<T> {
         void setValue(T value);
     }
 
+    /**
+     * Callback interface for parameter events.
+     */
     interface Listener {
+        /**
+         * Gets called when the value of a parameter has changed.
+         * @param parameter the parameter whose value has changed
+         */
         void onParameterChanged(Parameter parameter);
     }
 
+    /**
+     * The value type of a parameter. Used to distinguish parameter objects by their value type.
+     */
     enum Type {
         INTEGER,
         FLOAT,
         ENUM
     }
 
+    /**
+     * Gets the type of the parameter.
+     */
     Type getType();
 
+    /**
+     * Gets the name of the parameter.
+     */
     String getName();
 
+    /**
+     * Gets the description of the parameter. Returns null if no description has been set.
+     */
     String getDescription();
 
+    /**
+     * Resets the parameter to its default value.
+     */
     void reset();
 
+    /**
+     * Sets an event listener to listen for parameter value change events.
+     * @see Listener#onParameterChanged(Parameter)
+     * @param listener the listener to notify of events
+     */
     void setListener(Listener listener);
 
     /**
