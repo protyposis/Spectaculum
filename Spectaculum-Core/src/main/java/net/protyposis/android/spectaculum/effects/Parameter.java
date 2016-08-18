@@ -41,20 +41,6 @@ public interface Parameter<T> {
     }
 
     /**
-     * The value type of a parameter. Used to distinguish parameter objects by their value type.
-     */
-    enum Type {
-        INTEGER,
-        FLOAT,
-        ENUM
-    }
-
-    /**
-     * Gets the type of the parameter.
-     */
-    Type getType();
-
-    /**
      * Gets the name of the parameter.
      */
     String getName();

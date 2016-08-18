@@ -75,13 +75,13 @@ public class EffectParameterListAdapter extends BaseAdapter {
         final Parameter parameter = getItem(position);
         View view = convertView;
 
-        if(convertView == null || convertView.getTag() != parameter.getType()) {
-            if(parameter.getType() == Parameter.Type.ENUM) {
+        if(convertView == null || convertView.getTag() != parameter.getClass()) {
+            if(parameter instanceof EnumParameter) {
                 view = mActivity.getLayoutInflater().inflate(R.layout.list_item_parameter_spinner, parent, false);
             } else {
                 view = mActivity.getLayoutInflater().inflate(R.layout.list_item_parameter_seekbar, parent, false);
             }
-            view.setTag(parameter.getType());
+            view.setTag(parameter.getClass());
         }
 
         TextView parameterName = (TextView) view.findViewById(R.id.name);
@@ -100,7 +100,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
         final TextView valueView = (TextView) view.findViewById(R.id.value);
         final Button resetButton = (Button) view.findViewById(R.id.reset);
 
-        if (parameter.getType() == Parameter.Type.INTEGER) {
+        if (parameter instanceof IntegerParameter) {
             final IntegerParameter p = (IntegerParameter) parameter;
             int interval = p.getMax() - p.getMin();
             seekBar.setMax(interval);
@@ -129,7 +129,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
                     seekBar.setProgress(p.getDefault() - p.getMin());
                 }
             });
-        } else if (parameter.getType() == Parameter.Type.FLOAT) {
+        } else if (parameter instanceof FloatParameter) {
             final int precision = 100; // 2 digits after comma
             final FloatParameter p = (FloatParameter) parameter;
             float interval = p.getMax() - p.getMin();
@@ -159,7 +159,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
                     seekBar.setProgress((int) ((p.getDefault() - p.getMin()) * precision));
                 }
             });
-        } else if (parameter.getType() == Parameter.Type.ENUM) {
+        } else if (parameter instanceof EnumParameter) {
             final EnumParameter p = (EnumParameter) parameter;
             final ArrayAdapter<Enum> adapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, p.getEnumValues());
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

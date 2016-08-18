@@ -33,7 +33,7 @@ public class IntegerParameter extends BaseParameter<Integer> {
     private int mValue;
 
     public IntegerParameter(String name, int min, int max, int init, Delegate delegate, String description) {
-        super(name, Type.INTEGER, delegate, description);
+        super(name, delegate, description);
         mMin = min;
         mMax = max;
         mDefault = init;

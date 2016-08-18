@@ -25,25 +25,19 @@ package net.protyposis.android.spectaculum.effects;
 public abstract class BaseParameter<T> implements Parameter<T> {
 
     private String mName;
-    private Type mType;
     private Delegate<T> mDelegate;
     private String mDescription;
     private Listener mListener;
     private ParameterHandler mHandler;
 
-    protected BaseParameter(String name, Type type, Delegate<T> delegate) {
+    protected BaseParameter(String name, Delegate<T> delegate) {
         mName = name;
-        mType = type;
         mDelegate = delegate;
     }
 
-    public BaseParameter(String name, Type type, Delegate<T> delegate, String description) {
-        this(name, type, delegate);
+    public BaseParameter(String name, Delegate<T> delegate, String description) {
+        this(name, delegate);
         this.mDescription = description;
-    }
-
-    public Type getType() {
-        return mType;
     }
 
     public String getName() {

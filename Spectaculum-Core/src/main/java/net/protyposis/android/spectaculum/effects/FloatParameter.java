@@ -33,7 +33,7 @@ public class FloatParameter extends BaseParameter<Float> {
     private float mValue;
 
     public FloatParameter(String name, float min, float max, float init, Delegate delegate, String description) {
-        super(name, Type.FLOAT, delegate, description);
+        super(name, delegate, description);
         mMin = min;
         mMax = max;
         mDefault = init;

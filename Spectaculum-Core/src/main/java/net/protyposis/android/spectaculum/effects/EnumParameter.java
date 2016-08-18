@@ -10,7 +10,7 @@ public class EnumParameter<T extends Enum<T>> extends BaseParameter<T> {
     private T[] mValues;
 
     public EnumParameter(String name, Class<T> enumClass, T init, Delegate<T> delegate, String description) {
-        super(name, Type.ENUM, delegate, description);
+        super(name, delegate, description);
         mDefault = init;
         mValue = init;
 
