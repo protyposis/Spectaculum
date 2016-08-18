@@ -25,6 +25,7 @@ import net.protyposis.android.spectaculum.gles.TextureShaderProgram;
 import net.protyposis.android.spectaculum.gles.TexturedRectangle;
 
 /**
+ * A base class for an effect with a single shader program.
  * Created by Mario on 18.07.2014.
  */
 public abstract class ShaderEffect extends BaseEffect {

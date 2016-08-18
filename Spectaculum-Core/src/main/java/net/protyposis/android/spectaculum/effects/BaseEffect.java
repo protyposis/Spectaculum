@@ -26,6 +26,9 @@ import net.protyposis.android.spectaculum.gles.Framebuffer;
 import net.protyposis.android.spectaculum.gles.Texture2D;
 
 /**
+ * Abstract base class with common functionality that all effect implementations need. use this
+ * class as base to implement advanced effects. For common effects with a single shader, extend
+ * {@link ShaderEffect}.
  * Created by Mario on 18.07.2014.
  */
 abstract class BaseEffect implements Effect, Parameter.Listener {
