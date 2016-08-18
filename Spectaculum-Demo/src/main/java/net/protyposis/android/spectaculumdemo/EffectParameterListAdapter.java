@@ -46,12 +46,12 @@ import net.protyposis.android.spectaculum.effects.Parameter;
 public class EffectParameterListAdapter extends BaseAdapter {
 
     private Activity mActivity;
-    private SpectaculumView mTextureView;
+    private SpectaculumView mSpectaculumView;
     public List<Parameter> mParameters;
 
-    public EffectParameterListAdapter(Activity activity, SpectaculumView textureView, List<Parameter> parameters) {
+    public EffectParameterListAdapter(Activity activity, SpectaculumView spectaculumView, List<Parameter> parameters) {
         mActivity = activity;
-        mTextureView = textureView;
+        mSpectaculumView = spectaculumView;
         mParameters = new ArrayList<>(parameters);
     }
 
@@ -109,7 +109,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     final int value = progress + p.getMin();
-                    mTextureView.queueEvent(new Runnable() {
+                    mSpectaculumView.queueEvent(new Runnable() {
                         @Override
                         public void run() {
                             p.setValue(value);
@@ -144,7 +144,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
                     final float value = (progress / (float) precision) + p.getMin();
-                    mTextureView.queueEvent(new Runnable() {
+                    mSpectaculumView.queueEvent(new Runnable() {
                         @Override
                         public void run() {
                             p.setValue(value);
@@ -178,7 +178,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                    mTextureView.queueEvent(new Runnable() {
+                    mSpectaculumView.queueEvent(new Runnable() {
                         @Override
                         public void run() {
                             p.setValue(p.getEnumValues()[position]);
