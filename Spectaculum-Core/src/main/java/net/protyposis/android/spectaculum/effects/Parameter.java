@@ -22,9 +22,9 @@ package net.protyposis.android.spectaculum.effects;
 /**
  * Created by maguggen on 21.08.2014.
  */
-public abstract class Parameter<T> {
+public interface Parameter<T> {
 
-    public interface Delegate<T> {
+    interface Delegate<T> {
         void setValue(T value);
     }
 
@@ -32,71 +32,21 @@ public abstract class Parameter<T> {
         void onParameterChanged(Parameter parameter);
     }
 
-    public enum Type {
+    enum Type {
         INTEGER,
         FLOAT,
         ENUM
     }
 
-    private String mName;
-    private Type mType;
-    private Delegate<T> mDelegate;
-    private String mDescription;
-    private Listener mListener;
-    private ParameterHandler mHandler;
+    Type getType();
 
-    protected Parameter(String name, Type type, Delegate<T> delegate) {
-        mName = name;
-        mType = type;
-        mDelegate = delegate;
-    }
+    String getName();
 
-    public Parameter(String name, Type type, Delegate<T> delegate, String description) {
-        this(name, type, delegate);
-        this.mDescription = description;
-    }
+    String getDescription();
 
-    public Type getType() {
-        return mType;
-    }
+    void reset();
 
-    public String getName() {
-        return mName;
-    }
-
-    protected Delegate<T> getDelegate() {
-        return mDelegate;
-    }
-
-    public String getDescription() {
-        return mDescription;
-    }
-
-    public abstract void reset();
-
-    public void setListener(Listener listener) {
-        mListener = listener;
-    }
-
-    protected void fireParameterChanged() {
-        if(mListener != null) {
-            mListener.onParameterChanged(this);
-        }
-    }
-
-    protected void setDelegateValue(final T value) {
-        if(mHandler != null) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mDelegate.setValue(value);
-                }
-            });
-        } else {
-            mDelegate.setValue(value);
-        }
-        fireParameterChanged();
-    }
+    void setListener(Listener listener);
 
     /**
      * Sets a ParameterHandler on which parameter value changes will be executed. Parameter values
@@ -105,7 +55,5 @@ public abstract class Parameter<T> {
      * If no handler is set, parameters will be set on the caller thread.
      * @param handler the parameter handler to set, or null to unset
      */
-    public void setHandler(ParameterHandler handler) {
-        mHandler = handler;
-    }
+    void setHandler(ParameterHandler handler);
 }

@@ -22,7 +22,7 @@ package net.protyposis.android.spectaculum.effects;
 /**
  * Created by maguggen on 21.08.2014.
  */
-public class FloatParameter extends Parameter<Float> {
+public class FloatParameter extends BaseParameter<Float> {
 
     public interface Delegate extends Parameter.Delegate<Float> {
     }

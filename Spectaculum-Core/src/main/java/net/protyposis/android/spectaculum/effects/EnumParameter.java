@@ -3,7 +3,7 @@ package net.protyposis.android.spectaculum.effects;
 /**
  * Created by Mario on 16.08.2016.
  */
-public class EnumParameter<T extends Enum<T>> extends Parameter<T> {
+public class EnumParameter<T extends Enum<T>> extends BaseParameter<T> {
 
     private T mDefault;
     private T mValue;

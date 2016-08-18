@@ -22,9 +22,9 @@ package net.protyposis.android.spectaculum.effects;
 /**
  * Created by maguggen on 21.08.2014.
  */
-public class IntegerParameter extends Parameter<Integer> {
+public class IntegerParameter extends BaseParameter<Integer> {
 
-    public interface Delegate extends Parameter.Delegate<Integer> {
+    public interface Delegate extends BaseParameter.Delegate<Integer> {
     }
 
     private int mMin;
