@@ -254,14 +254,15 @@ public class GLRenderer implements GLSurfaceView.Renderer {
                     index, mEffects.size()));
             return;
         }
-        mEffect = mEffects.get(index);
-        if(!mEffect.isInitialized()) {
-            Log.d(TAG, "initializing effect " + mEffect.getName());
-            mEffect.init(mWidth, mHeight);
+        Effect effect = mEffects.get(index); // keep in a local variable until initialized, in case initialization fails
+        if(!effect.isInitialized()) {
+            Log.d(TAG, "initializing effect " + effect.getName());
+            effect.init(mWidth, mHeight);
             if(mOnEffectInitializedListener != null) {
-                mOnEffectInitializedListener.onEffectInitialized(mEffect);
+                mOnEffectInitializedListener.onEffectInitialized(effect);
             }
         }
+        mEffect = effect;
     }
 
     public void saveCurrentFrame(OnFrameCapturedCallback callback) {

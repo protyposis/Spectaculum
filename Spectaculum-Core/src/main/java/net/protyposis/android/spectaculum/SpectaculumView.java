@@ -355,8 +355,14 @@ public class SpectaculumView extends GLSurfaceView implements
         queueEvent(new Runnable() {
             @Override
             public void run() {
-                mRenderer.selectEffect(index);
-                requestRender(GLRenderer.RenderRequest.EFFECT);
+                try {
+                    mRenderer.selectEffect(index);
+                    requestRender(GLRenderer.RenderRequest.EFFECT);
+                } catch (Exception e) {
+                    Log.e(TAG, "Effect loading failed", e);
+                } catch (OutOfMemoryError e) {
+                    Log.e(TAG, "Not enough memory for this effect, try to lower resolution", e);
+                }
             }
         });
     }
