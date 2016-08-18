@@ -48,7 +48,7 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
         mVideoView = (SpectaculumView) findViewById(R.id.spectaculum);
         mVideoView.getInputHolder().addCallback(this);
 
-        initMediaController(mMediaPlayerControl);
+        initMediaController(new ExoPlayerControl());
 
         mSavedInstanceState = savedInstanceState;
     }
@@ -171,7 +171,7 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
         }
     }
 
-    private MediaController.MediaPlayerControl mMediaPlayerControl = new MediaController.MediaPlayerControl() {
+    private class ExoPlayerControl implements MediaController.MediaPlayerControl {
         @Override
         public void start() {
             if (mExoPlayer != null) mExoPlayerControl.start();

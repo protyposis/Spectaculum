@@ -32,7 +32,7 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
         mVideoView = (SpectaculumView) findViewById(R.id.spectaculum);
         mVideoView.getInputHolder().addCallback(this);
 
-        initMediaController(mMediaPlayerControl);
+        initMediaController(new MediaPlayerControl());
 
         mSavedInstanceState = savedInstanceState;
     }
@@ -119,7 +119,7 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
         }
     }
 
-    private MediaController.MediaPlayerControl mMediaPlayerControl = new MediaController.MediaPlayerControl() {
+    private class MediaPlayerControl implements MediaController.MediaPlayerControl {
         @Override
         public void start() {
             if (mMediaPlayer != null) mMediaPlayer.start();
@@ -174,5 +174,5 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
         public int getAudioSessionId() {
             return mMediaPlayer != null ? mMediaPlayer.getAudioSessionId() : 0;
         }
-    };
+    }
 }
