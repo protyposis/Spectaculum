@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.SurfaceHolder;
 
 import net.protyposis.android.spectaculum.effects.Effect;
 import net.protyposis.android.spectaculum.effects.EffectException;
@@ -341,6 +342,15 @@ public class SpectaculumView extends GLSurfaceView implements
      */
     public InputSurfaceHolder getInputHolder() {
         return mInputSurfaceHolder;
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        // Delete the external texture, else it stays in RAM
+        if(getInputHolder().getExternalSurfaceTexture() != null) {
+            getInputHolder().getExternalSurfaceTexture().delete();
+        }
+        super.surfaceDestroyed(holder);
     }
 
     /**
