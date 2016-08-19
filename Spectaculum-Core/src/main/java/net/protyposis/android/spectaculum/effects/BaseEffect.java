@@ -125,4 +125,10 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
             mListener.onEffectChanged(this);
         }
     }
+
+    protected void fireEffectChanged() {
+        if(mListener != null) {
+            mListener.onEffectChanged(this);
+        }
+    }
 }
