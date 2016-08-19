@@ -38,6 +38,7 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
     private boolean mInitialized;
     private Listener mListener;
     private ParameterHandler mParameterHandler;
+    private boolean mBlockEvents;
 
     public BaseEffect(String name) {
         if(name == null) {
@@ -85,7 +86,7 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
         mParameters.add(parameter);
         parameter.setListener(this);
         parameter.setHandler(mParameterHandler);
-        if(mListener != null) {
+        if(!mBlockEvents && mListener != null) {
             mListener.onParameterAdded(this, parameter);
         }
     }
@@ -95,7 +96,7 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
         mParameters.remove(parameter);
         parameter.setListener(null);
         parameter.setHandler(null);
-        if(mListener != null) {
+        if(!mBlockEvents && mListener != null) {
             mListener.onParameterRemoved(this, parameter);
         }
     }
@@ -130,5 +131,9 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
         if(mListener != null) {
             mListener.onEffectChanged(this);
         }
+    }
+
+    protected void setEventBlocking(boolean blockEvents) {
+        mBlockEvents = blockEvents;
     }
 }

@@ -44,10 +44,18 @@ public abstract class ShaderEffect extends BaseEffect {
 
     public void init(int width, int height) {
         getParameters().clear();
+
+        /* Block events while initializing effect to avoid parameter added events
+         * (they should only be fired after construction/initialization) */
+        // TODO deliver the events on the UI thread
+        setEventBlocking(true);
         mShaderProgram = initShaderProgram();
         mShaderProgram.setTextureSize(width, height);
+        setEventBlocking(false);
+
         mTexturedRectangle = new TexturedRectangle();
         mTexturedRectangle.reset();
+
         setInitialized();
     }
 
