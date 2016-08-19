@@ -32,6 +32,7 @@ import java.util.List;
 
 import net.protyposis.android.spectaculum.SpectaculumView;
 import net.protyposis.android.spectaculum.effects.Parameter;
+import net.protyposis.android.spectaculum.effects.SensorRotationNavigation;
 import net.protyposis.android.spectaculum.effects.ContrastBrightnessAdjustmentEffect;
 import net.protyposis.android.spectaculum.effects.EffectException;
 import net.protyposis.android.spectaculum.effects.FlowAbsSubEffect;
@@ -67,6 +68,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
     private SpectaculumView mSpectaculumView;
     private List<Effect> mEffects;
     private Effect mSelectedEffect;
+    private SensorRotationNavigation mSensorRotationNavigation;
 
     public EffectManager(Activity activity, int parameterListViewId, SpectaculumView glView) {
         mActivity = activity;
@@ -127,6 +129,12 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         if(mSelectedEffect != null) {
             // Remove listener from previously selected effect
             mSelectedEffect.setListener(null);
+
+            if(mSelectedEffect instanceof EquirectangularSphereEffect && mSensorRotationNavigation != null) {
+                mSensorRotationNavigation.deactivate();
+                mSensorRotationNavigation.detach();
+                mSensorRotationNavigation = null;
+            }
         }
         Effect effect = mEffects.get(index);
         if(effect instanceof FlowAbsEffect || effect instanceof FlowAbsSubEffect) {
@@ -193,6 +201,18 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         }
     }
 
+    public void onPause() {
+        if(mSensorRotationNavigation != null) {
+            mSensorRotationNavigation.deactivate();
+        }
+    }
+
+    public void onResume() {
+        if(mSensorRotationNavigation != null) {
+            mSensorRotationNavigation.activate();
+        }
+    }
+
     @Override
     public void onEffectInitialized(int index, final Effect effect) {
         // nothing to do here
@@ -202,6 +222,16 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
     public void onEffectSelected(int index, Effect effect) {
         effect.setListener(this); // add listener so callback below get called
         viewEffectParameters(getSelectedEffect());
+
+        if(effect instanceof EquirectangularSphereEffect && mSensorRotationNavigation == null) {
+            try {
+                mSensorRotationNavigation = new SensorRotationNavigation(mActivity);
+                mSensorRotationNavigation.attachTo((EquirectangularSphereEffect) effect);
+                mSensorRotationNavigation.activate();
+            } catch (Exception e) {
+                Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override

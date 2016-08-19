@@ -144,6 +144,8 @@ public abstract class SpectaculumDemoBaseActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
+        mEffectManager.onPause();
+
         // Spectaculum must be paused when activity pauses to suspend the rendering thread
         mSpectaculumView.onPause();
     }
@@ -151,6 +153,8 @@ public abstract class SpectaculumDemoBaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        mEffectManager.onResume();
 
         // Spectaculum must be resumed when activity resumes to resume the rendering thread
         mSpectaculumView.onResume();
