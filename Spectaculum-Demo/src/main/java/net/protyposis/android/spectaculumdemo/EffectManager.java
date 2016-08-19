@@ -124,6 +124,10 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
     }
 
     public boolean selectEffect(int index) {
+        if(mSelectedEffect != null) {
+            // Remove listener from previously selected effect
+            mSelectedEffect.setListener(null);
+        }
         Effect effect = mEffects.get(index);
         if(effect instanceof FlowAbsEffect || effect instanceof FlowAbsSubEffect) {
             if(GLUtils.HAS_GPU_TEGRA) {
@@ -196,6 +200,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
 
     @Override
     public void onEffectSelected(int index, Effect effect) {
+        effect.setListener(this); // add listener so callback below get called
         viewEffectParameters(getSelectedEffect());
     }
 
@@ -212,17 +217,27 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
 
     @Override
     public void onEffectChanged(Effect effect) {
+        /*
+         *Because we set this class as the event listener for effects, we overwrite SpectaculumView's
+         * internal event listener and must forward the calls to the view. This is true for all following
+         * event listener methods.
+         * TODO find a solution, maybe permit a list of event listeners on effects? what would be the performance implication?
+         */
         mSpectaculumView.onEffectChanged(effect);
     }
 
     @Override
     public void onParameterAdded(Effect effect, Parameter parameter) {
+        mSpectaculumView.onParameterAdded(effect, parameter); // see onEffectChanged
+
         // refresh the parameter control panel
         viewEffectParameters(getSelectedEffect());
     }
 
     @Override
     public void onParameterRemoved(Effect effect, Parameter parameter) {
+        mSpectaculumView.onParameterAdded(effect, parameter); // see onEffectChanged
+
         // refresh the parameter control panel
         viewEffectParameters(getSelectedEffect());
     }
