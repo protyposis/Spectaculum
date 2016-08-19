@@ -56,6 +56,12 @@ public class ExternalSurfaceTexture extends Texture implements SurfaceTexture.On
         mSurfaceTexture.setOnFrameAvailableListener(this);
     }
 
+    @Override
+    public void delete() {
+        mSurfaceTexture.release();
+        GLES20.glDeleteTextures(1, new int[] { mTexture }, 0);
+    }
+
     public SurfaceTexture getSurfaceTexture() {
         return mSurfaceTexture;
     }

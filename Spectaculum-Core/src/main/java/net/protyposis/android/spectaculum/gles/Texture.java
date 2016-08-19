@@ -41,4 +41,6 @@ public abstract class Texture {
     public float[] getTransformMatrix() {
         return mTransformMatrix;
     }
+
+    public abstract void delete();
 }

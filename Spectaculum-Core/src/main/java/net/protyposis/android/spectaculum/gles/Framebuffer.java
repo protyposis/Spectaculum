@@ -65,6 +65,17 @@ public class Framebuffer {
         return mTargetTexture;
     }
 
+    public void delete() {
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFramebuffer);
+        // Detach texture from framebuffer
+        GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0,
+                GLES20.GL_TEXTURE_2D, 0, 0);
+        // Delete texture
+        mTargetTexture.delete();
+        // Delete framebuffer
+        GLES20.glDeleteFramebuffers(1, new int[] { mFramebuffer }, 0);
+    }
+
     private void checkFramebufferStatus() {
         int status = GLES20.glCheckFramebufferStatus(GLES20.GL_FRAMEBUFFER);
         if(status != GLES20.GL_FRAMEBUFFER_COMPLETE) {

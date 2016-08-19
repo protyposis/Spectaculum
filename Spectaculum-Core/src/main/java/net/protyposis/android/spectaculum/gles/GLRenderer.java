@@ -119,6 +119,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     private OnExternalSurfaceTextureCreatedListener mOnExternalSurfaceTextureCreatedListener;
     private EffectEventListener mEffectEventListener;
     private FrameRateCalculator mFrameRateCalculator;
+    private boolean mInitializeStuff;
 
     public GLRenderer() {
         Log.d(TAG, "ctor");
@@ -155,6 +156,11 @@ public class GLRenderer implements GLSurfaceView.Renderer {
                 0.0f, 0.0f, 0.0f,  // look x,y,z
                 0.0f, 1.0f, 0.0f);  // up x,y,z
 
+        if(mExternalSurfaceTexture != null) {
+            // Delete input texture from previous context to free RAM
+            mExternalSurfaceTexture.delete();
+        }
+
         mExternalSurfaceTexture = new ExternalSurfaceTexture();
         mReadExternalTextureShaderProgram = new ReadExternalTextureShaderProgram();
 
@@ -167,23 +173,35 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         }
 
         mFrameRateCalculator = new FrameRateCalculator(30);
+
+        mInitializeStuff = true;
     }
 
     @Override
     public void onSurfaceChanged(GL10 glUnused, int width, int height) {
         Log.d(TAG, "onSurfaceChanged " + width + "x" + height);
 
-        mFramebufferIn = new Framebuffer(width, height);
-        mFramebufferOut = new Framebuffer(width, height);
-        mFramebufferOut.getTexture().setFilterMode(-1, GLES20.GL_LINEAR);
+        // Initialize stuff in the following block only if the surface was just created or the resolution has changed
+        if(mInitializeStuff || mWidth != width || mHeight != height) {
+            if(mFramebufferIn != null) {
+                mFramebufferIn.delete();
+                mFramebufferOut.delete();
+            }
 
-        for(Effect effect : mEffects) {
+            mFramebufferIn = new Framebuffer(width, height);
+            mFramebufferOut = new Framebuffer(width, height);
+            mFramebufferOut.getTexture().setFilterMode(-1, GLES20.GL_LINEAR);
+
+            for (Effect effect : mEffects) {
             /* After a surface change, if the resolution has changed, effects need to be
              * reinitialized to update them to the new resolution. */
-            if(effect.isInitialized()) {
-                Log.d(TAG, "reinitializing effect " + effect.getName());
-                effect.init(width, height);
+                if (effect.isInitialized()) {
+                    Log.d(TAG, "reinitializing effect " + effect.getName());
+                    effect.init(width, height);
+                }
             }
+
+            mInitializeStuff = false;
         }
 
         // adjust the viewport to the surface size

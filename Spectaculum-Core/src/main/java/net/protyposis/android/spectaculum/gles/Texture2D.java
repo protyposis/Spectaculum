@@ -81,6 +81,11 @@ public class Texture2D extends Texture {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
     }
 
+    @Override
+    public void delete() {
+        GLES20.glDeleteTextures(1, new int[] { mTexture }, 0);
+    }
+
     public static Texture2D generateFloatTexture(int width, int height) {
         if(GLUtils.HAS_GLES30 && GLUtils.HAS_GL_OES_texture_half_float && GLUtils.HAS_FLOAT_FRAMEBUFFER_SUPPORT) {
             return new Texture2D(GLES30.GL_RGBA16F, GLES20.GL_RGBA, width, height, GLES20.GL_FLOAT, null);
