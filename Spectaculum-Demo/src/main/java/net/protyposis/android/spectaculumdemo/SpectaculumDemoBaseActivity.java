@@ -2,8 +2,10 @@ package net.protyposis.android.spectaculumdemo;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -20,6 +22,8 @@ import net.protyposis.android.spectaculum.SpectaculumView;
  * Created by Mario on 17.08.2016.
  */
 public abstract class SpectaculumDemoBaseActivity extends Activity {
+
+    private static final String TAG = SpectaculumDemoBaseActivity.class.getSimpleName();
 
     private Uri mMediaUri;
     private SpectaculumView mSpectaculumView;
@@ -153,6 +157,13 @@ public abstract class SpectaculumDemoBaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Log RAM state
+        ActivityManager activityManager = (ActivityManager) getSystemService(Activity.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        activityManager.getMemoryInfo(memoryInfo);
+        Log.d(TAG, "Memory (available/total/low): " + (memoryInfo.availMem / 1024 / 1024) + "/"
+                + (memoryInfo.totalMem / 1024 / 1024) + "/" + memoryInfo.lowMemory);
 
         mEffectManager.onResume();
 
