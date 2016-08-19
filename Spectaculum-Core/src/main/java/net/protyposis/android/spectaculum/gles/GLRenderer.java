@@ -144,7 +144,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
         Log.d(TAG, "onSurfaceCreated");
         GLUtils.init();
-        GLUtils.printSysConfig();
+        //GLUtils.printSysConfig();
 
         // set the background color
         GLES20.glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
