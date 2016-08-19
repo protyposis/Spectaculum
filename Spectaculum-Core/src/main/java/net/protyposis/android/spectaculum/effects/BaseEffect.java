@@ -76,11 +76,28 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
         }
     }
 
+    protected ParameterHandler getParameterHandler() {
+        return mParameterHandler;
+    }
+
     @Override
     public void addParameter(Parameter parameter) {
         mParameters.add(parameter);
         parameter.setListener(this);
         parameter.setHandler(mParameterHandler);
+        if(mListener != null) {
+            mListener.onParameterAdded(this, parameter);
+        }
+    }
+
+    @Override
+    public void removeParameter(Parameter parameter) {
+        mParameters.remove(parameter);
+        parameter.setListener(null);
+        parameter.setHandler(null);
+        if(mListener != null) {
+            mListener.onParameterRemoved(this, parameter);
+        }
     }
 
     @Override

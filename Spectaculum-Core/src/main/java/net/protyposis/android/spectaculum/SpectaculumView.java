@@ -32,6 +32,7 @@ import android.view.ScaleGestureDetector;
 
 import net.protyposis.android.spectaculum.effects.Effect;
 import net.protyposis.android.spectaculum.effects.EffectException;
+import net.protyposis.android.spectaculum.effects.Parameter;
 import net.protyposis.android.spectaculum.effects.ParameterHandler;
 import net.protyposis.android.spectaculum.gles.*;
 
@@ -433,10 +434,35 @@ public class SpectaculumView extends GLSurfaceView implements
      * Gets called when a parameter of an effect has changed. This method then triggers a fresh
      * rendering of the effect. Can be overridden in subclasses but must be called through.
      * @param effect the effect of which a parameter value has changed
+     * @see net.protyposis.android.spectaculum.effects.Effect.Listener
      */
     @Override
     public void onEffectChanged(Effect effect) {
         requestRender(GLRenderer.RenderRequest.EFFECT);
+    }
+
+    /**
+     * Gets called when a parameter is added to an effect.
+     * Can be overridden in subclasses but must be called through.
+     * @param effect the effect to which a parameter was added
+     * @param parameter the added parameter
+     * @see net.protyposis.android.spectaculum.effects.Effect.Listener
+     */
+    @Override
+    public void onParameterAdded(Effect effect, Parameter parameter) {
+        // nothing to do here
+    }
+
+    /**
+     * Gets called when a parameter is removed from an effect.
+     * Can be overridden in subclasses but must be called through.
+     * @param effect the effect from which a parameter was removed
+     * @param parameter the removed parameter
+     * @see net.protyposis.android.spectaculum.effects.Effect.Listener
+     */
+    @Override
+    public void onParameterRemoved(Effect effect, Parameter parameter) {
+        // nothing to do here
     }
 
     /**

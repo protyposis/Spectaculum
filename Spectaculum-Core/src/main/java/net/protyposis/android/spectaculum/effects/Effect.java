@@ -39,6 +39,20 @@ public interface Effect {
          * @param effect the effect whose parameter has changed
          */
         void onEffectChanged(Effect effect);
+
+        /**
+         * Gets called when a parameter is added to an effect.
+         * @param effect the effect to which the parameter was added
+         * @param parameter the added parameter
+         */
+        void onParameterAdded(Effect effect, Parameter parameter);
+
+        /**
+         * Gets called when a parameter is removed from an effect.
+         * @param effect the effect from which the parameter was removed
+         * @param parameter the removed parameter
+         */
+        void onParameterRemoved(Effect effect, Parameter parameter);
     }
 
     /**
@@ -82,10 +96,19 @@ public interface Effect {
 
     /**
      * Adds a parameter to the effect. Parameters can be used to parameterize parameters of the effect :)
+     * Triggers {@link Listener#onParameterAdded(Effect, Parameter)} on an attached listener.
      * @see Parameter
-     * @param param the parameter to add
+     * @param parameter the parameter to add
      */
-    void addParameter(Parameter param);
+    void addParameter(Parameter parameter);
+
+    /**
+     * Removes a parameter from the effect.
+     * Triggers {@link Listener#onParameterRemoved(Effect, Parameter)} on an attached listener.
+     * @see Parameter
+     * @param parameter the parameter to remove
+     */
+    void removeParameter(Parameter parameter);
 
     /**
      * Gets a list of available parameters of the effect.

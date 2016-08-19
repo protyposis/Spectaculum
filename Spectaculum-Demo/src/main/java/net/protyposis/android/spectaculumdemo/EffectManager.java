@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.protyposis.android.spectaculum.SpectaculumView;
+import net.protyposis.android.spectaculum.effects.Parameter;
 import net.protyposis.android.spectaculum.effects.ContrastBrightnessAdjustmentEffect;
 import net.protyposis.android.spectaculum.effects.EffectException;
 import net.protyposis.android.spectaculum.effects.FlowAbsSubEffect;
@@ -57,7 +58,7 @@ import net.protyposis.android.spectaculum.effects.EquirectangularSphereEffect;
  * Provides a list of effects for the actionbar and displays a parameter control panel for
  * selected effects with parameters that the demo user can player play with.
  */
-public class EffectManager implements SpectaculumView.EffectEventListener {
+public class EffectManager implements SpectaculumView.EffectEventListener, Effect.Listener {
 
     private Activity mActivity;
     private ViewGroup mParameterListView;
@@ -207,5 +208,22 @@ public class EffectManager implements SpectaculumView.EffectEventListener {
             Toast.makeText(mActivity, "EffectException: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         selectEffect(0); // select the NoEffect to get rid of the parameter control panel of the failed effect
+    }
+
+    @Override
+    public void onEffectChanged(Effect effect) {
+        mSpectaculumView.onEffectChanged(effect);
+    }
+
+    @Override
+    public void onParameterAdded(Effect effect, Parameter parameter) {
+        // refresh the parameter control panel
+        viewEffectParameters(getSelectedEffect());
+    }
+
+    @Override
+    public void onParameterRemoved(Effect effect, Parameter parameter) {
+        // refresh the parameter control panel
+        viewEffectParameters(getSelectedEffect());
     }
 }
