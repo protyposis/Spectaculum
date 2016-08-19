@@ -228,8 +228,8 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        super.surfaceDestroyed(holder);
         release();
+        super.surfaceDestroyed(holder);
     }
 
     @Override
