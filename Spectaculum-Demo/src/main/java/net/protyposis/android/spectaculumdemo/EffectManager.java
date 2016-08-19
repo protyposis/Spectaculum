@@ -53,7 +53,9 @@ import net.protyposis.android.spectaculum.effects.EquirectangularSphereEffect;
 /**
  * Created by Mario on 18.07.2014.
  *
- * Helper class for easy effect handling in the Spectaculum views.
+ * Helper class for easy effect handling in the various Spectaculum views in this demo.
+ * Provides a list of effects for the actionbar and displays a parameter control panel for
+ * selected effects with parameters that the demo user can player play with.
  */
 public class EffectManager implements SpectaculumView.EffectEventListener {
 
