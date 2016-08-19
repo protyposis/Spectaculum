@@ -158,7 +158,6 @@ public class EffectManager implements SpectaculumView.EffectEventListener {
 
     public boolean doMenuActions(MenuItem item) {
         if(doMenuActionEffect(item)) {
-            viewEffectParameters(getSelectedEffect());
             return true;
         } else if(item.getItemId() == R.id.action_toggle_parameters) {
             mParameterListView.setVisibility(mParameterListView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
@@ -189,17 +188,12 @@ public class EffectManager implements SpectaculumView.EffectEventListener {
 
     @Override
     public void onEffectInitialized(int index, final Effect effect) {
-        /* When an effect is chosen for the first time, it gets initialized in the GL renderer. Some
-         * effects also declare their effects in the initialization routine, opposed to the constructor,
-         * in which case they are not immediately available at the first selection. In this case,
-         * the GL renderer fires this event and the parameters can be queried again.
-         */
-         viewEffectParameters(effect);
+        // nothing to do here
     }
 
     @Override
     public void onEffectSelected(int index, Effect effect) {
-
+        viewEffectParameters(getSelectedEffect());
     }
 
     @Override
