@@ -61,18 +61,6 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer vp) {
-                if (position > 0) {
-                    mVideoView.seekTo(position);
-                } else {
-                    mVideoView.seekTo(0); // display first frame
-                }
-
-                mVideoView.setPlaybackSpeed(speed);
-
-                if (playback) {
-                    mVideoView.start();
-                }
-
                 hideProgressIndicator();
                 getMediaControllerWidget().setEnabled(true);
             }
@@ -102,6 +90,10 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
         });
         mVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-mediaplayerextended"));
         mVideoView.setVideoSource(new UriSource(this, uri));
+        mVideoView.seekTo(position > 0 ? position : 0);
+        if (playback) {
+            mVideoView.start();
+        }
     }
 
     @Override

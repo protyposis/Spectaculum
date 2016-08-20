@@ -121,14 +121,6 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                 if(playbackState == ExoPlayer.STATE_READY && waitingForFirstOnPrepared[0]) {
-                    if (position > 0) {
-                        mExoPlayerControl.seekTo(position);
-                    }
-
-                    if (playback) {
-                        mExoPlayerControl.start();
-                    }
-
                     hideProgressIndicator();
                     getMediaControllerWidget().setEnabled(true);
 
@@ -151,6 +143,10 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
                 getMediaControllerWidget().setEnabled(false);
             }
         });
+        mExoPlayer.seekTo(position > 0 ? position : 0);
+        if (playback) {
+            mExoPlayerControl.start();
+        }
 
         mVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-exoplayerview"));
     }
