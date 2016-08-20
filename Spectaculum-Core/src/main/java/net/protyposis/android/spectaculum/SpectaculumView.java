@@ -570,6 +570,11 @@ public class SpectaculumView extends GLSurfaceView implements
      * @param height the height of the input image data
      */
     public void updateResolution(int width, int height) {
+        if(width == mImageWidth && height == mImageHeight) {
+            // Don't do anything if resolution has stayed the same
+            return;
+        }
+
         mImageWidth = width;
         mImageHeight = height;
 
