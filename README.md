@@ -50,7 +50,8 @@ Usage
 
 Include `net.protyposis.android.spectaculum.SpectaculumView` into your layout, get a reference,
 and attach a listener to the `InputSurfaceHolder` to get a reference to the `Surface` and `SurfaceTexture`.
-They can then be passed to any component that draws onto them. Call `onPause` and `onResume` from the equivalent activity lifecycle methods. That's all.
+They can then be passed to any component that draws onto them. Call `onPause` and `onResume`
+from the equivalent activity lifecycle methods. That's all.
 
 ```java
 // Get reference to the Spectaculum view
@@ -70,7 +71,8 @@ spectaculum.getInputHolder().addCallback(new InputSurfaceHolder.Callback() {
 
 For self-contained subclasses that handle the drawing on their own, see the  [modules](#modules) below.
 
-**Important**: `SpectaculumView` needs to receive the `onPause`/`onResume` lifecycle events from the activity it is part of:
+**Important**: `SpectaculumView` needs to receive the `onPause`/`onResume` lifecycle events
+from the activity it is part of:
 
 ```java
 public class SpectaculumActivity extends Activity {
@@ -265,4 +267,5 @@ License
 -------
 
 Copyright (C) 2014, 2015, 2016 Mario Guggenberger <mg@protyposis.net>.
-Released under the Apache 2.0 license, except for `Spectaculum-Effect-FlowAbs` which is licensed under the GPLv3. Documentation and artwork licensed under CC BY-SA 4.0.
+Released under the Apache 2.0 license, except for `Spectaculum-Effect-FlowAbs` which is licensed under the GPLv3.
+Documentation and artwork licensed under CC BY-SA 4.0.
