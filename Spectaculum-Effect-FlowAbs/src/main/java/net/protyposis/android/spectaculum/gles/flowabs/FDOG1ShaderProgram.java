@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2014 Mario Guggenberger <mg@protyposis.net>
  *
- * This file is part of MediaPlayer-Extended.
+ * This file is part of Spectaculum-Effect-FlowAbs.
  *
  * MediaPlayer-Extended is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
