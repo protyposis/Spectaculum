@@ -246,7 +246,7 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         components.put("Spectaculum-Effect-Immersive", net.protyposis.android.spectaculum.gles.immersive.BuildConfig.class);
         components.put("Spectaculum-Effect-FlowAbs", net.protyposis.android.spectaculum.gles.flowabs.BuildConfig.class);
         components.put("Spectaculum-Effect-QrMarker", net.protyposis.android.spectaculum.gles.qrmarker.BuildConfig.class);
-        components.put("MediaPlayer", net.protyposis.android.mediaplayer.BuildConfig.class);
+        components.put("MediaPlayer-Extended", net.protyposis.android.mediaplayer.BuildConfig.class);
 
         Iterator<String> componentIterator = components.keySet().iterator();
         while(componentIterator.hasNext()) {

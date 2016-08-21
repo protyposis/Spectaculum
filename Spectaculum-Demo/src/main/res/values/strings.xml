@@ -29,7 +29,7 @@
     <string name="effects">Effects</string>
     <string name="parameter_reset_short">RST</string>
     <string name="description_headline">Welcome to the Spectaculum Library Showcase!</string>
-    <string name="description_text">This technical demo shows the key features of the library in a very simple app and serves as a reference on how to use the components in Java code. This app is not intended to be used as a picture editor or video player application by end users. The library sources and a detailed description are available at the following link:</string>
+    <string name="description_text">This technical demo shows key features and usage examples of the library in a very simple app and serves as a reference on how to use the components in Java code. This app is not intended to be used as a picture viewer or video player application by end users. The library is available at the following link:</string>
     <string name="library_url">https://github.com/protyposis/Spectaculum</string>
     <string name="uri_missing">no file selected</string>
     <string name="feature_videoview">Android API: VideoView</string>
@@ -37,7 +37,7 @@
     <string name="feature_mediaplayerextended">MediaPlayer-Extended</string>
     <string name="feature_exoplayer">ExoPlayer</string>
     <string name="feature_camera">Camera</string>
-    <string name="copyright_notice">Copyright © 2014–2016 Mario Guggenberger. Published under the GPLv3. http://www.gnu.org/licenses/gpl-3.0</string>
+    <string name="copyright_notice">Copyright © 2014–2016 Mario Guggenberger. Released under the Apache 2.0 license. http://www.apache.org/licenses/LICENSE-2.0</string>
     <string name="open_source_licenses">Open Source Licenses</string>
     <string name="action_halfspeed">0.5x Speed</string>
     <string name="action_doublespeed">2.0x Speed</string>
