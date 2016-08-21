@@ -102,6 +102,7 @@ public class SpectaculumView extends GLSurfaceView implements
         setEGLContextClientVersion(2);
         setRenderer(mRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        // TODO setPreserveEGLContextOnPause(true);
 
         mScaleGestureDetector = new ScaleGestureDetector(context,
                 new ScaleGestureDetector.SimpleOnScaleGestureListener() {
