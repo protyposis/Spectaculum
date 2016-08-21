@@ -58,6 +58,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
     private MediaPlayer mPlayer;
     private int mSeekWhenPrepared;
     private float mPlaybackSpeedWhenPrepared;
+    private InputSurfaceHolder mInputSurfaceHolder;
 
     private MediaPlayer.OnPreparedListener mOnPreparedListener;
     private MediaPlayer.OnSeekListener mOnSeekListener;
@@ -120,7 +121,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
     }
 
     private void openVideo() {
-        if (mSource == null || getInputHolder().getSurface() == null) {
+        if (mSource == null || mInputSurfaceHolder == null) {
             // not ready for playback yet, will be called again later
             return;
         }
@@ -180,9 +181,30 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
         }).start();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        /*
+         * When the activity goes into the background, {@link #surfaceDestroyed} is not always
+         * called. So when the activity comes back and the player in this view is set up again,
+         * the old invalid surface is still here because it takes a while until the new surface
+         * arrives through {@link #onInputSurfaceCreated}. Setting the player up with the old
+         * invalid surface results in an error, and must be avoided.
+         * Unfortunately, there is no way to figure out if the surface is an old one from an
+         * old EGL context, so this is an UGLY HACK where the just throw away the previous
+         * surface on pause and hope that a new surface is always passed in even when the old
+         * one isn't destroyed.
+         * TODO avoid this HACK and find a better solution to this problem here
+         */
+        mInputSurfaceHolder = null;
+
+        // TODO solve surface/mediacodec problems so the player can continue playback while activity is paused
+        mPlayer.release();
+    }
+
     private void release() {
         if(mPlayer != null) {
-            mPlayer.reset();
             mPlayer.release();
             mPlayer = null;
         }
@@ -258,12 +280,14 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     @Override
     public void onInputSurfaceCreated(InputSurfaceHolder inputSurfaceHolder) {
+        mInputSurfaceHolder = inputSurfaceHolder;
         openVideo();
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         release();
+        mInputSurfaceHolder = null;
         super.surfaceDestroyed(holder);
     }
 

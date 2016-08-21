@@ -143,16 +143,21 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
     }
 
     @Override
+    protected void onPause() {
+        // Get current player state before pausing because the MPXVideoView cannot keep its state through a pause
+        mVideoPosition = mVideoView.getCurrentPosition();
+        mVideoPlaybackSpeed = mVideoView.getPlaybackSpeed();
+        mVideoPlaying = mVideoView.isPlaying();
+        // Call pause of superclass which pauses the video view
+        super.onPause();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (mVideoView != null) {
-            mVideoPosition = mVideoView.getCurrentPosition();
-            mVideoPlaybackSpeed = mVideoView.getPlaybackSpeed();
-            mVideoPlaying = mVideoView.isPlaying();
-            // the uri is stored in the base activity
-            outState.putInt("position", mVideoPosition);
-            outState.putFloat("playbackSpeed", mVideoView.getPlaybackSpeed());
-            outState.putBoolean("playing", mVideoPlaying);
-        }
+        // the uri is stored in the base activity
+        outState.putInt("position", mVideoPosition);
+        outState.putFloat("playbackSpeed", mVideoView.getPlaybackSpeed());
+        outState.putBoolean("playing", mVideoPlaying);
     }
 }
