@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+
 import net.protyposis.android.spectaculum.VideoView;
 
 /**
@@ -78,14 +80,17 @@ public class VideoViewActivity extends SpectaculumDemoBaseActivity {
     }
 
     @Override
+    protected void onPause() {
+        mVideoPosition = mVideoView.getCurrentPosition();
+        mVideoPlaying = mVideoView.isPlaying();
+        super.onPause();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(mVideoView != null) {
-            mVideoPosition = mVideoView.getCurrentPosition();
-            mVideoPlaying = mVideoView.isPlaying();
-            // the uri is stored in the base activity
-            outState.putInt("position", mVideoPosition);
-            outState.putBoolean("playing", mVideoPlaying);
-        }
+        // the uri is stored in the base activity
+        outState.putInt("position", mVideoPosition);
+        outState.putBoolean("playing", mVideoPlaying);
     }
 }

@@ -157,6 +157,8 @@ public class VideoView extends SpectaculumView implements
          * TODO avoid this HACK and find a better solution to this problem here
          */
         mInputSurfaceHolder = null;
+
+        release();
     }
 
     private void release() {
