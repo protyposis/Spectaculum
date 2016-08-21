@@ -36,6 +36,11 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
 
     private MediaPlayerExtendedView mVideoView;
 
+    private Uri mVideoUri;
+    private int mVideoPosition;
+    private float mVideoPlaybackSpeed;
+    private boolean mVideoPlaying;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_mediaplayerextendedview);
@@ -44,25 +49,37 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
         mVideoView = (MediaPlayerExtendedView) findViewById(R.id.spectaculum);
         initMediaController(mVideoView);
 
-        if(savedInstanceState != null) {
-            initPlayer((Uri)savedInstanceState.getParcelable("uri"),
-                    savedInstanceState.getInt("position"),
-                    savedInstanceState.getFloat("playbackSpeed", 1.0f),
-                    savedInstanceState.getBoolean("playing")
-            );
-        } else {
-            initPlayer(getIntent().getData(), -1, 1.0f, false);
-        }
+        // Init video playback state (will eventually be overwritten by saved instance state)
+        mVideoUri = getIntent().getData();
+        mVideoPosition = 0;
+        mVideoPlaybackSpeed = 0;
+        mVideoPlaying = false;
     }
 
-    private void initPlayer(Uri uri, final int position, final float speed, final boolean playback) {
-        setMediaUri(uri);
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mVideoUri = savedInstanceState.getParcelable("uri");
+        mVideoPosition = savedInstanceState.getInt("position");
+        mVideoPlaybackSpeed = savedInstanceState.getInt("playbackSpeed");
+        mVideoPlaying = savedInstanceState.getBoolean("playing");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initPlayer();
+    }
+
+    private void initPlayer() {
+        setMediaUri(mVideoUri);
 
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer vp) {
                 hideProgressIndicator();
                 getMediaControllerWidget().setEnabled(true);
+                mVideoView.setPlaybackSpeed(mVideoPlaybackSpeed);
             }
         });
         mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -89,9 +106,9 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
             }
         });
         mVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-mediaplayerextended"));
-        mVideoView.setVideoSource(new UriSource(this, uri));
-        mVideoView.seekTo(position > 0 ? position : 0);
-        if (playback) {
+        mVideoView.setVideoSource(new UriSource(this, mVideoUri));
+        mVideoView.seekTo(mVideoPosition > 0 ? mVideoPosition : 0);
+        if (mVideoPlaying) {
             mVideoView.start();
         }
     }
@@ -128,11 +145,14 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(mVideoView != null) {
+        if (mVideoView != null) {
+            mVideoPosition = mVideoView.getCurrentPosition();
+            mVideoPlaybackSpeed = mVideoView.getPlaybackSpeed();
+            mVideoPlaying = mVideoView.isPlaying();
             // the uri is stored in the base activity
-            outState.putBoolean("playing", mVideoView.isPlaying());
-            outState.putInt("position", mVideoView.getCurrentPosition());
+            outState.putInt("position", mVideoPosition);
             outState.putFloat("playbackSpeed", mVideoView.getPlaybackSpeed());
+            outState.putBoolean("playing", mVideoPlaying);
         }
     }
 }

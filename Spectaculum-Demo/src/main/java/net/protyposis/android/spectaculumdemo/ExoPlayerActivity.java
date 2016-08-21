@@ -36,9 +36,12 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
     private static final String TAG = ExoPlayerActivity.class.getSimpleName();
 
     private SpectaculumView mVideoView;
-    private Bundle mSavedInstanceState;
     private ExoPlayer mExoPlayer;
     private PlayerControl mExoPlayerControl;
+
+    private Uri mVideoUri;
+    private int mVideoPosition;
+    private boolean mVideoPlaying;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +53,24 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
 
         initMediaController(new ExoPlayerControl());
 
-        mSavedInstanceState = savedInstanceState;
+        // Init video playback state (will eventually be overwritten by saved instance state)
+        mVideoUri = getIntent().getData();
+        mVideoPosition = 0;
+        mVideoPlaying = false;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mVideoUri = savedInstanceState.getParcelable("uri");
+        mVideoPosition = savedInstanceState.getInt("position");
+        mVideoPlaying = savedInstanceState.getBoolean("playing");
     }
 
     @Override
     public void surfaceCreated(InputSurfaceHolder holder) {
         try {
-            if (mSavedInstanceState != null) {
-                initPlayer((Uri) mSavedInstanceState.getParcelable("uri"),
-                        mSavedInstanceState.getInt("position"),
-                        mSavedInstanceState.getBoolean("playing")
-                );
-            } else {
-                initPlayer(getIntent().getData(), -1, false);
-            }
+            initPlayer();
         } catch (IOException e) {
             Log.e(TAG, "error initializing player", e);
         }
@@ -71,11 +78,12 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
 
     @Override
     public void surfaceDestroyed(InputSurfaceHolder holder) {
-
+        // Stop playback so no video frames get written to the now invalid surface causing an exception
+        mExoPlayer.stop();
     }
 
-    private void initPlayer(Uri uri, final int position, final boolean playback) throws IOException {
-        setMediaUri(uri);
+    private void initPlayer() throws IOException {
+        setMediaUri(mVideoUri);
         final boolean[] waitingForFirstOnPrepared = {true};
 
         // Set up an ExoPlayer
@@ -86,7 +94,7 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
         Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
         DataSource dataSource = new DefaultUriDataSource(this, "Spectaculum-Demo");
         ExtractorSampleSource sampleSource = new ExtractorSampleSource(
-                uri, dataSource, allocator, BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE);
+                mVideoUri, dataSource, allocator, BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE);
         MediaCodecVideoTrackRenderer.EventListener videoEventListener = new MediaCodecVideoTrackRenderer.EventListener() {
             @Override
             public void onDroppedFrames(int count, long elapsed) {}
@@ -143,8 +151,8 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
                 getMediaControllerWidget().setEnabled(false);
             }
         });
-        mExoPlayer.seekTo(position > 0 ? position : 0);
-        if (playback) {
+        mExoPlayer.seekTo(mVideoPosition > 0 ? mVideoPosition : 0);
+        if (mVideoPlaying) {
             mExoPlayerControl.start();
         }
 
@@ -152,19 +160,21 @@ public class ExoPlayerActivity extends SpectaculumDemoBaseActivity implements
     }
 
     @Override
-    protected void onStop() {
-        mExoPlayer.release();
-        super.onStop();
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mVideoView != null) {
+            mVideoPosition = (int)mExoPlayer.getCurrentPosition();
+            mVideoPlaying = mExoPlayerControl.isPlaying();
             // the uri is stored in the base activity
-            outState.putBoolean("playing", mExoPlayerControl.isPlaying());
-            outState.putInt("position", mExoPlayerControl.getCurrentPosition());
+            outState.putInt("position", mVideoPosition);
+            outState.putBoolean("playing", mVideoPlaying);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        mExoPlayer.release();
+        super.onStop();
     }
 
     private class ExoPlayerControl implements MediaController.MediaPlayerControl {

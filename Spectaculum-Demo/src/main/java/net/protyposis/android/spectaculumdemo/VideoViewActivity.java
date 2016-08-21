@@ -16,6 +16,10 @@ public class VideoViewActivity extends SpectaculumDemoBaseActivity {
 
     private VideoView mVideoView;
 
+    private Uri mVideoUri;
+    private int mVideoPosition;
+    private boolean mVideoPlaying;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_videoview);
@@ -24,18 +28,28 @@ public class VideoViewActivity extends SpectaculumDemoBaseActivity {
         mVideoView = (VideoView) findViewById(R.id.spectaculum);
         initMediaController(mVideoView);
 
-        if(savedInstanceState != null) {
-            initPlayer((Uri)savedInstanceState.getParcelable("uri"),
-                    savedInstanceState.getInt("position"),
-                    savedInstanceState.getBoolean("playing")
-            );
-        } else {
-            initPlayer(getIntent().getData(), -1, false);
-        }
+        // Init video playback state (will eventually be overwritten by saved instance state)
+        mVideoUri = getIntent().getData();
+        mVideoPosition = 0;
+        mVideoPlaying = false;
     }
 
-    private void initPlayer(Uri uri, final int position, final boolean playback) {
-        setMediaUri(uri);
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mVideoUri = savedInstanceState.getParcelable("uri");
+        mVideoPosition = savedInstanceState.getInt("position");
+        mVideoPlaying = savedInstanceState.getBoolean("playing");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initPlayer();
+    }
+
+    private void initPlayer() {
+        setMediaUri(mVideoUri);
 
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -56,9 +70,9 @@ public class VideoViewActivity extends SpectaculumDemoBaseActivity {
             }
         });
         mVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-androidvideoview"));
-        mVideoView.setVideoURI(uri);
-        mVideoView.seekTo(position > 0 ? position : 0);
-        if (playback) {
+        mVideoView.setVideoURI(mVideoUri);
+        mVideoView.seekTo(mVideoPosition > 0 ? mVideoPosition : 0);
+        if (mVideoPlaying) {
             mVideoView.start();
         }
     }
@@ -67,9 +81,11 @@ public class VideoViewActivity extends SpectaculumDemoBaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if(mVideoView != null) {
+            mVideoPosition = mVideoView.getCurrentPosition();
+            mVideoPlaying = mVideoView.isPlaying();
             // the uri is stored in the base activity
-            outState.putBoolean("playing", mVideoView.isPlaying());
-            outState.putInt("position", mVideoView.getCurrentPosition());
+            outState.putInt("position", mVideoPosition);
+            outState.putBoolean("playing", mVideoPlaying);
         }
     }
 }

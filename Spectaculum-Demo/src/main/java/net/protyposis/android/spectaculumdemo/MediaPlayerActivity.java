@@ -21,8 +21,11 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
     private static final String TAG = MediaPlayerActivity.class.getSimpleName();
 
     private SpectaculumView mVideoView;
-    private Bundle mSavedInstanceState;
     private MediaPlayer mMediaPlayer;
+
+    private Uri mVideoUri;
+    private int mVideoPosition;
+    private boolean mVideoPlaying;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +37,24 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
 
         initMediaController(new MediaPlayerControl());
 
-        mSavedInstanceState = savedInstanceState;
+        // Init video playback state (will eventually be overwritten by saved instance state)
+        mVideoUri = getIntent().getData();
+        mVideoPosition = 0;
+        mVideoPlaying = false;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mVideoUri = savedInstanceState.getParcelable("uri");
+        mVideoPosition = savedInstanceState.getInt("position");
+        mVideoPlaying = savedInstanceState.getBoolean("playing");
     }
 
     @Override
     public void surfaceCreated(InputSurfaceHolder holder) {
         try {
-            if (mSavedInstanceState != null) {
-                initPlayer((Uri) mSavedInstanceState.getParcelable("uri"),
-                        mSavedInstanceState.getInt("position"),
-                        mSavedInstanceState.getBoolean("playing")
-                );
-            } else {
-                initPlayer(getIntent().getData(), -1, false);
-            }
+            initPlayer();
         } catch (IOException e) {
             Log.e(TAG, "error initializing player", e);
         }
@@ -57,21 +64,17 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
     public void surfaceDestroyed(InputSurfaceHolder holder) {
     }
 
-    private void initPlayer(Uri uri, final int position, final boolean playback) throws IOException {
-        setMediaUri(uri);
+    private void initPlayer() throws IOException {
+        setMediaUri(mVideoUri);
 
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setSurface(mVideoView.getInputHolder().getSurface());
         mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer vp) {
-                if (position > 0) {
-                    mMediaPlayer.seekTo(position);
-                } else {
-                    mMediaPlayer.seekTo(0); // display first frame
-                }
+                mMediaPlayer.seekTo(mVideoPosition);
 
-                if (playback) {
+                if (mVideoPlaying) {
                     mMediaPlayer.start();
                 }
 
@@ -97,26 +100,28 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
                 mVideoView.requestLayout();
             }
         });
-        mMediaPlayer.setDataSource(this, uri);
+        mMediaPlayer.setDataSource(this, mVideoUri);
         mMediaPlayer.prepareAsync();
 
         mVideoView.setOnFrameCapturedCallback(new Utils.OnFrameCapturedCallback(this, "spectaculum-mediaplayerview"));
     }
 
     @Override
-    protected void onStop() {
-        mMediaPlayer.release();
-        super.onStop();
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mVideoView != null) {
+            mVideoPosition = mMediaPlayer.getCurrentPosition();
+            mVideoPlaying = mMediaPlayer.isPlaying();
             // the uri is stored in the base activity
-            outState.putBoolean("playing", mMediaPlayer.isPlaying());
-            outState.putInt("position", mMediaPlayer.getCurrentPosition());
+            outState.putInt("position", mVideoPosition);
+            outState.putBoolean("playing", mVideoPlaying);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        mMediaPlayer.release();
+        super.onStop();
     }
 
     private class MediaPlayerControl implements MediaController.MediaPlayerControl {
