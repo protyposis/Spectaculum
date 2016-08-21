@@ -349,6 +349,7 @@ public class SpectaculumView extends GLSurfaceView implements
         // Delete the external texture, else it stays in RAM
         if(getInputHolder().getExternalSurfaceTexture() != null) {
             getInputHolder().getExternalSurfaceTexture().delete();
+            getInputHolder().update(null);
         }
         super.surfaceDestroyed(holder);
     }

@@ -44,6 +44,17 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     private static final String TAG = MediaPlayerExtendedView.class.getSimpleName();
 
+    private static final int STATE_ERROR              = -1;
+    private static final int STATE_IDLE               = 0;
+    private static final int STATE_PREPARING          = 1;
+    private static final int STATE_PREPARED           = 2;
+    private static final int STATE_PLAYING            = 3;
+    private static final int STATE_PAUSED             = 4;
+    private static final int STATE_PLAYBACK_COMPLETED = 5;
+
+    private int mCurrentState = STATE_IDLE;
+    private int mTargetState  = STATE_IDLE;
+
     private MediaSource mSource;
     private MediaPlayer mPlayer;
     private int mSeekWhenPrepared;
@@ -72,6 +83,8 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
     }
 
     public void setVideoSource(MediaSource source) {
+        mCurrentState = STATE_IDLE;
+        mTargetState = STATE_IDLE;
         mSource = source;
         mSeekWhenPrepared = 0;
         openVideo();
@@ -128,6 +141,8 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
         final Handler exceptionHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
+                mCurrentState = STATE_ERROR;
+                mTargetState = STATE_ERROR;
                 mErrorListener.onError(mPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
                 return true;
             }
@@ -151,6 +166,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
                     // when it fails, and to stay in sync which the Android VideoView that does
                     // the same.
                     mPlayer.prepareAsync();
+                    mCurrentState = STATE_PREPARING;
 
                     Log.d(TAG, "video opened");
                 } catch (IOException e) {
@@ -166,6 +182,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     private void release() {
         if(mPlayer != null) {
+            mPlayer.reset();
             mPlayer.release();
             mPlayer = null;
         }
@@ -198,19 +215,30 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     @Override
     public void start() {
-        mPlayer.start();
-        stayAwake(true);
+        if(isInPlaybackState()) {
+            mPlayer.start();
+            stayAwake(true);
+        } else {
+            mTargetState = STATE_PLAYING;
+        }
     }
 
     @Override
     public void pause() {
-        mPlayer.pause();
-        stayAwake(false);
+        if(isInPlaybackState()) {
+            mPlayer.pause();
+            stayAwake(false);
+        }
+        mTargetState = STATE_PAUSED;
     }
 
     public void stopPlayback() {
-        mPlayer.stop();
-        stayAwake(false);
+        if(mPlayer != null) {
+            mPlayer.stop();
+            stayAwake(false);
+            mCurrentState = STATE_IDLE;
+            mTargetState = STATE_IDLE;
+        }
     }
 
     public void setPlaybackSpeed(float speed) {
@@ -244,7 +272,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
 
     @Override
     public void seekTo(int msec) {
-        if(mPlayer != null) {
+        if(isInPlaybackState()) {
             mPlayer.seekTo(msec);
             mSeekWhenPrepared = 0;
         } else {
@@ -301,10 +329,16 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
         }
     }
 
+    private boolean isInPlaybackState() {
+        return mPlayer != null && mCurrentState >= STATE_PREPARING;
+    }
+
     private MediaPlayer.OnPreparedListener mPreparedListener =
             new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
+            mCurrentState = STATE_PREPARED;
+
             if(mOnPreparedListener != null) {
                 mOnPreparedListener.onPrepared(mp);
             }
@@ -312,6 +346,10 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
             int seekToPosition = mSeekWhenPrepared;  // mSeekWhenPrepared may be changed after seekTo() call
             if (seekToPosition != 0) {
                 seekTo(seekToPosition);
+            }
+
+            if(mTargetState == STATE_PLAYING) {
+                start();
             }
         }
     };
@@ -347,6 +385,8 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
             new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
+            mCurrentState = STATE_PLAYBACK_COMPLETED;
+            mTargetState = STATE_PLAYBACK_COMPLETED;
             if(mOnCompletionListener != null) {
                 mOnCompletionListener.onCompletion(mp);
             }
@@ -358,6 +398,8 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
             new MediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
+            mCurrentState = STATE_ERROR;
+            mTargetState = STATE_ERROR;
             if(mOnErrorListener != null) {
                 return mOnErrorListener.onError(mp, what, extra);
             }

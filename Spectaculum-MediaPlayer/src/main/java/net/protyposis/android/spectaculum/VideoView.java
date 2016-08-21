@@ -22,15 +22,12 @@ package net.protyposis.android.spectaculum;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.widget.MediaController;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -45,9 +42,21 @@ public class VideoView extends SpectaculumView implements
 
     private static final String TAG = VideoView.class.getSimpleName();
 
+    private static final int STATE_ERROR              = -1;
+    private static final int STATE_IDLE               = 0;
+    private static final int STATE_PREPARING          = 1;
+    private static final int STATE_PREPARED           = 2;
+    private static final int STATE_PLAYING            = 3;
+    private static final int STATE_PAUSED             = 4;
+    private static final int STATE_PLAYBACK_COMPLETED = 5;
+
+    private int mCurrentState = STATE_IDLE;
+    private int mTargetState  = STATE_IDLE;
+
     private MediaPlayer mPlayer;
     private int mSeekWhenPrepared;
     private int mCurrentBufferPercentage;
+    private InputSurfaceHolder mInputSurfaceHolder;
 
     private MediaPlayer.OnPreparedListener mOnPreparedListener;
     private MediaPlayer.OnSeekCompleteListener mOnSeekCompleteListener;
@@ -92,6 +101,8 @@ public class VideoView extends SpectaculumView implements
      * @see android.widget.VideoView#setVideoURI(android.net.Uri, Map)
      */
     public void setVideoURI(Uri uri, Map<String, String> headers) {
+        mCurrentState = STATE_IDLE;
+        mTargetState = STATE_IDLE;
         mUri = uri;
         mHeaders = headers;
         mSeekWhenPrepared = 0;
@@ -101,66 +112,57 @@ public class VideoView extends SpectaculumView implements
     }
 
     private void openVideo() {
-        if (mUri == null || getInputHolder().getSurface() == null) {
+        if (mUri == null || mInputSurfaceHolder == null) {
             // not ready for playback yet, will be called again later
             return;
         }
 
         release();
 
-        mPlayer = new MediaPlayer();
-        mPlayer.setSurface(getInputHolder().getSurface());
-        mPlayer.setOnPreparedListener(mPreparedListener);
-        mPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
-        mPlayer.setOnSeekCompleteListener(mSeekCompleteListener);
-        mPlayer.setOnCompletionListener(mCompletionListener);
-        mPlayer.setOnErrorListener(mErrorListener);
-        mPlayer.setOnInfoListener(mInfoListener);
-        mPlayer.setOnBufferingUpdateListener(mBufferingUpdateListener);
-        mCurrentBufferPercentage = 0;
+        try {
+            mPlayer = new MediaPlayer();
+            mPlayer.setSurface(getInputHolder().getSurface());
+            mPlayer.setOnPreparedListener(mPreparedListener);
+            mPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
+            mPlayer.setOnSeekCompleteListener(mSeekCompleteListener);
+            mPlayer.setOnCompletionListener(mCompletionListener);
+            mPlayer.setOnErrorListener(mErrorListener);
+            mPlayer.setOnInfoListener(mInfoListener);
+            mPlayer.setOnBufferingUpdateListener(mBufferingUpdateListener);
+            mCurrentBufferPercentage = 0;
+            mPlayer.setDataSource(getContext(), mUri, mHeaders);
+            mCurrentState = STATE_PREPARING;
+            mPlayer.prepareAsync();
+        } catch (Exception e) {
+            Log.e(TAG, "video open failed", e);
+            mCurrentState = STATE_ERROR;
+            mTargetState = STATE_ERROR;
+            mErrorListener.onError(mPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
+        }
+    }
 
-        // Create a handler for the error message in case an exceptions happens in the following thread
-        final Handler exceptionHandler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                mErrorListener.onError(mPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-                return true;
-            }
-        });
+    @Override
+    public void onPause() {
+        super.onPause();
 
-        // Set the data source asynchronously as this might take a while, e.g. is data has to be
-        // requested from the network/internet.
-        // IMPORTANT:
-        // We use a Thread instead of an AsyncTask for performance reasons, because threads started
-        // in an AsyncTask perform much worse, no matter the priority the Thread gets (unless the
-        // AsyncTask's priority is elevated before creating the Thread).
-        // See comment in MediaPlayer#prepareAsync for detailed explanation.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mPlayer.setDataSource(getContext(), mUri, mHeaders);
-
-                    // Async prepare spawns another thread inside this thread which really isn't
-                    // necessary; we call this method anyway because of the events it triggers
-                    // when it fails, and to stay in sync which the Android VideoView that does
-                    // the same.
-                    mPlayer.prepareAsync();
-
-                    Log.d(TAG, "video opened");
-                } catch (IOException e) {
-                    Log.e(TAG, "video open failed", e);
-
-                    // Send message to the handler that an error occurred
-                    // (we don't need a message id as the handler only handles this single message)
-                    exceptionHandler.sendEmptyMessage(0);
-                }
-            }
-        }).start();
+        /*
+         * When the activity goes into the background, {@link #surfaceDestroyed} is not always
+         * called. So when the activity comes back and the player in this view is set up again,
+         * the old invalid surface is still here because it takes a while until the new surface
+         * arrives through {@link #onInputSurfaceCreated}. Setting the player up with the old
+         * invalid surface results in an error, and must be avoided.
+         * Unfortunately, there is no way to figure out if the surface is an old one from an
+         * old EGL context, so this is an UGLY HACK where the just throw away the previous
+         * surface on pause and hope that a new surface is always passed in even when the old
+         * one isn't destroyed.
+         * TODO avoid this HACK and find a better solution to this problem here
+         */
+        mInputSurfaceHolder = null;
     }
 
     private void release() {
         if(mPlayer != null) {
+            mPlayer.reset();
             mPlayer.release();
             mPlayer = null;
         }
@@ -189,23 +191,41 @@ public class VideoView extends SpectaculumView implements
 
     @Override
     public void start() {
-        mPlayer.start();
-        stayAwake(true);
+        if(isInPlaybackState()) {
+            mPlayer.start();
+            stayAwake(true);
+        } else {
+            mTargetState = STATE_PLAYING;
+        }
     }
 
     @Override
     public void pause() {
-        mPlayer.pause();
-        stayAwake(false);
+        if(isInPlaybackState()) {
+            mPlayer.pause();
+            stayAwake(false);
+        }
+        mTargetState = STATE_PAUSED;
     }
 
     public void stopPlayback() {
-        mPlayer.stop();
-        stayAwake(false);
+        if(mPlayer != null) {
+            mPlayer.stop();
+            stayAwake(false);
+            mCurrentState = STATE_IDLE;
+            mTargetState = STATE_IDLE;
+        }
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        Log.d(TAG, "surfaceCreated");
+        super.surfaceCreated(holder);
     }
 
     @Override
     public void onInputSurfaceCreated(InputSurfaceHolder inputSurfaceHolder) {
+        mInputSurfaceHolder = inputSurfaceHolder;
         openVideo();
     }
 
@@ -227,7 +247,7 @@ public class VideoView extends SpectaculumView implements
 
     @Override
     public void seekTo(int msec) {
-        if(mPlayer != null) {
+        if(isInPlaybackState()) {
             mPlayer.seekTo(msec);
             mSeekWhenPrepared = 0;
         } else {
@@ -276,10 +296,16 @@ public class VideoView extends SpectaculumView implements
         }
     }
 
+    private boolean isInPlaybackState() {
+        return mPlayer != null && mCurrentState >= STATE_PREPARING;
+    }
+
     private MediaPlayer.OnPreparedListener mPreparedListener =
             new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
+            mCurrentState = STATE_PREPARED;
+
             if(mOnPreparedListener != null) {
                 mOnPreparedListener.onPrepared(mp);
             }
@@ -287,6 +313,10 @@ public class VideoView extends SpectaculumView implements
             int seekToPosition = mSeekWhenPrepared;  // mSeekWhenPrepared may be changed after seekTo() call
             if (seekToPosition != 0) {
                 seekTo(seekToPosition);
+            }
+
+            if(mTargetState == STATE_PLAYING) {
+                start();
             }
         }
     };
@@ -313,6 +343,8 @@ public class VideoView extends SpectaculumView implements
             new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
+            mCurrentState = STATE_PLAYBACK_COMPLETED;
+            mTargetState = STATE_PLAYBACK_COMPLETED;
             if(mOnCompletionListener != null) {
                 mOnCompletionListener.onCompletion(mp);
             }
@@ -324,6 +356,8 @@ public class VideoView extends SpectaculumView implements
             new MediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
+            mCurrentState = STATE_ERROR;
+            mTargetState = STATE_ERROR;
             if(mOnErrorListener != null) {
                 return mOnErrorListener.onError(mp, what, extra);
             }
