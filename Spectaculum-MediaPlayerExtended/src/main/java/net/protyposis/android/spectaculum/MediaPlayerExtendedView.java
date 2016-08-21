@@ -200,7 +200,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
         mInputSurfaceHolder = null;
 
         // TODO solve surface/mediacodec problems so the player can continue playback while activity is paused
-        mPlayer.release();
+        release();
     }
 
     private void release() {
