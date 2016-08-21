@@ -33,7 +33,7 @@ public class SensorRotationNavigation implements SensorEventListener {
 
     private Context mContext;
     private EquirectangularSphereEffect mEffect;
-    private IntegerParameter mParameter;
+    private BooleanParameter mParameter;
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private boolean mActive;
@@ -55,15 +55,15 @@ public class SensorRotationNavigation implements SensorEventListener {
         final Handler h = new Handler();
 
         // Create an effect parameter to toggle the sensor navigation on/off
-        mParameter = new IntegerParameter("SensorNav", 0, 1, 0, new IntegerParameter.Delegate() {
+        mParameter = new BooleanParameter("SensorNav", false, new BooleanParameter.Delegate() {
             @Override
-            public void setValue(final Integer value) {
+            public void setValue(final Boolean value) {
                 // Activate/deactivate on UI thread
                 // Parameters are usually set on the GL thread, so we need to transfer this back to the UI thread
                 h.post(new Runnable() {
                     @Override
                     public void run() {
-                        mActive = (value == 1);
+                        mActive = value;
                         if(mActive) {
                             activate();
                         } else {

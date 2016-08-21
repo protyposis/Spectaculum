@@ -23,6 +23,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.protyposis.android.spectaculum.SpectaculumView;
+import net.protyposis.android.spectaculum.effects.BooleanParameter;
 import net.protyposis.android.spectaculum.effects.EnumParameter;
 import net.protyposis.android.spectaculum.effects.FloatParameter;
 import net.protyposis.android.spectaculum.effects.IntegerParameter;
@@ -75,6 +78,8 @@ public class EffectParameterListAdapter extends BaseAdapter {
         if(convertView == null || convertView.getTag() != parameter.getClass()) {
             if(parameter instanceof EnumParameter) {
                 view = mActivity.getLayoutInflater().inflate(R.layout.list_item_parameter_spinner, parent, false);
+            } else if(parameter instanceof BooleanParameter) {
+                view = mActivity.getLayoutInflater().inflate(R.layout.list_item_parameter_checkbox, parent, false);
             } else {
                 view = mActivity.getLayoutInflater().inflate(R.layout.list_item_parameter_seekbar, parent, false);
             }
@@ -94,6 +99,7 @@ public class EffectParameterListAdapter extends BaseAdapter {
 
         final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
         final Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
+        final CheckBox checkbox = (CheckBox) view.findViewById(R.id.checkbox);
         final TextView valueView = (TextView) view.findViewById(R.id.value);
         final Button resetButton = (Button) view.findViewById(R.id.reset);
 
@@ -176,6 +182,21 @@ public class EffectParameterListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     spinner.setSelection(adapter.getPosition(p.getDefault()));
+                }
+            });
+        } else if (parameter instanceof BooleanParameter) {
+            final BooleanParameter p = (BooleanParameter) parameter;
+            checkbox.setChecked(p.getValue());
+            checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    p.setValue(isChecked);
+                }
+            });
+            resetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkbox.setChecked(p.getDefault());
                 }
             });
         }
