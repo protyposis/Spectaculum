@@ -63,7 +63,9 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
     @Override
     public void surfaceDestroyed(InputSurfaceHolder holder) {
         // Stop playback so no video frames get written to the now invalid surface causing an exception
-        mMediaPlayer.stop();
+        if(mMediaPlayer != null) {
+            mMediaPlayer.stop();
+        }
     }
 
     private void initPlayer() throws IOException {
@@ -123,6 +125,7 @@ public class MediaPlayerActivity extends SpectaculumDemoBaseActivity implements
     @Override
     protected void onStop() {
         mMediaPlayer.release();
+        mMediaPlayer = null;
         super.onStop();
     }
 
