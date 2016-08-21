@@ -57,6 +57,7 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
     private MediaSource mSource;
     private MediaPlayer mPlayer;
     private int mSeekWhenPrepared;
+    private float mPlaybackSpeedWhenPrepared;
 
     private MediaPlayer.OnPreparedListener mOnPreparedListener;
     private MediaPlayer.OnSeekListener mOnSeekListener;
@@ -241,11 +242,18 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
     }
 
     public void setPlaybackSpeed(float speed) {
-        mPlayer.setPlaybackSpeed(speed);
+        if(isInPlaybackState()) {
+            mPlayer.setPlaybackSpeed(speed);
+        }
+        mPlaybackSpeedWhenPrepared = speed;
     }
 
     public float getPlaybackSpeed() {
-        return mPlayer.getPlaybackSpeed();
+        if(isInPlaybackState()) {
+            return mPlayer.getPlaybackSpeed();
+        } else {
+            return mPlaybackSpeedWhenPrepared;
+        }
     }
 
     @Override
@@ -337,6 +345,8 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
         @Override
         public void onPrepared(MediaPlayer mp) {
             mCurrentState = STATE_PREPARED;
+
+            setPlaybackSpeed(mPlaybackSpeedWhenPrepared);
 
             if(mOnPreparedListener != null) {
                 mOnPreparedListener.onPrepared(mp);
