@@ -52,7 +52,7 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
         // Init video playback state (will eventually be overwritten by saved instance state)
         mVideoUri = getIntent().getData();
         mVideoPosition = 0;
-        mVideoPlaybackSpeed = 0;
+        mVideoPlaybackSpeed = 1;
         mVideoPlaying = false;
     }
 
