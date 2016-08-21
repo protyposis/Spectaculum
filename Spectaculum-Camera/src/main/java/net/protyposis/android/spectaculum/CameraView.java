@@ -133,16 +133,17 @@ public class CameraView extends SpectaculumView {
                 mCamera.setPreviewTexture(getInputHolder().getSurfaceTexture());
                 mCamera.startPreview();
 
+                int width, height;
                 if(result == 0 || result == 180) {
-                    mImageWidth = mCamera.getParameters().getPreviewSize().width;
-                    mImageHeight = mCamera.getParameters().getPreviewSize().height;
+                    width = mCamera.getParameters().getPreviewSize().width;
+                    height = mCamera.getParameters().getPreviewSize().height;
                 } else {
                     // swap width/height in portrait mode for a correct aspect ratio
-                    mImageHeight = mCamera.getParameters().getPreviewSize().width;
-                    mImageWidth = mCamera.getParameters().getPreviewSize().height;
+                    height = mCamera.getParameters().getPreviewSize().width;
+                    width = mCamera.getParameters().getPreviewSize().height;
                 }
 
-                updateResolution(mImageWidth, mImageHeight);
+                updateResolution(width, height);
             }
         } catch (IOException e) {
             e.printStackTrace();
