@@ -61,7 +61,7 @@ public class MediaPlayerExtendedViewActivity extends SpectaculumDemoBaseActivity
         super.onRestoreInstanceState(savedInstanceState);
         mVideoUri = savedInstanceState.getParcelable("uri");
         mVideoPosition = savedInstanceState.getInt("position");
-        mVideoPlaybackSpeed = savedInstanceState.getInt("playbackSpeed");
+        mVideoPlaybackSpeed = savedInstanceState.getFloat("playbackSpeed");
         mVideoPlaying = savedInstanceState.getBoolean("playing");
     }
 
