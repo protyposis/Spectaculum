@@ -26,7 +26,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.widget.MediaController;
-import android.widget.Toast;
 
 import java.util.Map;
 
@@ -361,9 +360,6 @@ public class VideoView extends SpectaculumView implements
             if(mOnErrorListener != null) {
                 return mOnErrorListener.onError(mp, what, extra);
             }
-
-            Toast.makeText(getContext(), "Cannot play the video", Toast.LENGTH_LONG).show();
-
             return true;
         }
     };

@@ -27,7 +27,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.widget.MediaController;
-import android.widget.Toast;
 
 import net.protyposis.android.mediaplayer.MediaPlayer;
 import net.protyposis.android.mediaplayer.MediaSource;
@@ -403,9 +402,6 @@ public class MediaPlayerExtendedView extends SpectaculumView implements
             if(mOnErrorListener != null) {
                 return mOnErrorListener.onError(mp, what, extra);
             }
-
-            Toast.makeText(getContext(), "Cannot play the video", Toast.LENGTH_LONG).show();
-
             return true;
         }
     };
