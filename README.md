@@ -132,8 +132,9 @@ an effect consists of 3 components: a fragment shader (and optionally a vertex s
 `ShaderProgram` or almost always a `TextureShaderProgram`, and the `ShaderEffect`. The `ShaderEffect`
 implements the `initShaderProgram()` method and initializes the `ShaderProgram` with a shader file (or string)
 and sets up optional parameters.
-Examples simple effects are the `SimpleToonEffect` (most basic effect without parameters)
-and `ContrastBrightnessAdjustmentEffect` (basic effect with parameters).
+Simple example effects are the `SimpleToonEffect` (most basic effect without parameters)
+and `ContrastBrightnessAdjustmentEffect` (basic effect with parameters). The demo code also contains
+an example called `ColorFilterEffect`.
 
 Parameters can be added in the constructor or `initShaderProgram()`, depending on the use case.
 A user of the effect can query the parameters at runtime and change them dynamically. For example,
