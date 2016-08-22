@@ -4,7 +4,7 @@ Spectaculum
 ===========
 
 Spectaculum (*lat.* spectacle, show, sight) is a hardware accelerated view for visual
-content on Android, from single pictures to 360° VR video.
+content on Android, supporting everything from single pictures to 360° VR video.
 It works with all sources that can write to a `Surface` or `SurfaceTexture`, e.g.
 [MediaPlayer](https://developer.android.com/reference/android/media/MediaPlayer.html),
 [MediaPlayer-Extended](https://github.com/protyposis/MediaPlayer-Extended),
