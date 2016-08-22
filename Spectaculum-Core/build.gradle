@@ -30,7 +30,7 @@ publish {
     publishVersion = libraryVersionString()
     desc = 'A spectacular view widget for visual media content on Android'
     website = 'https://github.com/protyposis/Spectaculum'
-    licences = ['GPL-3.0']
+    licences = ['Apache-2.0']
 }
 
 //apply from: "../gitversioning.gradle"

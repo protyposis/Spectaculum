@@ -32,7 +32,7 @@ publish {
     publishVersion = libraryVersionString()
     desc = 'MediaPlayer-Extended support for Spectaculum'
     website = 'https://github.com/protyposis/Spectaculum'
-    licences = ['GPL-3.0']
+    licences = ['Apache-2.0']
 }
 
 //apply from: "../gitversioning.gradle"
