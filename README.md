@@ -170,7 +170,7 @@ out how to map the sensor coordinate system. Any help is appreciated!
 
 Release builds of the library are available in the
 [JCenter](https://bintray.com/bintray/jcenter) Maven repository. Available versions are listed
-in the [changelog](#changelog) or the [Bintray repository](https://bintray.com/protyposis/maven/spectaculum).
+in the [changelog](#changelog) or the [Bintray repository](https://bintray.com/protyposis/maven/Spectaculum).
 
     repositories {
         ...
@@ -223,23 +223,23 @@ with enhanced functionality (playback speed adjustment, frame-exact seek, DASH p
 
 ##### Spectaculum-Effect-Immersive
 
-Adds the `EquirectangularSphereEffect` for 360°/VR/3D content as described [above](#360-immersive-vr).
+Adds the `EquirectangularSphereEffect` for 360°/VR/3D content as described [above](#360--immersive--vr).
 
-##### Spectaculum-Effect-FlowAbs ####
+##### Spectaculum-Effect-FlowAbs
 
 This module adds the [FlowAbs](https://code.google.com/p/flowabs/) shader effect and demonstrates
 the possibility to construct and use very elaborate shader effects. It also offers various sub-effects
 that the flowabs-effect is composed of, including (flow-based) difference of Gaussians,
 color quantization and a tangent flow map. This is mostly a technical demo, not for productive use.
 
-##### Spectaculum-Effect-QrMarker ####
+##### Spectaculum-Effect-QrMarker
 
 This module is another example of an effect composed of multiple shaders. It is taken from
 [QrMarker](https://github.com/thHube/QrMarker-ComputerVision) and provides a rather pointless and
 very slow QR marker identification effect, and a nice Canny edge detection effect.
 Again a technical demo, not for productive use.
 
-#### Spectaculum-Demo ####
+##### Spectaculum-Demo
 
 An app that demonstrates all the main functionality of the modules (different views and effects)
 and serves as an example on how they can be used. Also contains example code on how to use
