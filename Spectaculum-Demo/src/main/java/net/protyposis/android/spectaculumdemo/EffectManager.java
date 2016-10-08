@@ -45,6 +45,7 @@ import net.protyposis.android.spectaculum.effects.KernelSharpenEffect;
 import net.protyposis.android.spectaculum.effects.NoEffect;
 import net.protyposis.android.spectaculum.effects.SimpleToonEffect;
 import net.protyposis.android.spectaculum.effects.SobelEffect;
+import net.protyposis.android.spectaculum.effects.TouchNavigation;
 import net.protyposis.android.spectaculum.gles.GLUtils;
 import net.protyposis.android.spectaculumdemo.testeffect.ColorFilterEffect;
 import net.protyposis.android.spectaculum.effects.EquirectangularSphereEffect;
@@ -66,6 +67,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
     private List<Effect> mEffects;
     private Effect mSelectedEffect;
     private SensorRotationNavigation mSensorRotationNavigation;
+    private TouchNavigation mTouchNavigation;
 
     public EffectManager(Activity activity, int parameterListViewId, SpectaculumView glView) {
         mActivity = activity;
@@ -127,10 +129,17 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
             // Remove listener from previously selected effect
             mSelectedEffect.setListener(null);
 
-            if(mSelectedEffect instanceof EquirectangularSphereEffect && mSensorRotationNavigation != null) {
-                mSensorRotationNavigation.deactivate();
-                mSensorRotationNavigation.detach();
-                mSensorRotationNavigation = null;
+            if (mSelectedEffect instanceof EquirectangularSphereEffect) {
+                if (mSensorRotationNavigation != null) {
+                    mSensorRotationNavigation.deactivate();
+                    mSensorRotationNavigation.detach();
+                    mSensorRotationNavigation = null;
+                }
+                if (mTouchNavigation != null) {
+                    mTouchNavigation.deactivate();
+                    mTouchNavigation.detach();
+                    mTouchNavigation = null;
+                }
             }
         }
         Effect effect = mEffects.get(index);
@@ -202,11 +211,17 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         if(mSensorRotationNavigation != null) {
             mSensorRotationNavigation.deactivate();
         }
+        if(mTouchNavigation != null) {
+            mTouchNavigation.deactivate();
+        }
     }
 
     public void onResume() {
         if(mSensorRotationNavigation != null) {
             mSensorRotationNavigation.activate();
+        }
+        if(mTouchNavigation != null) {
+            mTouchNavigation.activate();
         }
     }
 
@@ -220,13 +235,24 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         effect.setListener(this); // add listener so callback below get called
         viewEffectParameters(getSelectedEffect());
 
-        if(effect instanceof EquirectangularSphereEffect && mSensorRotationNavigation == null) {
-            try {
-                mSensorRotationNavigation = new SensorRotationNavigation(mActivity);
-                mSensorRotationNavigation.attachTo((EquirectangularSphereEffect) effect);
-                mSensorRotationNavigation.activate();
-            } catch (Exception e) {
-                Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+        if(effect instanceof EquirectangularSphereEffect) {
+            if(mSensorRotationNavigation == null) {
+                try {
+                    mSensorRotationNavigation = new SensorRotationNavigation(mActivity);
+                    mSensorRotationNavigation.attachTo((EquirectangularSphereEffect) effect);
+                    mSensorRotationNavigation.activate();
+                } catch (Exception e) {
+                    Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+            if(mTouchNavigation == null) {
+                try {
+                    mTouchNavigation = new TouchNavigation(mSpectaculumView);
+                    mTouchNavigation.attachTo((EquirectangularSphereEffect) effect);
+                    mTouchNavigation.activate();
+                } catch (Exception e) {
+                    Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
