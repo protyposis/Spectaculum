@@ -23,6 +23,7 @@ import android.view.View;
 
 import net.protyposis.android.spectaculum.LibraryHelper;
 import net.protyposis.android.spectaculum.SpectaculumView;
+import net.protyposis.android.spectaculum.gles.GLUtils;
 
 /**
  * Created by Mario on 08.10.2016.
@@ -39,6 +40,7 @@ public class TouchNavigation {
     private EquirectangularSphereEffect mEffect;
     private BooleanParameter mParameter;
     private boolean mActive;
+    private float[] mRotationMatrix = new float[16];
 
     public TouchNavigation(SpectaculumView spectaculumView) throws Exception {
         mSpectaculumView = spectaculumView;
@@ -100,8 +102,11 @@ public class TouchNavigation {
     }
 
     private void setRotation(float x, float y) {
-        ((FloatParameter) mEffect.getParameters().get(0)).setValue(x);
-        ((FloatParameter) mEffect.getParameters().get(1)).setValue(y);
+        // Set rotation matrix
+        GLUtils.Matrix.setRotateEulerM(mRotationMatrix, 0, x, y, 0);
+
+        // Update effect and thus the viewport too
+        mEffect.setRotationMatrix(mRotationMatrix);
     }
 
     private View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
@@ -129,7 +134,7 @@ public class TouchNavigation {
             // Apply the panning to the viewport
             // Horizontal panning along the view's X axis translates to a rotation around the viewport's Y axis
             // Vertical panning along the view's Y axis translates to a rotation around the viewport's X axis
-            setRotation(-mPanY, mPanX);
+            setRotation(-mPanY, -mPanX);
             return true;
         }
 
