@@ -27,7 +27,7 @@ import net.protyposis.android.spectaculum.SpectaculumView;
 /**
  * Created by Mario on 08.10.2016.
  */
-public class TouchNavigation implements View.OnTouchListener, GestureDetector.OnGestureListener {
+public class TouchNavigation {
 
     private static final String TAG = TouchNavigation.class.getSimpleName();
 
@@ -47,7 +47,7 @@ public class TouchNavigation implements View.OnTouchListener, GestureDetector.On
             throw new Exception("No Spectaculum view supplied");
         }
 
-        mGestureDetector = new GestureDetector(mSpectaculumView.getContext(), this);
+        mGestureDetector = new GestureDetector(mSpectaculumView.getContext(), mOnGestureListener);
 
         // Make a UI handler for activation state toggling
         final Handler h = new Handler();
@@ -87,7 +87,7 @@ public class TouchNavigation implements View.OnTouchListener, GestureDetector.On
     }
 
     public void activate() {
-        mSpectaculumView.setOnTouchListener(this);
+        mSpectaculumView.setOnTouchListener(mOnTouchListener);
 
         // Store touch enabled state and enable touch which is required for this to work
         mSpectaculumViewTouchEnabled = mSpectaculumView.isTouchEnabled();
@@ -99,54 +99,59 @@ public class TouchNavigation implements View.OnTouchListener, GestureDetector.On
         mSpectaculumView.setTouchEnabled(mSpectaculumViewTouchEnabled);
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return mGestureDetector.onTouchEvent(event);
-    }
+    private View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return mGestureDetector.onTouchEvent(event);
+        }
+    };
 
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
+    private GestureDetector.OnGestureListener mOnGestureListener = new GestureDetector.OnGestureListener() {
 
-    @Override
-    public void onShowPress(MotionEvent e) {
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return false;
+        }
 
-    }
+        @Override
+        public void onShowPress(MotionEvent e) {
 
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
+        }
 
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        // Scale the scroll/panning distance to rotation degrees
-        // The view's with and height are mapped to 180 degree each
-        // TODO map motion event positions from view to the rendered sphere and derive rotation
-        //      angles to keep touchscreen positions and sphere positions in sync
-        mPanX += distanceX / mSpectaculumView.getWidth() * 180f;
-        mPanY += distanceY / mSpectaculumView.getHeight() * 180f;
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            return false;
+        }
 
-        // Clamp horizontal rotation to avoid rotations beyond 90 degree which inverts the vertical
-        // rotation and makes rotation handling more complicated
-        mPanY = LibraryHelper.clamp(mPanY, -90, 90);
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            // Scale the scroll/panning distance to rotation degrees
+            // The view's with and height are mapped to 180 degree each
+            // TODO map motion event positions from view to the rendered sphere and derive rotation
+            //      angles to keep touchscreen positions and sphere positions in sync
+            mPanX += distanceX / mSpectaculumView.getWidth() * 180f;
+            mPanY += distanceY / mSpectaculumView.getHeight() * 180f;
 
-        // Apply the panning to the viewport
-        // Horizontal panning along the view's X axis translates to a rotation around the viewport's Y axis
-        // Vertical panning along the view's Y axis translates to a rotation around the viewport's X axis
-        ((FloatParameter) mEffect.getParameters().get(0)).setValue(-mPanY);
-        ((FloatParameter) mEffect.getParameters().get(1)).setValue(mPanX);
-        return true;
-    }
+            // Clamp horizontal rotation to avoid rotations beyond 90 degree which inverts the vertical
+            // rotation and makes rotation handling more complicated
+            mPanY = LibraryHelper.clamp(mPanY, -90, 90);
 
-    @Override
-    public void onLongPress(MotionEvent e) {
+            // Apply the panning to the viewport
+            // Horizontal panning along the view's X axis translates to a rotation around the viewport's Y axis
+            // Vertical panning along the view's Y axis translates to a rotation around the viewport's X axis
+            ((FloatParameter) mEffect.getParameters().get(0)).setValue(-mPanY);
+            ((FloatParameter) mEffect.getParameters().get(1)).setValue(mPanX);
+            return true;
+        }
 
-    }
+        @Override
+        public void onLongPress(MotionEvent e) {
 
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
-    }
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            return false;
+        }
+    };
 }
