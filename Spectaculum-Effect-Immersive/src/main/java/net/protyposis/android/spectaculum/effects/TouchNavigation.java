@@ -99,6 +99,11 @@ public class TouchNavigation {
         mSpectaculumView.setTouchEnabled(mSpectaculumViewTouchEnabled);
     }
 
+    private void setRotation(float x, float y) {
+        ((FloatParameter) mEffect.getParameters().get(0)).setValue(x);
+        ((FloatParameter) mEffect.getParameters().get(1)).setValue(y);
+    }
+
     private View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -106,22 +111,7 @@ public class TouchNavigation {
         }
     };
 
-    private GestureDetector.OnGestureListener mOnGestureListener = new GestureDetector.OnGestureListener() {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            return false;
-        }
+    private GestureDetector.SimpleOnGestureListener mOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -139,19 +129,17 @@ public class TouchNavigation {
             // Apply the panning to the viewport
             // Horizontal panning along the view's X axis translates to a rotation around the viewport's Y axis
             // Vertical panning along the view's Y axis translates to a rotation around the viewport's X axis
-            ((FloatParameter) mEffect.getParameters().get(0)).setValue(-mPanY);
-            ((FloatParameter) mEffect.getParameters().get(1)).setValue(mPanX);
+            setRotation(-mPanY, mPanX);
             return true;
         }
 
         @Override
-        public void onLongPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            return false;
+        public boolean onDoubleTap(MotionEvent e) {
+            // Reset rotation/viewport to initial value
+            mPanX = 0;
+            mPanY = 0;
+            setRotation(0, 0);
+            return true;
         }
     };
 }
