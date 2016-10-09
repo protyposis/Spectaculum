@@ -237,20 +237,18 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
 
         if(effect instanceof ImmersiveEffect) {
             if(mImmersiveSensorNavigation == null) {
+                // Create sensor navigation instance in a try/catch block because it fails
+                // if no rotation sensor is available.
                 try {
                     mImmersiveSensorNavigation = new ImmersiveSensorNavigation(mActivity);
                     mImmersiveSensorNavigation.attachTo((ImmersiveEffect) effect);
-                } catch (Exception e) {
+                } catch (RuntimeException e) {
                     Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
             if(mImmersiveTouchNavigation == null) {
-                try {
-                    mImmersiveTouchNavigation = new ImmersiveTouchNavigation(mSpectaculumView);
-                    mImmersiveTouchNavigation.attachTo((ImmersiveEffect) effect);
-                } catch (Exception e) {
-                    Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                mImmersiveTouchNavigation = new ImmersiveTouchNavigation(mSpectaculumView);
+                mImmersiveTouchNavigation.attachTo((ImmersiveEffect) effect);
             }
         }
     }

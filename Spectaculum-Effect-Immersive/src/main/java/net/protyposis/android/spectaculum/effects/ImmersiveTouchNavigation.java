@@ -45,14 +45,9 @@ public class ImmersiveTouchNavigation {
     /**
      * Creates a touch navigation instance for the supplied view widget.
      * @param spectaculumView the view widget where the touch gestures should be read from
-     * @throws Exception
      */
-    public ImmersiveTouchNavigation(SpectaculumView spectaculumView) throws Exception {
+    public ImmersiveTouchNavigation(SpectaculumView spectaculumView) {
         mSpectaculumView = spectaculumView;
-
-        if(mSpectaculumView == null) {
-            throw new Exception("No Spectaculum view supplied");
-        }
 
         mGestureDetector = new GestureDetector(mSpectaculumView.getContext(), mOnGestureListener);
 
@@ -83,11 +78,11 @@ public class ImmersiveTouchNavigation {
     /**
      * Attaches to the effect and adds parameter to toggle touch navigation on/off.
      * @param effect the effect to attach touch navigation to
-     * @throws Exception thrown if there is already an effect attached
+     * @throws RuntimeException thrown if there is already an effect attached
      */
-    public void attachTo(ImmersiveEffect effect) throws Exception {
+    public void attachTo(ImmersiveEffect effect) throws RuntimeException {
         if(mEffect != null) {
-            throw new Exception("Previous effect is still attached, call detach() first");
+            throw new RuntimeException("Previous effect is still attached, call detach() first");
         }
         mEffect = effect;
         mEffect.addParameter(mParameter);

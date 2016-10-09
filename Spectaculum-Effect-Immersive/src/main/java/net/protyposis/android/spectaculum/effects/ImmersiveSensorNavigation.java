@@ -40,7 +40,12 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
     private float[] mRotationMatrix = new float[16];
     private float[] mRemappedRotationMatrix = new float[16];
 
-    public ImmersiveSensorNavigation(Context context) throws Exception {
+    /**
+     * Creates a sensor navigation instance for the immersive effect.
+     * @param context context providing the sensor manager
+     * @throws RuntimeException if no rotation sensor is available
+     */
+    public ImmersiveSensorNavigation(Context context) throws RuntimeException {
         mContext = context;
 
         // Get sensor
@@ -48,7 +53,7 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
         if(mSensor == null) {
-            throw new Exception("No rotation sensor available");
+            throw new RuntimeException("No rotation sensor available");
         }
 
         // Make a UI handler for activation state toggling
@@ -78,11 +83,11 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
     /**
      * Attaches to the effect and adds parameter to toggle sensor navigation on/off.
      * @param effect the effect to attach sensor navigation to
-     * @throws Exception thrown if there is already an effect attached
+     * @throws RuntimeException thrown if there is already an effect attached
      */
-    public void attachTo(ImmersiveEffect effect) throws Exception {
+    public void attachTo(ImmersiveEffect effect) throws RuntimeException {
         if(mEffect != null) {
-            throw new Exception("Previous effect is still attached, call detach() first");
+            throw new RuntimeException("Previous effect is still attached, call detach() first");
         }
         mEffect = effect;
         mEffect.addParameter(mParameter);
