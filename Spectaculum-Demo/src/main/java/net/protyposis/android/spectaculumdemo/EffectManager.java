@@ -29,7 +29,7 @@ import java.util.List;
 
 import net.protyposis.android.spectaculum.SpectaculumView;
 import net.protyposis.android.spectaculum.effects.Parameter;
-import net.protyposis.android.spectaculum.effects.SensorRotationNavigation;
+import net.protyposis.android.spectaculum.effects.ImmersiveSensorNavigation;
 import net.protyposis.android.spectaculum.effects.ContrastBrightnessAdjustmentEffect;
 import net.protyposis.android.spectaculum.effects.EffectException;
 import net.protyposis.android.spectaculum.effects.FlowAbsSubEffect;
@@ -45,10 +45,10 @@ import net.protyposis.android.spectaculum.effects.KernelSharpenEffect;
 import net.protyposis.android.spectaculum.effects.NoEffect;
 import net.protyposis.android.spectaculum.effects.SimpleToonEffect;
 import net.protyposis.android.spectaculum.effects.SobelEffect;
-import net.protyposis.android.spectaculum.effects.TouchNavigation;
+import net.protyposis.android.spectaculum.effects.ImmersiveTouchNavigation;
 import net.protyposis.android.spectaculum.gles.GLUtils;
 import net.protyposis.android.spectaculumdemo.testeffect.ColorFilterEffect;
-import net.protyposis.android.spectaculum.effects.EquirectangularSphereEffect;
+import net.protyposis.android.spectaculum.effects.ImmersiveEffect;
 
 /**
  * Created by Mario on 18.07.2014.
@@ -66,8 +66,8 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
     private SpectaculumView mSpectaculumView;
     private List<Effect> mEffects;
     private Effect mSelectedEffect;
-    private SensorRotationNavigation mSensorRotationNavigation;
-    private TouchNavigation mTouchNavigation;
+    private ImmersiveSensorNavigation mImmersiveSensorNavigation;
+    private ImmersiveTouchNavigation mImmersiveTouchNavigation;
 
     public EffectManager(Activity activity, int parameterListViewId, SpectaculumView glView) {
         mActivity = activity;
@@ -92,7 +92,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         mEffects.add(new ColorFilterEffect());
 
         // Immersive filters
-        mEffects.add(new EquirectangularSphereEffect());
+        mEffects.add(new ImmersiveEffect());
 
         // FlowAbs filters
         FlowAbsEffect flowAbsEffect = new FlowAbsEffect();
@@ -129,16 +129,16 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
             // Remove listener from previously selected effect
             mSelectedEffect.setListener(null);
 
-            if (mSelectedEffect instanceof EquirectangularSphereEffect) {
-                if (mSensorRotationNavigation != null) {
-                    mSensorRotationNavigation.deactivate();
-                    mSensorRotationNavigation.detach();
-                    mSensorRotationNavigation = null;
+            if (mSelectedEffect instanceof ImmersiveEffect) {
+                if (mImmersiveSensorNavigation != null) {
+                    mImmersiveSensorNavigation.deactivate();
+                    mImmersiveSensorNavigation.detach();
+                    mImmersiveSensorNavigation = null;
                 }
-                if (mTouchNavigation != null) {
-                    mTouchNavigation.deactivate();
-                    mTouchNavigation.detach();
-                    mTouchNavigation = null;
+                if (mImmersiveTouchNavigation != null) {
+                    mImmersiveTouchNavigation.deactivate();
+                    mImmersiveTouchNavigation.detach();
+                    mImmersiveTouchNavigation = null;
                 }
             }
         }
@@ -208,20 +208,20 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
     }
 
     public void onPause() {
-        if(mSensorRotationNavigation != null) {
-            mSensorRotationNavigation.deactivate();
+        if(mImmersiveSensorNavigation != null) {
+            mImmersiveSensorNavigation.deactivate();
         }
-        if(mTouchNavigation != null) {
-            mTouchNavigation.deactivate();
+        if(mImmersiveTouchNavigation != null) {
+            mImmersiveTouchNavigation.deactivate();
         }
     }
 
     public void onResume() {
-        if(mSensorRotationNavigation != null) {
-            mSensorRotationNavigation.activate();
+        if(mImmersiveSensorNavigation != null) {
+            mImmersiveSensorNavigation.activate();
         }
-        if(mTouchNavigation != null) {
-            mTouchNavigation.activate();
+        if(mImmersiveTouchNavigation != null) {
+            mImmersiveTouchNavigation.activate();
         }
     }
 
@@ -235,21 +235,21 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         effect.setListener(this); // add listener so callback below get called
         viewEffectParameters(getSelectedEffect());
 
-        if(effect instanceof EquirectangularSphereEffect) {
-            if(mSensorRotationNavigation == null) {
+        if(effect instanceof ImmersiveEffect) {
+            if(mImmersiveSensorNavigation == null) {
                 try {
-                    mSensorRotationNavigation = new SensorRotationNavigation(mActivity);
-                    mSensorRotationNavigation.attachTo((EquirectangularSphereEffect) effect);
-                    mSensorRotationNavigation.activate();
+                    mImmersiveSensorNavigation = new ImmersiveSensorNavigation(mActivity);
+                    mImmersiveSensorNavigation.attachTo((ImmersiveEffect) effect);
+                    mImmersiveSensorNavigation.activate();
                 } catch (Exception e) {
                     Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
-            if(mTouchNavigation == null) {
+            if(mImmersiveTouchNavigation == null) {
                 try {
-                    mTouchNavigation = new TouchNavigation(mSpectaculumView);
-                    mTouchNavigation.attachTo((EquirectangularSphereEffect) effect);
-                    mTouchNavigation.activate();
+                    mImmersiveTouchNavigation = new ImmersiveTouchNavigation(mSpectaculumView);
+                    mImmersiveTouchNavigation.attachTo((ImmersiveEffect) effect);
+                    mImmersiveTouchNavigation.activate();
                 } catch (Exception e) {
                     Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                 }

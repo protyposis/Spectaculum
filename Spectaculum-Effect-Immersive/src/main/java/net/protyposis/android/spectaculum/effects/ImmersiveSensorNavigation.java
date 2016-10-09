@@ -27,12 +27,12 @@ import android.util.Log;
 /**
  * Created by Mario on 18.08.2016.
  */
-public class SensorRotationNavigation implements SensorEventListener {
+public class ImmersiveSensorNavigation implements SensorEventListener {
 
-    private static final String TAG = SensorRotationNavigation.class.getSimpleName();
+    private static final String TAG = ImmersiveSensorNavigation.class.getSimpleName();
 
     private Context mContext;
-    private EquirectangularSphereEffect mEffect;
+    private ImmersiveEffect mEffect;
     private BooleanParameter mParameter;
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -40,7 +40,7 @@ public class SensorRotationNavigation implements SensorEventListener {
     private float[] mRotationMatrix = new float[16];
     private float[] mRemappedRotationMatrix = new float[16];
 
-    public SensorRotationNavigation(Context context) throws Exception {
+    public ImmersiveSensorNavigation(Context context) throws Exception {
         mContext = context;
 
         // Get sensor
@@ -80,7 +80,7 @@ public class SensorRotationNavigation implements SensorEventListener {
      * @param effect the effect to attach sensor navigation to
      * @throws Exception thrown if there is already an effect attached
      */
-    public void attachTo(EquirectangularSphereEffect effect) throws Exception {
+    public void attachTo(ImmersiveEffect effect) throws Exception {
         if(mEffect != null) {
             throw new Exception("Previous effect is still attached, call detach() first");
         }

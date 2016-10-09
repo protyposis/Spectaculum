@@ -25,7 +25,7 @@ import net.protyposis.android.spectaculum.gles.immersive.EquirectangularSphereSh
 /**
  * Created by Mario on 11.08.2016.
  */
-public class EquirectangularSphereEffect extends ShaderEffect {
+public class ImmersiveEffect extends ShaderEffect {
 
     public enum Mode {
         MONO,

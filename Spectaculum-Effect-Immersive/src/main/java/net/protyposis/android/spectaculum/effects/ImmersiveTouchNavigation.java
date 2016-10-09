@@ -28,16 +28,16 @@ import net.protyposis.android.spectaculum.gles.GLUtils;
 /**
  * Adds viewport navigation by touch scroll gestures to the immersive effect.
  */
-public class TouchNavigation {
+public class ImmersiveTouchNavigation {
 
-    private static final String TAG = TouchNavigation.class.getSimpleName();
+    private static final String TAG = ImmersiveTouchNavigation.class.getSimpleName();
 
     private SpectaculumView mSpectaculumView;
     private boolean mSpectaculumViewTouchEnabled;
     private GestureDetector mGestureDetector;
     private float mPanX;
     private float mPanY;
-    private EquirectangularSphereEffect mEffect;
+    private ImmersiveEffect mEffect;
     private BooleanParameter mParameter;
     private boolean mActive;
     private float[] mRotationMatrix = new float[16];
@@ -47,7 +47,7 @@ public class TouchNavigation {
      * @param spectaculumView the view widget where the touch gestures should be read from
      * @throws Exception
      */
-    public TouchNavigation(SpectaculumView spectaculumView) throws Exception {
+    public ImmersiveTouchNavigation(SpectaculumView spectaculumView) throws Exception {
         mSpectaculumView = spectaculumView;
 
         if(mSpectaculumView == null) {
@@ -85,7 +85,7 @@ public class TouchNavigation {
      * @param effect the effect to attach touch navigation to
      * @throws Exception thrown if there is already an effect attached
      */
-    public void attachTo(EquirectangularSphereEffect effect) throws Exception {
+    public void attachTo(ImmersiveEffect effect) throws Exception {
         if(mEffect != null) {
             throw new Exception("Previous effect is still attached, call detach() first");
         }
