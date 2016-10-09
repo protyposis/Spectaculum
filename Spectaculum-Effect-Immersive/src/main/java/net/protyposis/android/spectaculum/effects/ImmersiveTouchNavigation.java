@@ -131,7 +131,7 @@ public class ImmersiveTouchNavigation {
     private View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            return mGestureDetector.onTouchEvent(event);
+            return mActive && mGestureDetector.onTouchEvent(event);
         }
     };
 
