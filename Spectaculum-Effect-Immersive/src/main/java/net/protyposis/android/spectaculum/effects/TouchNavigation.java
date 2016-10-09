@@ -26,7 +26,7 @@ import net.protyposis.android.spectaculum.SpectaculumView;
 import net.protyposis.android.spectaculum.gles.GLUtils;
 
 /**
- * Created by Mario on 08.10.2016.
+ * Adds viewport navigation by touch scroll gestures to the immersive effect.
  */
 public class TouchNavigation {
 
@@ -42,6 +42,11 @@ public class TouchNavigation {
     private boolean mActive;
     private float[] mRotationMatrix = new float[16];
 
+    /**
+     * Creates a touch navigation instance for the supplied view widget.
+     * @param spectaculumView the view widget where the touch gestures should be read from
+     * @throws Exception
+     */
     public TouchNavigation(SpectaculumView spectaculumView) throws Exception {
         mSpectaculumView = spectaculumView;
 
@@ -75,6 +80,11 @@ public class TouchNavigation {
         });
     }
 
+    /**
+     * Attaches to the effect and adds parameter to toggle touch navigation on/off.
+     * @param effect the effect to attach touch navigation to
+     * @throws Exception thrown if there is already an effect attached
+     */
     public void attachTo(EquirectangularSphereEffect effect) throws Exception {
         if(mEffect != null) {
             throw new Exception("Previous effect is still attached, call detach() first");
@@ -83,11 +93,17 @@ public class TouchNavigation {
         mEffect.addParameter(mParameter);
     }
 
+    /**
+     * Detaches touch navigation from the effect it is attached to and removes the toggle parameter.
+     */
     public void detach() {
         mEffect.removeParameter(mParameter);
         mEffect = null;
     }
 
+    /**
+     * Activates touch navigation.
+     */
     public void activate() {
         mSpectaculumView.setOnTouchListener(mOnTouchListener);
 
@@ -96,6 +112,9 @@ public class TouchNavigation {
         mSpectaculumView.setTouchEnabled(true);
     }
 
+    /**
+     * Deactivates touch navigation.
+     */
     public void deactivate() {
         mSpectaculumView.setOnTouchListener(null);
         mSpectaculumView.setTouchEnabled(mSpectaculumViewTouchEnabled);
