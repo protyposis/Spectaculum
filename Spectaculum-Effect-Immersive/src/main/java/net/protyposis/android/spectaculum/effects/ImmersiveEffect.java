@@ -71,13 +71,13 @@ public class ImmersiveEffect extends ShaderEffect {
                 updateRotationMatrix();
             }
         }, "Sets the rotation angle around the Z-axis in degrees"));
-        addParameter(new EnumParameter<>("VR Mode", Mode.class, mMode, new EnumParameter.Delegate<Mode>() {
+        addParameter(new EnumParameter<>("Mode", Mode.class, mMode, new EnumParameter.Delegate<Mode>() {
             @Override
             public void setValue(Mode value) {
                 mMode = value;
                 mShaderProgram.setMode(mMode.ordinal());
             }
-        }, "Sets the VR mode"));
+        }, "Sets the render mode"));
 
         return mShaderProgram;
     }
