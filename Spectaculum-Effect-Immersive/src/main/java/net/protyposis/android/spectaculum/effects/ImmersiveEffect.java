@@ -23,13 +23,29 @@ import net.protyposis.android.spectaculum.gles.TextureShaderProgram;
 import net.protyposis.android.spectaculum.gles.immersive.EquirectangularSphereShaderProgram;
 
 /**
- * Created by Mario on 11.08.2016.
+ * Effect to render immersive / 360° / VR content.
  */
 public class ImmersiveEffect extends ShaderEffect {
 
+    /**
+     * Image source render mode.
+     */
     public enum Mode {
+        /**
+         * Monoscopic rendering of mono sources.
+         */
         MONO,
+
+        /**
+         * Stereoscopic rendering of side-by-side (SBS) sources, where two pictures are packed
+         * horizontally in the image source.
+         */
         STEREO_SBS,
+
+        /**
+         * Stereoscopic rendering of top-and-bottom (TAB) sources, where two pictures are packed
+         * vertically in the image source.
+         */
         STEREO_TAB,
     }
 
