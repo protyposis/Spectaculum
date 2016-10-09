@@ -110,6 +110,8 @@ public class ImmersiveTouchNavigation {
         // Store touch enabled state and enable touch which is required for this to work
         mSpectaculumViewTouchEnabled = mSpectaculumView.isTouchEnabled();
         mSpectaculumView.setTouchEnabled(true);
+
+        mActive = true;
     }
 
     /**
@@ -118,6 +120,7 @@ public class ImmersiveTouchNavigation {
     public void deactivate() {
         mSpectaculumView.setOnTouchListener(null);
         mSpectaculumView.setTouchEnabled(mSpectaculumViewTouchEnabled);
+        mActive = false;
     }
 
     private void setRotation(float x, float y) {

@@ -101,6 +101,7 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
      */
     public void activate() {
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        mActive = true;
     }
 
     /**
@@ -108,6 +109,7 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
      */
     public void deactivate() {
         mSensorManager.unregisterListener(this);
+        mActive = false;
     }
 
     @Override
