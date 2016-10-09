@@ -42,6 +42,10 @@ Requirements
 Changelog
 ---------
 
+* __v1.1.0__: Immersive effect classes streamlined, touch/scroll navigation for immersive render effect
+ * `EquirectangularSphereEffect` renamed to `ImmersiveEffect`
+ * `SensorRotationNavigation` renamed to `ImmersiveSensorNavigation`
+ * `ImmersiveTouchNavigation` added
 * __v1.0.0__: initial release
 
 
