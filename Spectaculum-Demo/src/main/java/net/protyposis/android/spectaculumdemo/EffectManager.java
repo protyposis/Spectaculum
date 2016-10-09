@@ -240,7 +240,6 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
                 try {
                     mImmersiveSensorNavigation = new ImmersiveSensorNavigation(mActivity);
                     mImmersiveSensorNavigation.attachTo((ImmersiveEffect) effect);
-                    mImmersiveSensorNavigation.activate();
                 } catch (Exception e) {
                     Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -249,7 +248,6 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
                 try {
                     mImmersiveTouchNavigation = new ImmersiveTouchNavigation(mSpectaculumView);
                     mImmersiveTouchNavigation.attachTo((ImmersiveEffect) effect);
-                    mImmersiveTouchNavigation.activate();
                 } catch (Exception e) {
                     Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
