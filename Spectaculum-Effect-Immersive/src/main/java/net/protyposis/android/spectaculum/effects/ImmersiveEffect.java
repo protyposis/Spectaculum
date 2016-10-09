@@ -30,7 +30,7 @@ public class ImmersiveEffect extends ShaderEffect {
     /**
      * Image source render mode.
      */
-    enum Mode {
+    public enum Mode {
         /**
          * Monoscopic rendering of mono sources.
          */
