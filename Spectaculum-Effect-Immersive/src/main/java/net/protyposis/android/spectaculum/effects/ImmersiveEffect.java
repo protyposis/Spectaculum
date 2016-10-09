@@ -57,17 +57,20 @@ public class ImmersiveEffect extends ShaderEffect {
     private FloatParameter mParameterRotX, mParameterRotY, mParameterRotZ;
     private EnumParameter<Mode> mParameterMode;
 
-    @Override
-    protected TextureShaderProgram initShaderProgram() {
-        mShaderProgram = new EquirectangularSphereShaderProgram();
-
+    public ImmersiveEffect() {
         mRotX = 0.0f;
         mRotY = 0.0f;
         mRotZ = 0.0f;
         Matrix.setIdentityM(mRotationMatrix, 0);
         mMode = Mode.MONO;
+    }
 
-        mShaderProgram.setRotationMatrix(mRotationMatrix);
+    @Override
+    protected TextureShaderProgram initShaderProgram() {
+        mShaderProgram = new EquirectangularSphereShaderProgram();
+
+        updateRotationMatrix();
+        mShaderProgram.setMode(mMode.ordinal());
 
         mParameterRotX = new FloatParameter("RotX", -360.0f, 360.0f, mRotX, new FloatParameter.Delegate() {
             @Override
@@ -124,11 +127,13 @@ public class ImmersiveEffect extends ShaderEffect {
         // Take a copy of the matrix into the local variable
         System.arraycopy(R, 0, mRotationMatrix, 0, 16);
 
-        // Update the shader rotation matrix on the correct thread
-        getParameterHandler().post(mRotationMatrixUpdateRunnable);
+        if(isInitialized()) {
+            // Update the shader rotation matrix on the correct thread
+            getParameterHandler().post(mRotationMatrixUpdateRunnable);
 
-        // Fire event to trigger a view update
-        fireEffectChanged();
+            // Fire event to trigger a view update
+            fireEffectChanged();
+        }
     }
 
     /**
@@ -136,7 +141,11 @@ public class ImmersiveEffect extends ShaderEffect {
      * @param rotX rotation in degrees
      */
     public void setRotationX(float rotX) {
-        mParameterRotX.setValue(rotX);
+        if(isInitialized()) {
+            mParameterRotX.setValue(rotX);
+        } else {
+            mRotX = rotX;
+        }
     }
 
     /**
@@ -144,7 +153,11 @@ public class ImmersiveEffect extends ShaderEffect {
      * @param rotY rotation in degrees
      */
     public void setRotationY(float rotY) {
-        mParameterRotY.setValue(rotY);
+        if(isInitialized()) {
+            mParameterRotY.setValue(rotY);
+        } else {
+            mRotX = rotY;
+        }
     }
 
     /**
@@ -152,7 +165,11 @@ public class ImmersiveEffect extends ShaderEffect {
      * @param rotZ rotation in degrees
      */
     public void setRotationZ(float rotZ) {
-        mParameterRotZ.setValue(rotZ);
+        if(isInitialized()) {
+            mParameterRotZ.setValue(rotZ);
+        } else {
+            mRotX = rotZ;
+        }
     }
 
     /**
@@ -160,7 +177,11 @@ public class ImmersiveEffect extends ShaderEffect {
      * @param mode the image source render mode
      */
     public void setMode(Mode mode) {
-        mParameterMode.setValue(mode);
+        if(isInitialized()) {
+            mParameterMode.setValue(mode);
+        } else {
+            mMode = mode;
+        }
     }
 
     private Runnable mRotationMatrixUpdateRunnable = new Runnable() {
