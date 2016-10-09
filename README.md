@@ -21,7 +21,7 @@ Features
  * zooming/panning
  * frame extraction
  * lightweight & no dependencies
- * 360° picture & video incl. stereo VR
+ * Immersive 360° picture & video including stereo VR
 
 
 Use cases
@@ -148,12 +148,12 @@ constrained to a single shader and can therefore contain multiple shader program
 framebuffers and subeffects and combine them to create complex effects.
 See `FlowAbsEffect` and `QrMarkerEffect` for examples.
 
-### 360° / Immersive / VR
+### Immersive / 360° / VR
 
 Rendering 360° content is just another shader effect. To render equirectangular 360° content,
-include the `Spectaculum-Effect-Immersive` module and apply the `EquirectangularSphereEffect`.
+include the `Spectaculum-Effect-Immersive` module and apply the `ImmersiveEffect`.
 The effect is parameterized, and the first three float parameters control the rotation around
-the X/Y/Z axes. The fourth parameter is an enum parameter of type `EquirectangularSphereEffect.Mode`,
+the X/Y/Z axes. The fourth parameter is an enum parameter of type `ImmersiveEffect.Mode`,
 which can be `MONO` for monocular content, or `STEREO_SBS`/`STEREO_TAB` for stereoscopic 3D content
 in side by side or top and bottom layout. Unfortunately I cannot test the 3D modes due to lack of hardware.
 
@@ -161,10 +161,13 @@ Of course, a 3D VR view needs to change its viewport depending on where the cons
 is looking. The effect provides a `setRotationMatrix` method which accepts a 4x4 rotation matrix,
 which is recommended for frequent updates over the XYZ parameters.
 
-The module also includes a `SensorRotationNavigation` class that can be attached to the effect and
-handles the sensor reading and viewport rotation automatically. When attaching it to the effect,
-it adds a fifth boolean parameter that can be used to turn the sensor rotation on/off, default is off.
-This class is **highly experimental** and does not work correctly yet, because I could not figure
+This module also includes additional classes for viewport navigation that can be attached to the effect.
+The `ImmersiveTouchNavigation` class handles navigation in the viewport through touch scroll
+gestures. It adds a boolean parameter to switch the touch rotation on/off (default is off), and an
+enum parameter to set the render mode (mono, stereo).
+The `ImmersiveSensorNavigation` class handles the viewport rotation through the device's rotation sensor.
+It adds a boolean parameter to switch the sensor rotation on/off ()default is off).
+`ImmersiveSensorNavigation` is **experimental** and does not work correctly yet, because I could not figure
 out how to map the sensor coordinate system. Any help is appreciated!
 
 ### Maven
@@ -224,7 +227,7 @@ with enhanced functionality (playback speed adjustment, frame-exact seek, DASH p
 
 ##### Spectaculum-Effect-Immersive
 
-Adds the `EquirectangularSphereEffect` for 360°/VR/3D content as described [above](#360--immersive--vr).
+Adds the `ImmersiveEffect` and viewport navigation classes for 360°/VR/3D content as described [above](#360--immersive--vr).
 
 ##### Spectaculum-Effect-FlowAbs
 
