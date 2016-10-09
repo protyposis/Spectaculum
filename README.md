@@ -194,14 +194,14 @@ in the [changelog](#changelog) or the [Bintray repository](https://bintray.com/p
 
     dependencies {
         ...
-        compile 'net.protyposis.android.spectaculum.spectaculum:1.1.0'
-        compile 'net.protyposis.android.spectaculum.spectaculum-camera:1.1.0'
-        compile 'net.protyposis.android.spectaculum.spectaculum-image:1.1.0'
-        compile 'net.protyposis.android.spectaculum.spectaculum-mediaplayer:1.1.0'
-        compile 'net.protyposis.android.spectaculum.spectaculum-mediaplayerextended:1.1.0'
-        compile 'net.protyposis.android.spectaculum.spectaculum-effect-flowabs:1.1.0'
-        compile 'net.protyposis.android.spectaculum.spectaculum-effect-immersive:1.1.0'
-        compile 'net.protyposis.android.spectaculum.spectaculum-effect-qrmarker:1.1.0'
+        compile 'net.protyposis.android.spectaculum:spectaculum:1.1.0'
+        compile 'net.protyposis.android.spectaculum:spectaculum-camera:1.1.0'
+        compile 'net.protyposis.android.spectaculum:spectaculum-image:1.1.0'
+        compile 'net.protyposis.android.spectaculum:spectaculum-mediaplayer:1.1.0'
+        compile 'net.protyposis.android.spectaculum:spectaculum-mediaplayerextended:1.1.0'
+        compile 'net.protyposis.android.spectaculum:spectaculum-effect-flowabs:1.1.0'
+        compile 'net.protyposis.android.spectaculum:spectaculum-effect-immersive:1.1.0'
+        compile 'net.protyposis.android.spectaculum:spectaculum-effect-qrmarker:1.1.0'
     }
 
 
