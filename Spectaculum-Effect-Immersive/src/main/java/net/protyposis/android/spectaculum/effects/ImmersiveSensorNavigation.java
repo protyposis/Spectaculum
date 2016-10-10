@@ -21,6 +21,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.opengl.Matrix;
 import android.os.Handler;
 import android.util.Log;
 
@@ -39,6 +40,7 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
     private boolean mActive;
     private float[] mRotationMatrix = new float[16];
     private float[] mRemappedRotationMatrix = new float[16];
+    private float[] mInitialRotationMatrix = null;
 
     /**
      * Creates a sensor navigation instance for the immersive effect.
@@ -114,6 +116,7 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
      */
     public void deactivate() {
         mSensorManager.unregisterListener(this);
+        mInitialRotationMatrix = null; // reset matrix so it reinits on next activation
         mActive = false;
     }
 
@@ -127,14 +130,28 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
             // Get the rotation matrix from the sensor
             SensorManager.getRotationMatrixFromVector(mRotationMatrix, event.values);
 
-            // Debug output
-            //float[] orientation = new float[3];
-            //SensorManager.getOrientation(mRotationMatrix, orientation);
-            //debugOutputOrientationInDegree(orientation);
+            // When the first sensor data comes in, we set the initial rotation matrix as
+            // "zero rotation point" to be able to calculate the relative rotation from the initial
+            // device rotation, instead of the absolute rotation from true north.
+            // Later, we subtract the initial rotation from the rotation matrix to get the relative rotation
+            if(mInitialRotationMatrix == null) {
+                mInitialRotationMatrix = new float[16];
+                // Matrix subtraction works by multiplying the inverse (Mb - Ma == inv(Ma) * Mb),
+                // so we directly store the inverse
+                Matrix.invertM(mInitialRotationMatrix, 0, mRotationMatrix, 0);
+            }
+
+            // Remove initial rotation
+            Matrix.multiplyMM(mRotationMatrix, 0, mInitialRotationMatrix, 0, mRotationMatrix, 0);
 
             // Some axes seem like they need to be exchanged
             // FIXME this does not seem to remap axes at all!?
             SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, mRemappedRotationMatrix);
+
+            // Debug output
+            //float[] orientation = new float[3];
+            //SensorManager.getOrientation(mRemappedRotationMatrix, orientation);
+            //debugOutputOrientationInDegree(orientation);
 
             // Update effect and thus the viewport too
             mEffect.setRotationMatrix(mRemappedRotationMatrix);
