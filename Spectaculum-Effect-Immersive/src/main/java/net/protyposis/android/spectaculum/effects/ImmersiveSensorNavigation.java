@@ -164,10 +164,9 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
     }
 
     private void debugOutputOrientationInDegree(float[] orientation) {
-        double rad2deg = 180/Math.PI;
-        float azimuth = (float)(orientation[0] * rad2deg); // -z
-        float pitch = (float)(orientation[1] * rad2deg) ; // x
-        float roll = (float)(orientation[2] * rad2deg); // y
+        float azimuth = (float) Math.toDegrees(orientation[0]); // -z
+        float pitch = (float) Math.toDegrees(orientation[1]); // x
+        float roll = (float) Math.toDegrees(orientation[2]); // y
         Log.d(TAG, azimuth + ", " + pitch + ", " + roll);
     }
 }
