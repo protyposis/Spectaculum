@@ -145,8 +145,9 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
             Matrix.multiplyMM(mRotationMatrix, 0, mInitialRotationMatrix, 0, mRotationMatrix, 0);
 
             // Some axes seem like they need to be exchanged
+            Matrix.invertM(mRemappedRotationMatrix, 0, mRotationMatrix, 0);
             // FIXME this does not seem to remap axes at all!?
-            SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, mRemappedRotationMatrix);
+            //SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, mRemappedRotationMatrix);
 
             // Debug output
             //float[] orientation = new float[3];
