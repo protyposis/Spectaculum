@@ -30,7 +30,7 @@ Use cases
  * Photo gallery / picture viewer (zooming & panning of image)
  * Camera apps (live preview, live shader effects, digital zoom, capturing of zoomed/effect-modified result)
  * Video players (image adjustments through shader effects, e.g. brightness/contrast)
- * 360°/immersive/VR content display/playback with sensor/gyroscope viewport
+ * 360°/immersive/VR content display/playback with sensor/gyroscope viewport ([tutorial](https://protyposis.net/blog/native-immersive-360-vr-video-playback-on-android-with-spectaculum/), [sample app](https://github.com/protyposis/Spectaculum-Example-Immersive))
 
 
 Requirements
