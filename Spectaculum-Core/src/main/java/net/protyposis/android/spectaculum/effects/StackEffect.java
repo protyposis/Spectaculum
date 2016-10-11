@@ -60,6 +60,8 @@ public class StackEffect extends BaseEffect {
         // Create an internal framebuffer which is required to apply a sequence of effects
         mFramebuffer = new Framebuffer(width, height);
 
+        setEventBlocking(true);
+
         // Initialize all effects
         for (Effect e : mEffects) {
             e.init(width, height);
@@ -69,6 +71,8 @@ public class StackEffect extends BaseEffect {
                 addParameter(p);
             }
         }
+
+        setEventBlocking(false);
 
         setInitialized();
     }
