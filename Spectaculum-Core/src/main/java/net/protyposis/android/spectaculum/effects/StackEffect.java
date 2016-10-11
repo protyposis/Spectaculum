@@ -57,10 +57,17 @@ public class StackEffect extends BaseEffect {
 
     @Override
     public void init(int width, int height) {
+        // Create an internal framebuffer which is required to apply a sequence of effects
         mFramebuffer = new Framebuffer(width, height);
 
+        // Initialize all effects
         for (Effect e : mEffects) {
             e.init(width, height);
+
+            // Add effect parameters
+            for(Parameter p : e.getParameters()) {
+                addParameter(p);
+            }
         }
     }
 
