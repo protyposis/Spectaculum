@@ -23,10 +23,14 @@ uniform sampler2D watermark;
 uniform vec2 size;
 uniform float scale;
 uniform float opacity;
+uniform vec2 margin;
 
 void main() {
     vec2 watermarkAdjustmentScale = vec2(1.0) / u_TextureSize * size; // scale watermark to correct aspect ratio and pixel mapping size
     vec2 watermarkCoord = v_TextureCoord / watermarkAdjustmentScale / scale;
+
+    // add margin
+    watermarkCoord = watermarkCoord - margin;
 
     // get pixel values
     vec4 p_image = texture2D(s_Texture, v_TextureCoord);

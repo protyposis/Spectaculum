@@ -28,6 +28,7 @@ public class WatermarkShaderProgram extends TextureShaderProgram {
     private int mWatermarkSizeHandle;
     private int mWatermarkScaleHandle;
     private int mWatermarkOpacityHandle;
+    private int mWatermarkMarginHandle;
 
     public WatermarkShaderProgram() {
         super("fs_watermark.glsl");
@@ -40,6 +41,8 @@ public class WatermarkShaderProgram extends TextureShaderProgram {
         GLUtils.checkError("glGetUniformLocation scale");
         mWatermarkOpacityHandle = GLES20.glGetUniformLocation(mProgramHandle, "opacity");
         GLUtils.checkError("glGetUniformLocation opacity");
+        mWatermarkMarginHandle = GLES20.glGetUniformLocation(mProgramHandle, "margin");
+        GLUtils.checkError("glGetUniformLocation margin");
 
         use();
         setWatermarkScale(1);
@@ -71,5 +74,10 @@ public class WatermarkShaderProgram extends TextureShaderProgram {
         }
         use();
         GLES20.glUniform1f(mWatermarkOpacityHandle, opacity);
+    }
+
+    public void setWatermarkMargin(float x, float y) {
+        use();
+        GLES20.glUniform2f(mWatermarkMarginHandle, x, y);
     }
 }

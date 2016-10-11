@@ -30,16 +30,20 @@ public class WatermarkEffect extends ShaderEffect {
     private WatermarkShaderProgram mShaderProgram;
     private float mScale;
     private float mOpacity;
+    private float mMarginX, mMarginY;
 
     private Bitmap mWatermarkBitmap;
     private Texture2D mWatermarkTexture;
 
     private FloatParameter mScaleParameter;
     private FloatParameter mOpacityParameter;
+    private FloatParameter mMarginXParameter;
+    private FloatParameter mMarginYParameter;
 
     public WatermarkEffect() {
         mScale = 1.0f;
         mOpacity = 1.0f;
+        mMarginX = mMarginY = 0;
     }
 
     @Override
@@ -61,6 +65,24 @@ public class WatermarkEffect extends ShaderEffect {
             }
         });
         addParameter(mOpacityParameter);
+
+        mMarginXParameter = new FloatParameter("Margin X", -1f, 1f, mMarginX, new FloatParameter.Delegate() {
+            @Override
+            public void setValue(Float value) {
+                mMarginX = value;
+                mShaderProgram.setWatermarkMargin(mMarginX, mMarginY);
+            }
+        });
+        addParameter(mMarginXParameter);
+
+        mMarginYParameter = new FloatParameter("Margin Y", -1f, 1f, mMarginY, new FloatParameter.Delegate() {
+            @Override
+            public void setValue(Float value) {
+                mMarginY = value;
+                mShaderProgram.setWatermarkMargin(mMarginX, mMarginY);
+            }
+        });
+        addParameter(mMarginYParameter);
 
         if(mWatermarkBitmap != null) {
             mWatermarkTexture = new Texture2D(mWatermarkBitmap);
@@ -92,6 +114,16 @@ public class WatermarkEffect extends ShaderEffect {
             mOpacityParameter.setValue(opacity);
         } else {
             mOpacity = opacity;
+        }
+    }
+
+    public void setMargin(float x, float y) {
+        if(isInitialized()) {
+            mMarginXParameter.setValue(x);
+            mMarginYParameter.setValue(y);
+        } else {
+            mMarginX = x;
+            mMarginY = y;
         }
     }
 }
