@@ -52,8 +52,9 @@ public class WatermarkEffect extends ShaderEffect {
 
     public WatermarkEffect() {
         mScale = 1.0f;
-        mOpacity = 1.0f;
-        mMarginX = mMarginY = 0;
+        mOpacity = 0.8f;
+        mMarginX = mMarginY = 0.5f;
+        mAlignment = Alignment.LOWER_RIGHT;
     }
 
     @Override
