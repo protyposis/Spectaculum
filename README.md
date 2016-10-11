@@ -159,6 +159,30 @@ constrained to a single shader and can therefore contain multiple shader program
 framebuffers and subeffects and combine them to create complex effects.
 See `FlowAbsEffect` and `QrMarkerEffect` for examples.
 
+#### List of included effects
+
+ * Spectaculum (Core)
+   * ContrastBrightnessAdjustmentEffect
+   * FlipEffect (none, vertical, horizontal, both)
+   * KernelBlurEffect (3x3 blur kernel)
+   * KernelEdgeDetectEffect (3x3 edge detect kernel)
+   * KernelEmbossEffect (3x3 emboss kernel)
+   * KernelGaussBlurEffect (3x3 gaussian blur kernel)
+   * KernelSharpenEffect (3x3 sharpen kernel)
+   * SimpleToonEffect (simple cartoon effect with sobel edge detection and color quantization)
+   * SobelEffect (Sobel edge detection)
+ * Spectaculum-Effect-FlowAbs
+   * FlowAbsEffect ([flowabs](https://hpi.de/cn/computer-graphics-systems/rendering/flowabs.html))
+   including FlowAbsBilateralFilterEffect, FlowAbsDOGEffect (difference of gaussians),
+   FlowAbsGaussEffect, FlowAbsTangentFlowMapEffect
+ * Spectaculum-Effect-Immersive
+   * ImmersiveEffect (360° monoscopic and stereoscopic equirectangular sphere projection rendering)
+ * Spectaculum-Effect-QrMarker
+   * QrMarkerEffect (QR code detector)
+   * QrMarkerEffect.CannyEdgeEffect (Canny edge detection)
+ * Spectaculum-Demo
+   * ColorFilterEffect (RGB color filter)
+
 ### Immersive / 360° / VR
 
 Rendering 360° content is just another shader effect. To render equirectangular 360° content,
