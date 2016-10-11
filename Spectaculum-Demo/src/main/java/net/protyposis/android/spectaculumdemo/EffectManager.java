@@ -90,6 +90,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         mEffects.add(new KernelEmbossEffect());
         mEffects.add(new KernelSharpenEffect());
         mEffects.add(new ContrastBrightnessAdjustmentEffect());
+        // Create a watermark effect with demo app icon as watermark image
         WatermarkEffect watermarkEffect = new WatermarkEffect();
         watermarkEffect.setWatermark(BitmapFactory.decodeResource(mActivity.getResources(), R.mipmap.ic_launcher));
         mEffects.add(watermarkEffect);
