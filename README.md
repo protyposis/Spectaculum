@@ -167,21 +167,21 @@ See `FlowAbsEffect` and `QrMarkerEffect` for examples.
 
 #### Effect examples
 
-<img src="./snapshots/effect-none.jpg" height="230" alt="No effect"/>
-<img src="./snapshots/effect-sobel.jpg" height="230" alt="Sobel edge detect"/>
-<img src="./snapshots/effect-color.jpg" height="230" alt="Color filter"/>
-<img src="./snapshots/effect-contrastbrightness.jpg" height="230" alt="Contrast/brightness adjustment"/>
-<img src="./snapshots/effect-watermark.jpg" height="230" alt="Watermark"/>
-<img src="./snapshots/effect-flowabs.jpg" height="230" alt="FlowAbs"/>
-<img src="./snapshots/effect-stack-simpletoonwatermark.jpg" height="230" alt="Stacked: Simple Toon + Watermark"/>
+<img src="./snapshots/effect-none.jpg" height="140" alt="No effect"/>
+<img src="./snapshots/effect-sobel.jpg" height="140" alt="Sobel edge detect"/>
+<img src="./snapshots/effect-color.jpg" height="140" alt="Color filter"/>
+<img src="./snapshots/effect-contrastbrightness.jpg" height="140" alt="Contrast/brightness adjustment"/>
+<img src="./snapshots/effect-watermark.jpg" height="140" alt="Watermark"/>
+<img src="./snapshots/effect-flowabs.jpg" height="140" alt="FlowAbs"/>
+<img src="./snapshots/effect-stack-simpletoonwatermark.jpg" height="140" alt="Stacked: Simple Toon + Watermark"/>
 
 From left to right: No effect, Sobel edge detect, color filter, contrast/brightness adjustment, watermark,
 flowabs, stacked simple toon + watermark
 
-<img src="./snapshots/effect-immersive-none.jpg" height="230" alt="No effect"/>
-<img src="./snapshots/effect-immersive.jpg" height="230" alt="Immersive 360°"/>
-<img src="./snapshots/effect-immersive-stack-watermark.jpg" height="230" alt="Stacked: Immersive 360° + Watermark"/>
-<img src="./snapshots/effect-immersive-stereosbs.jpg" height="230" alt="Immersive 360° stereo 3D"/>
+<img src="./snapshots/effect-immersive-none.jpg" height="140" alt="No effect"/>
+<img src="./snapshots/effect-immersive.jpg" height="140" alt="Immersive 360°"/>
+<img src="./snapshots/effect-immersive-stack-watermark.jpg" height="140" alt="Stacked: Immersive 360° + Watermark"/>
+<img src="./snapshots/effect-immersive-stereosbs.jpg" height="140" alt="Immersive 360° stereo 3D"/>
 
 Immersive effects from left to right: No effect, immersive 360°, stacked immersive 360° + watermark, immersive 360° stereo 3D
 
