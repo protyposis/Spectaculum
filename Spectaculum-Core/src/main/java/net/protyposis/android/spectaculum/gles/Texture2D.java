@@ -88,7 +88,7 @@ public class Texture2D extends Texture {
             return new Texture2D(GLES30.GL_RGBA16F, GLES20.GL_RGBA, width, height, GLES20.GL_FLOAT, null);
         } else {
             Log.i(TAG, "Texture fallback mode to GLES20 8 bit");
-            return new Texture2D(GLES30.GL_RGBA, GLES20.GL_RGBA, width, height, GLES20.GL_UNSIGNED_BYTE, null);
+            return new Texture2D(GLES20.GL_RGBA, GLES20.GL_RGBA, width, height, GLES20.GL_UNSIGNED_BYTE, null);
         }
     }
 }
