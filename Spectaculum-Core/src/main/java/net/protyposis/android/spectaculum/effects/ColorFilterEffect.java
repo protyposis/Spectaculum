@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package net.protyposis.android.spectaculumdemo.testeffect;
+package net.protyposis.android.spectaculum.effects;
 
 import net.protyposis.android.spectaculum.effects.FloatParameter;
 import net.protyposis.android.spectaculum.effects.ShaderEffect;
+import net.protyposis.android.spectaculum.gles.ColorFilterShaderProgram;
 import net.protyposis.android.spectaculum.gles.TextureShaderProgram;
 
 /**
@@ -35,8 +36,6 @@ public class ColorFilterEffect extends ShaderEffect {
         mG = 0.0f;
         mB = 0.0f;
         mA = 1.0f;
-
-        colorFilterShader.setColor(mR, mG, mB, mA);
 
         addParameter(new FloatParameter("Red", 0.0f, 1.0f, mR, new FloatParameter.Delegate() {
             @Override

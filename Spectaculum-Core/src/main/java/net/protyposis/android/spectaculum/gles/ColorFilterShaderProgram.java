@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package net.protyposis.android.spectaculumdemo.testeffect;
+package net.protyposis.android.spectaculum.gles;
 
 import android.opengl.GLES20;
-
-import net.protyposis.android.spectaculum.gles.GLUtils;
-import net.protyposis.android.spectaculum.gles.TextureShaderProgram;
 
 /**
  * Created by Mario on 19.07.2014.

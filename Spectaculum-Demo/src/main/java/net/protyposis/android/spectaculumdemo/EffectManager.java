@@ -50,8 +50,9 @@ import net.protyposis.android.spectaculum.effects.ImmersiveTouchNavigation;
 import net.protyposis.android.spectaculum.effects.StackEffect;
 import net.protyposis.android.spectaculum.effects.WatermarkEffect;
 import net.protyposis.android.spectaculum.gles.GLUtils;
-import net.protyposis.android.spectaculumdemo.testeffect.ColorFilterEffect;
+import net.protyposis.android.spectaculum.effects.ColorFilterEffect;
 import net.protyposis.android.spectaculum.effects.ImmersiveEffect;
+import net.protyposis.android.spectaculumdemo.testeffect.InterlaceEffect;
 
 /**
  * Created by Mario on 18.07.2014.
@@ -90,6 +91,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         mEffects.add(new KernelEmbossEffect());
         mEffects.add(new KernelSharpenEffect());
         mEffects.add(new ContrastBrightnessAdjustmentEffect());
+        mEffects.add(new ColorFilterEffect());
         // Create a watermark effect with demo app icon as watermark image
         WatermarkEffect watermarkEffect = new WatermarkEffect();
         watermarkEffect.setWatermark(BitmapFactory.decodeResource(mActivity.getResources(), R.mipmap.ic_launcher));
@@ -99,7 +101,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
                 new SimpleToonEffect(), new ContrastBrightnessAdjustmentEffect(), watermarkEffect));
 
         // custom filters
-        mEffects.add(new ColorFilterEffect());
+        mEffects.add(new InterlaceEffect());
 
         // Immersive filters
         mEffects.add(new ImmersiveEffect());
