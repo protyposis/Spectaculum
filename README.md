@@ -42,6 +42,8 @@ Requirements
 Changelog
 ---------
 
+* __v1.2.0__: add watermark effect
+ * `WatermarkEffect` added to overlay a watermark (e.g. a station logo)
 * __v1.1.0__: Immersive effect classes streamlined, touch/scroll navigation for immersive render effect
  * `EquirectangularSphereEffect` renamed to `ImmersiveEffect`
  * `SensorRotationNavigation` renamed to `ImmersiveSensorNavigation`
@@ -171,6 +173,7 @@ See `FlowAbsEffect` and `QrMarkerEffect` for examples.
    * KernelSharpenEffect (3x3 sharpen kernel)
    * SimpleToonEffect (simple cartoon effect with sobel edge detection and color quantization)
    * SobelEffect (Sobel edge detection)
+   * WatermarkEffect (adds a watermark, e.g. a station logo)
  * Spectaculum-Effect-FlowAbs
    * FlowAbsEffect ([flowabs](https://hpi.de/cn/computer-graphics-systems/rendering/flowabs.html))
    including FlowAbsBilateralFilterEffect, FlowAbsDOGEffect (difference of gaussians),
