@@ -47,6 +47,7 @@ import net.protyposis.android.spectaculum.effects.NoEffect;
 import net.protyposis.android.spectaculum.effects.SimpleToonEffect;
 import net.protyposis.android.spectaculum.effects.SobelEffect;
 import net.protyposis.android.spectaculum.effects.ImmersiveTouchNavigation;
+import net.protyposis.android.spectaculum.effects.StackEffect;
 import net.protyposis.android.spectaculum.effects.WatermarkEffect;
 import net.protyposis.android.spectaculum.gles.GLUtils;
 import net.protyposis.android.spectaculumdemo.testeffect.ColorFilterEffect;
@@ -78,7 +79,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         mEffects = new ArrayList<>();
         mSpectaculumView.setEffectEventListener(this);
 
-        // MediaPlayer-GLES filters
+        // Spectaculum-Core filters
         mEffects.add(new NoEffect());
         mEffects.add(new FlipEffect());
         mEffects.add(new SobelEffect());
@@ -92,6 +93,9 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         WatermarkEffect watermarkEffect = new WatermarkEffect();
         watermarkEffect.setWatermark(BitmapFactory.decodeResource(mActivity.getResources(), R.mipmap.ic_launcher));
         mEffects.add(watermarkEffect);
+        // Create a filter stack with multiple effects
+        mEffects.add(new StackEffect("Stack: Toon, Contrast/Brightness, Watermark",
+                new SimpleToonEffect(), new ContrastBrightnessAdjustmentEffect(), watermarkEffect));
 
         // custom filters
         mEffects.add(new ColorFilterEffect());
