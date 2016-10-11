@@ -27,10 +27,19 @@ import net.protyposis.android.spectaculum.gles.WatermarkShaderProgram;
  */
 public class WatermarkEffect extends ShaderEffect {
 
+    public enum Alignment {
+        LOWER_LEFT,
+        UPPER_LEFT,
+        UPPER_RIGHT,
+        LOWER_RIGHT,
+        CENTER
+    }
+
     private WatermarkShaderProgram mShaderProgram;
     private float mScale;
     private float mOpacity;
     private float mMarginX, mMarginY;
+    private Alignment mAlignment;
 
     private Bitmap mWatermarkBitmap;
     private Texture2D mWatermarkTexture;
@@ -39,6 +48,7 @@ public class WatermarkEffect extends ShaderEffect {
     private FloatParameter mOpacityParameter;
     private FloatParameter mMarginXParameter;
     private FloatParameter mMarginYParameter;
+    private EnumParameter<Alignment> mAlignmentParameter;
 
     public WatermarkEffect() {
         mScale = 1.0f;
@@ -84,6 +94,15 @@ public class WatermarkEffect extends ShaderEffect {
         });
         addParameter(mMarginYParameter);
 
+        mAlignmentParameter = new EnumParameter<>("Alignment", Alignment.class, mAlignment, new EnumParameter.Delegate<Alignment>() {
+            @Override
+            public void setValue(Alignment value) {
+                mAlignment = value;
+                mShaderProgram.setWatermarkAlignment(mAlignment.ordinal());
+            }
+        });
+        addParameter(mAlignmentParameter);
+
         if(mWatermarkBitmap != null) {
             mWatermarkTexture = new Texture2D(mWatermarkBitmap);
             mShaderProgram.setWatermark(mWatermarkTexture);
@@ -124,6 +143,14 @@ public class WatermarkEffect extends ShaderEffect {
         } else {
             mMarginX = x;
             mMarginY = y;
+        }
+    }
+
+    public void setAlignment(Alignment alignment) {
+        if(isInitialized()) {
+            mAlignmentParameter.setValue(alignment);
+        } else {
+            mAlignment = alignment;
         }
     }
 }
