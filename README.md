@@ -42,9 +42,12 @@ Requirements
 Changelog
 ---------
 
-* __v1.2.0__: add watermark effect
+* __v1.2.0__: add watermark and stack effects
  * `WatermarkEffect` added to overlay a watermark (e.g. a station logo)
  * `StackEffect` added to combine multiple effects
+ * `ColorEffect` moved from demo to core module
+ * `InterlaceEffect` added to demo
+ * bugfixes in demo app
 * __v1.1.0__: Immersive effect classes streamlined, touch/scroll navigation for immersive render effect
  * `EquirectangularSphereEffect` renamed to `ImmersiveEffect`
  * `SensorRotationNavigation` renamed to `ImmersiveSensorNavigation`
@@ -165,6 +168,7 @@ See `FlowAbsEffect` and `QrMarkerEffect` for examples.
 #### List of included effects
 
  * Spectaculum (Core)
+   * ColorFilterEffect (RGB color filter)
    * ContrastBrightnessAdjustmentEffect
    * FlipEffect (none, vertical, horizontal, both)
    * KernelBlurEffect (3x3 blur kernel)
@@ -186,7 +190,7 @@ See `FlowAbsEffect` and `QrMarkerEffect` for examples.
    * QrMarkerEffect (QR code detector)
    * QrMarkerEffect.CannyEdgeEffect (Canny edge detection)
  * Spectaculum-Demo
-   * ColorFilterEffect (RGB color filter)
+   * InterlaceEffect (scanline effect)
 
 Most of these effects come with adjustable parameters. Check the source code to see which parameters
  are available, or the demo app to play with them.
