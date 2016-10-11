@@ -108,6 +108,13 @@ abstract class BaseEffect implements Effect, Parameter.Listener {
         return mParameters != null && !mParameters.isEmpty();
     }
 
+    @Override
+    public void reset() {
+        for(Parameter p: getParameters()) {
+            p.reset();
+        }
+    }
+
     protected void setInitialized() {
         mInitialized = true;
     }

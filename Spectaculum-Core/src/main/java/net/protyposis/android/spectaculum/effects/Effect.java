@@ -120,6 +120,11 @@ public interface Effect {
     boolean hasParameters();
 
     /**
+     * Resets all settings and parameters to their initial state.
+     */
+    void reset();
+
+    /**
      * Sets a listener that gets called when any parameter value of the effect has changed.
      * @see Listener#onEffectChanged(Effect)
      * @param listener the listener to call back
