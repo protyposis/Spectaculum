@@ -46,10 +46,6 @@ public class WatermarkShaderProgram extends TextureShaderProgram {
         GLUtils.checkError("glGetUniformLocation margin");
         mWatermarkAlignmentHandle = GLES20.glGetUniformLocation(mProgramHandle, "alignment");
         GLUtils.checkError("glGetUniformLocation alignment");
-
-        use();
-        setWatermarkScale(1);
-        setWatermarkOpacity(1);
     }
 
     public void setWatermark(Texture2D watermarkTexture) {

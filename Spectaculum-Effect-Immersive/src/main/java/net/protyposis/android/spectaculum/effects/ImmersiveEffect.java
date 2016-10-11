@@ -69,9 +69,6 @@ public class ImmersiveEffect extends ShaderEffect {
     protected TextureShaderProgram initShaderProgram() {
         mShaderProgram = new EquirectangularSphereShaderProgram();
 
-        updateRotationMatrix();
-        mShaderProgram.setMode(mMode.ordinal());
-
         mParameterRotX = new FloatParameter("RotX", -360.0f, 360.0f, mRotX, new FloatParameter.Delegate() {
             @Override
             public void setValue(Float value) {

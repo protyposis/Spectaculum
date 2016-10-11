@@ -38,10 +38,6 @@ public class TextureSobelShaderProgram extends TextureShaderProgram {
 
         mColorHandle = GLES20.glGetUniformLocation(mProgramHandle, "color");
         GLUtils.checkError("glGetUniformLocation color");
-
-        use();
-        setThreshold(0.3f, 0.8f);
-        setColor(0f, 1f, 0f);
     }
 
     public void setThreshold(float low, float high) {

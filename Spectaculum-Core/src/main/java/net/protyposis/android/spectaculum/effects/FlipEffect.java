@@ -38,8 +38,6 @@ public class FlipEffect extends ShaderEffect {
         final TextureFlipShaderProgram flipShader = new TextureFlipShaderProgram();
         mMode = Mode.VERTICAL;
 
-        flipShader.setMode(mMode.ordinal());
-
         addParameter(new EnumParameter<>("Mode", Mode.class, mMode, new EnumParameter.Delegate<Mode>() {
             @Override
             public void setValue(Mode value) {
