@@ -17,6 +17,7 @@
 package net.protyposis.android.spectaculumdemo;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -46,6 +47,7 @@ import net.protyposis.android.spectaculum.effects.NoEffect;
 import net.protyposis.android.spectaculum.effects.SimpleToonEffect;
 import net.protyposis.android.spectaculum.effects.SobelEffect;
 import net.protyposis.android.spectaculum.effects.ImmersiveTouchNavigation;
+import net.protyposis.android.spectaculum.effects.WatermarkEffect;
 import net.protyposis.android.spectaculum.gles.GLUtils;
 import net.protyposis.android.spectaculumdemo.testeffect.ColorFilterEffect;
 import net.protyposis.android.spectaculum.effects.ImmersiveEffect;
@@ -87,6 +89,9 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
         mEffects.add(new KernelEmbossEffect());
         mEffects.add(new KernelSharpenEffect());
         mEffects.add(new ContrastBrightnessAdjustmentEffect());
+        WatermarkEffect watermarkEffect = new WatermarkEffect();
+        watermarkEffect.setWatermark(BitmapFactory.decodeResource(mActivity.getResources(), R.mipmap.ic_launcher));
+        mEffects.add(watermarkEffect);
 
         // custom filters
         mEffects.add(new ColorFilterEffect());
