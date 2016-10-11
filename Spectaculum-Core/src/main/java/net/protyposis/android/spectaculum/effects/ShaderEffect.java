@@ -47,6 +47,7 @@ public abstract class ShaderEffect extends BaseEffect {
         // TODO deliver the events on the UI thread
         setEventBlocking(true);
         mShaderProgram = initShaderProgram();
+        reset(); // initialize shader program with default values
         mShaderProgram.setTextureSize(width, height);
         setEventBlocking(false);
 
