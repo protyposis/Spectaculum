@@ -186,6 +186,9 @@ See `FlowAbsEffect` and `QrMarkerEffect` for examples.
  * Spectaculum-Demo
    * ColorFilterEffect (RGB color filter)
 
+Most of these effects come with adjustable parameters. Check the source code to see which parameters
+ are available, or the demo app to play with them.
+
 ### Immersive / 360° / VR
 
 Rendering 360° content is just another shader effect. To render equirectangular 360° content,
