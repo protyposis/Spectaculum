@@ -69,6 +69,8 @@ public class StackEffect extends BaseEffect {
                 addParameter(p);
             }
         }
+
+        setInitialized();
     }
 
     @Override
