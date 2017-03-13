@@ -28,7 +28,7 @@ import net.protyposis.android.spectaculum.gles.Texture2D;
  * {@link ShaderEffect}.
  * Created by Mario on 18.07.2014.
  */
-abstract class BaseEffect implements Effect, Parameter.Listener {
+public abstract class BaseEffect implements Effect, Parameter.Listener {
 
     private String mName;
     private List<Parameter> mParameters;
