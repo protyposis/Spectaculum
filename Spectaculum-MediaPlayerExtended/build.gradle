@@ -22,7 +22,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':Spectaculum-Core')
-    compile 'net.protyposis.android.mediaplayer:mediaplayer:4.2.1'
+    compile 'net.protyposis.android.mediaplayer:mediaplayer:4.3.0'
 }
 
 publish {
