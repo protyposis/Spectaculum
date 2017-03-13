@@ -151,6 +151,12 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
                         .show();
             }
         });
+        (findViewById(R.id.privacy)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_policy_url))));
+            }
+        });
 
         Uri uri = null;
 
