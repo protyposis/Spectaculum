@@ -294,7 +294,7 @@ with enhanced functionality (playback speed adjustment, frame-exact seek, DASH p
 
 ##### Spectaculum-Effect-Immersive
 
-Adds the `ImmersiveEffect` and viewport navigation classes for 360°/VR/3D content as described [above](#360--immersive--vr).
+Adds the `ImmersiveEffect` and viewport navigation classes for 360°/VR/3D content as described [above](#immersive--360--vr).
 
 ##### Spectaculum-Effect-FlowAbs
 
