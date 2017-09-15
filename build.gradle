@@ -29,8 +29,8 @@ task clean(type: Delete) {
 ext {
     packageBase = 'net.protyposis.android.spectaculum'
     isLibrary = true
-    libraryVersionCode = 3
-    libraryVersionName = '1.2.0'
+    libraryVersionCode = 5
+    libraryVersionName = '1.3.0'
     librarySnaphotEnabled = true
 
     libraryVersionString = {
