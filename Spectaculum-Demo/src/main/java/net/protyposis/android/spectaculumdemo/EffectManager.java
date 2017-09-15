@@ -139,7 +139,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
     public boolean selectEffect(int index) {
         if(mSelectedEffect != null) {
             // Remove listener from previously selected effect
-            mSelectedEffect.setListener(null);
+            mSelectedEffect.removeListener(this);
 
             if (mSelectedEffect instanceof ImmersiveEffect) {
                 if (mImmersiveSensorNavigation != null) {
@@ -244,7 +244,7 @@ public class EffectManager implements SpectaculumView.EffectEventListener, Effec
 
     @Override
     public void onEffectSelected(int index, Effect effect) {
-        effect.setListener(this); // add listener so callback below get called
+        effect.addListener(this); // add listener so callback below gets called
         viewEffectParameters(getSelectedEffect());
 
         if(effect instanceof ImmersiveEffect) {

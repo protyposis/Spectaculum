@@ -56,8 +56,22 @@ public interface Parameter<T> {
      * Sets an event listener to listen for parameter value change events.
      * @see Listener#onParameterChanged(Parameter)
      * @param listener the listener to notify of events
+     * @deprecated Will be removed in next major version, use {@link #addListener} instead
      */
     void setListener(Listener listener);
+
+    /**
+     * Adds an event listener to listen for parameter value change events.
+     * @see Listener#onParameterChanged(Parameter)
+     * @param listener the listener to notify of events
+     */
+    void addListener(Listener listener);
+
+    /**
+     * Removes an event listener added with {@link #addListener}.
+     * @param listener the listener to remove
+     */
+    void removeListener(Listener listener);
 
     /**
      * Sets a ParameterHandler on which parameter value changes will be executed. Parameter values

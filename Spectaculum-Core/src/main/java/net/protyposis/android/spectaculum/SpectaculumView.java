@@ -360,7 +360,7 @@ public class SpectaculumView extends GLSurfaceView implements
      */
     public void addEffect(final Effect... effects) {
         for(Effect effect : effects) {
-            effect.setListener(this);
+            effect.addListener(this);
             effect.setParameterHandler(new ParameterHandler(this));
         }
         queueEvent(new Runnable() {

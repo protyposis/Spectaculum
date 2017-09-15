@@ -16,6 +16,9 @@
 
 package net.protyposis.android.spectaculum.effects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by maguggen on 21.08.2014.
  */
@@ -24,12 +27,14 @@ public abstract class BaseParameter<T> implements Parameter<T> {
     private String mName;
     private Delegate<T> mDelegate;
     private String mDescription;
-    private Listener mListener;
+    @Deprecated private Listener mListener;
     private ParameterHandler mHandler;
+    private List<Listener> mListeners;
 
     protected BaseParameter(String name, Delegate<T> delegate) {
         mName = name;
         mDelegate = delegate;
+        mListeners = new ArrayList<>();
     }
 
     public BaseParameter(String name, Delegate<T> delegate, String description) {
@@ -51,13 +56,38 @@ public abstract class BaseParameter<T> implements Parameter<T> {
 
     public abstract void reset();
 
+    @Override
     public void setListener(Listener listener) {
+        // Remove previously set listener
+        if (mListener != null) {
+            removeListener(mListener);
+        }
+
+        // Add the new listener
+        // (or do nothing if null was passed in to just remove the previous listener)
+        if (listener != null) {
+            addListener(listener);
+        }
+
+        // Store the listener so we can remove it later
         mListener = listener;
     }
 
+    @Override
+    public void addListener(Listener listener) {
+        mListeners.add(listener);
+    }
+
+    @Override
+    public void removeListener(Listener listener) {
+        mListeners.remove(listener);
+    }
+
     protected void fireParameterChanged() {
-        if(mListener != null) {
-            mListener.onParameterChanged(this);
+        if (!mListeners.isEmpty()) {
+            for (Listener listener : mListeners) {
+                listener.onParameterChanged(this);
+            }
         }
     }
 
