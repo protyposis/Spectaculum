@@ -42,6 +42,12 @@ Requirements
 Changelog
 ---------
 
+* __1.3.0__: add possibility to subscribe to `Effect` and `Parameter` changes
+ * `BaseEffect` abstract class made `public` (makes it easier to write custom effects)
+ * `getRotationMatrix` method added to the `ImmersiveEffect` (allows usage of the rotation for other purposes, e.g. immersive audio)
+ * `addListener`/`removeListener` methods added to all effects
+ * `addListener`/`removeListener` methods to all parameters
+* v1.2.1: privacy policy added to app (required for the Play Store)
 * __v1.2.0__: add watermark and stack effects
  * `WatermarkEffect` added to overlay a watermark (e.g. a station logo)
  * `StackEffect` added to combine multiple effects
@@ -294,7 +300,7 @@ with enhanced functionality (playback speed adjustment, frame-exact seek, DASH p
 
 ##### Spectaculum-Effect-Immersive
 
-Adds the `ImmersiveEffect` and viewport navigation classes for 360°/VR/3D content as described [above](#360--immersive--vr).
+Adds the `ImmersiveEffect` and viewport navigation classes for 360°/VR/3D content as described [above](#immersive--360--vr).
 
 ##### Spectaculum-Effect-FlowAbs
 

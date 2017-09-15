@@ -128,6 +128,20 @@ public interface Effect {
      * Sets a listener that gets called when any parameter value of the effect has changed.
      * @see Listener#onEffectChanged(Effect)
      * @param listener the listener to call back
+     * @deprecated Will be removed in next major version, use {@link #addListener} instead
      */
     void setListener(Listener listener);
+
+    /**
+     * Adds a listener that gets called when any parameter value of the effect has changed.
+     * @see Listener#onEffectChanged(Effect)
+     * @param listener the listener to call back
+     */
+    void addListener(Listener listener);
+
+    /**
+     * Removes a listener that has been added with {@link #addListener}.
+     * @param listener the listener to remove
+     */
+    void removeListener(Listener listener);
 }

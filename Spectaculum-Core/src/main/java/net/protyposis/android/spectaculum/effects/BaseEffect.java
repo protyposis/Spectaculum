@@ -33,9 +33,10 @@ public abstract class BaseEffect implements Effect, Parameter.Listener {
     private String mName;
     private List<Parameter> mParameters;
     private boolean mInitialized;
-    private Listener mListener;
+    @Deprecated private Listener mListener;
     private ParameterHandler mParameterHandler;
     private boolean mBlockEvents;
+    private List<Listener> mListeners;
 
     public BaseEffect(String name) {
         if(name == null) {
@@ -47,6 +48,7 @@ public abstract class BaseEffect implements Effect, Parameter.Listener {
         }
         mName = name;
         mParameters = new ArrayList<>();
+        mListeners = new ArrayList<>();
     }
 
     public BaseEffect() {
@@ -81,20 +83,20 @@ public abstract class BaseEffect implements Effect, Parameter.Listener {
     @Override
     public void addParameter(Parameter parameter) {
         mParameters.add(parameter);
-        parameter.setListener(this);
+        parameter.addListener(this);
         parameter.setHandler(mParameterHandler);
-        if(!mBlockEvents && mListener != null) {
-            mListener.onParameterAdded(this, parameter);
+        if(!mBlockEvents) {
+            fireParameterAdded(parameter);
         }
     }
 
     @Override
     public void removeParameter(Parameter parameter) {
         mParameters.remove(parameter);
-        parameter.setListener(null);
+        parameter.removeListener(this);
         parameter.setHandler(null);
-        if(!mBlockEvents && mListener != null) {
-            mListener.onParameterRemoved(this, parameter);
+        if(!mBlockEvents) {
+            fireParameterRemoved(parameter);
         }
     }
 
@@ -121,19 +123,57 @@ public abstract class BaseEffect implements Effect, Parameter.Listener {
 
     @Override
     public void setListener(Listener listener) {
+        // Remove previously set listener
+        if (mListener != null) {
+            removeListener(mListener);
+        }
+
+        // Add the new listener
+        // (or do nothing if null was passed in to just remove the previous listener)
+        if (listener != null) {
+            addListener(listener);
+        }
+
+        // Store the listener so we can remove it later
         mListener = listener;
     }
 
     @Override
+    public void addListener(Listener listener) {
+        mListeners.add(listener);
+    }
+
+    @Override
+    public void removeListener(Listener listener) {
+        mListeners.remove(listener);
+    }
+
+    @Override
     public void onParameterChanged(Parameter parameter) {
-        if(mListener != null) {
-            mListener.onEffectChanged(this);
-        }
+        fireEffectChanged();
     }
 
     protected void fireEffectChanged() {
-        if(mListener != null) {
-            mListener.onEffectChanged(this);
+        if (!mListeners.isEmpty()) {
+            for (Listener listener : mListeners) {
+                listener.onEffectChanged(this);
+            }
+        }
+    }
+
+    protected void fireParameterAdded(Parameter parameter) {
+        if (!mListeners.isEmpty()) {
+            for (Listener listener : mListeners) {
+                listener.onParameterAdded(this, parameter);
+            }
+        }
+    }
+
+    protected void fireParameterRemoved(Parameter parameter) {
+        if (!mListeners.isEmpty()) {
+            for (Listener listener : mListeners) {
+                listener.onParameterRemoved(this, parameter);
+            }
         }
     }
 

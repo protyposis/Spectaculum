@@ -134,6 +134,20 @@ public class ImmersiveEffect extends ShaderEffect {
     }
 
     /**
+     * Gets the rotation matrix. The rotation matrix will be written into the supplied
+     * parameter.
+     * @param R a 4x4 output matrix
+     */
+    public void getRotationMatrix(float[] R) {
+        if(R.length < 16) {
+            throw new RuntimeException("4x4 matrix expected");
+        }
+
+        // Copy the local matrix into the output matrix
+        System.arraycopy(mRotationMatrix, 0, R, 0, 16);
+    }
+
+    /**
      * Sets the rotation along the Y-axis.
      * @param rotX rotation in degrees
      */
