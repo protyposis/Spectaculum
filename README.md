@@ -42,7 +42,7 @@ Requirements
 Changelog
 ---------
 
-* __develop__: add possibility to subscribe to `Effect` and `Parameter` changes
+* __1.3.0__: add possibility to subscribe to `Effect` and `Parameter` changes
  * `BaseEffect` abstract class made `public` (makes it easier to write custom effects)
  * `getRotationMatrix` method added to the `ImmersiveEffect` (allows usage of the rotation for other purposes, e.g. immersive audio)
  * `addListener`/`removeListener` methods added to all effects
