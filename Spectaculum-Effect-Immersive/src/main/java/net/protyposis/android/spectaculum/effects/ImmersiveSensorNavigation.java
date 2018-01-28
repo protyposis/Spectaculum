@@ -16,14 +16,23 @@
 
 package net.protyposis.android.spectaculum.effects;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.opengl.Matrix;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+
+import net.protyposis.android.spectaculum.gles.GLUtils;
+
+import static android.util.FloatMath.cos;
+import static android.util.FloatMath.sin;
+import static android.util.FloatMath.sqrt;
 
 /**
  * Created by Mario on 18.08.2016.
@@ -38,9 +47,18 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private boolean mActive;
-    private float[] mRotationMatrix = new float[16];
-    private float[] mRemappedRotationMatrix = new float[16];
-    private float[] mInitialRotationMatrix = null;
+    private int mScreenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+    private static final float NS2S = 1.0f / 1000000000.0f;
+    private float[] mDeltaRotationVector = new float[4];
+    float[] deltaRotationMatrix  = new float[16];
+    float[] rotationCurrent = new float[]{
+            1,0,0,0,
+            0,1,0,0,
+            0,0,1,0,
+            0,0,0,1
+    };
+    float[] resultRotation = new float[16];
+    private float timestamp;
 
     /**
      * Creates a sensor navigation instance for the immersive effect.
@@ -52,7 +70,7 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
 
         // Get sensor
         mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         if(mSensor == null) {
             throw new RuntimeException("No rotation sensor available");
@@ -116,46 +134,79 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
      */
     public void deactivate() {
         mSensorManager.unregisterListener(this);
-        mInitialRotationMatrix = null; // reset matrix so it reinits on next activation
         mActive = false;
     }
+
+    /**
+     * Sets screen orientation.Must be set before use ImmersiveSensorNavigation
+     * @param orientation activity's requested screen orientation
+     */
+    public void setScreenOrientation(int orientation){
+        mScreenOrientation = orientation;
+    }
+
+    /**
+     * Simplifies to portrait or landscape screen orientation
+     * and returns screen orientation
+     * @return true if screen orientation related to portrait
+     */
+    private boolean isRequestedOrientationPortrait(){
+        ////FIXME it can be not full list of portrait orientations
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+                    mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT ||
+                    mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT ||
+                    mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT;
+        } else {
+            return mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+                    mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT ||
+                    mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+        }
+    }
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(mEffect != null && mActive) {
-            // TODO understand those sensor coordinate spaces
-            // TODO find out how the sensor rotation can be mapped to the sphere shader correctly
-            // TODO should we store the initial rotation value to set the zero rotation point to the current phone rotation?
+            if(timestamp > 0){
+                final float dT = (event.timestamp - timestamp) * NS2S;
+                // Axis of the rotation sample, not normalized yet.
+                float axisX = isRequestedOrientationPortrait() ? event.values[0] : event.values[1];
+                float axisY = isRequestedOrientationPortrait() ? event.values[1] : event.values[0];
+                float axisZ = event.values[2];
 
-            // Get the rotation matrix from the sensor
-            SensorManager.getRotationMatrixFromVector(mRotationMatrix, event.values);
+                // Calculate the angular speed of the sample
+                float omegaMagnitude = sqrt(axisX*axisX + axisY*axisY + axisZ*axisZ);
 
-            // When the first sensor data comes in, we set the initial rotation matrix as
-            // "zero rotation point" to be able to calculate the relative rotation from the initial
-            // device rotation, instead of the absolute rotation from true north.
-            // Later, we subtract the initial rotation from the rotation matrix to get the relative rotation
-            if(mInitialRotationMatrix == null) {
-                mInitialRotationMatrix = new float[16];
-                // Matrix subtraction works by multiplying the inverse (Mb - Ma == inv(Ma) * Mb),
-                // so we directly store the inverse
-                Matrix.invertM(mInitialRotationMatrix, 0, mRotationMatrix, 0);
+                // Normalize the rotation vector if it's big enough to get the axis
+                if (omegaMagnitude > 2.7f) {
+                    axisX /= omegaMagnitude;
+                    axisY /= omegaMagnitude;
+                    axisZ /= omegaMagnitude;
+                }
+
+                // Integrate around this axis with the angular speed by the time step
+                // in order to get a delta rotation from this sample over the time step
+                // We will convert this axis-angle representation of the delta rotation
+                // into a quaternion before turning it into the rotation matrix.
+                float thetaOverTwo = omegaMagnitude * dT / 2.0f;
+                float sinThetaOverTwo = sin(thetaOverTwo);
+                float cosThetaOverTwo = cos(thetaOverTwo);
+                mDeltaRotationVector[0] = sinThetaOverTwo * axisX ;
+                mDeltaRotationVector[1] = sinThetaOverTwo * axisY;
+                mDeltaRotationVector[2] = sinThetaOverTwo * axisZ;
+                mDeltaRotationVector[3] = cosThetaOverTwo;
+
             }
+            timestamp = event.timestamp;
 
-            // Remove initial rotation
-            Matrix.multiplyMM(mRotationMatrix, 0, mInitialRotationMatrix, 0, mRotationMatrix, 0);
+            SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, mDeltaRotationVector);
 
-            // Some axes seem like they need to be exchanged
-            Matrix.invertM(mRemappedRotationMatrix, 0, mRotationMatrix, 0);
-            // FIXME this does not seem to remap axes at all!?
-            //SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, mRemappedRotationMatrix);
+            Matrix.multiplyMM(rotationCurrent, 0, deltaRotationMatrix, 0, rotationCurrent, 0);
 
-            // Debug output
-            //float[] orientation = new float[3];
-            //SensorManager.getOrientation(mRemappedRotationMatrix, orientation);
-            //debugOutputOrientationInDegree(orientation);
+            Matrix.invertM(resultRotation,0,rotationCurrent,0);
 
-            // Update effect and thus the viewport too
-            mEffect.setRotationMatrix(mRemappedRotationMatrix);
+            mEffect.setRotationMatrix(resultRotation);
         }
     }
 
@@ -164,10 +215,4 @@ public class ImmersiveSensorNavigation implements SensorEventListener {
 
     }
 
-    private void debugOutputOrientationInDegree(float[] orientation) {
-        float azimuth = (float) Math.toDegrees(orientation[0]); // -z
-        float pitch = (float) Math.toDegrees(orientation[1]); // x
-        float roll = (float) Math.toDegrees(orientation[2]); // y
-        Log.d(TAG, azimuth + ", " + pitch + ", " + roll);
-    }
 }
