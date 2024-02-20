@@ -4,7 +4,8 @@
     <!-- needed for online streams (plain video files and DASH) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- needed to save frames -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <!-- camera preview demo -->
     <uses-permission android:name="android.permission.CAMERA" />
 
