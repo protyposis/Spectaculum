@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: '../gitversioning.gradle'
 
 android {
     compileSdk 33
@@ -8,7 +9,7 @@ android {
     defaultConfig {
         minSdk 16
         targetSdk 33
-        buildConfigField "String", "VERSION_NAME", "\"${libraryVersionString()}\""
+        buildConfigField "String", "VERSION_NAME", "\"${gitVersionName}\""
     }
     buildTypes {
         release {
