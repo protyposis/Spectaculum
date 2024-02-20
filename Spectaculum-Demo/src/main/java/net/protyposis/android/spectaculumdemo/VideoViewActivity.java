@@ -21,8 +21,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-
 import net.protyposis.android.spectaculum.VideoView;
 
 /**

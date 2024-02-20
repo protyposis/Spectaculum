@@ -1,18 +1,4 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
-
 apply plugin: 'com.android.application'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
 
 android {
     compileSdkVersion 22
@@ -23,7 +9,6 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName '1.0'
-        buildConfigField "boolean", "CRASHLYTICS_CONFIGURED", "${isChrashlyticsConfigured()}"
     }
 
     signingConfigs {
@@ -71,19 +56,8 @@ dependencies {
     compile project(':Spectaculum-Effect-FlowAbs')
     compile project(':Spectaculum-Effect-QrMarker')
     compile project(':Spectaculum-Effect-Immersive')
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
-        transitive = true;
-    }
 }
 
 ext.isLibrary = false
 apply from: "../gitversioning.gradle"
 apply from: "signingconfig.gradle"
-
-if(isChrashlyticsConfigured()) {
-    apply plugin: 'io.fabric'
-}
-
-def isChrashlyticsConfigured() {
-    return file("fabric.properties").exists()
-}
