@@ -7,3 +7,4 @@
 
 signingconfig.properties
 *.keystore
+google-services.json
