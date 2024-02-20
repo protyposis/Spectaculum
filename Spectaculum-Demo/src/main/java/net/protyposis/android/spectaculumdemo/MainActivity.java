@@ -269,9 +269,10 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         try {
             info += buildInfo.getField("VERSION_NAME").get(null).toString();
             info += "/";
+            info += buildInfo.getField("BUILD_TYPE").get(null).toString();
+            info += "/";
             info += buildInfo.getField("VERSION_CODE").get(null).toString();
             info += "/";
-            info += buildInfo.getField("BUILD_TYPE").get(null).toString();
             info += buildInfo.getField("FLAVOR").get(null).toString();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
