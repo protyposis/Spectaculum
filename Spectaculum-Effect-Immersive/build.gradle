@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
-
+    compileSdk 33
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 22
-        versionCode libraryVersionCode
-        versionName libraryVersionName
+        minSdk 15
+        targetSdk 33
+        buildConfigField "String", "VERSION_NAME", "\"${libraryVersionString()}\""
     }
     buildTypes {
         release {
@@ -16,11 +16,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'net.protyposis.android.spectaculum.gles.immersive'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':Spectaculum-Core')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':Spectaculum-Core')
 }
 
 //publish {

@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
-
+    compileSdk 33
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdk 16
+        targetSdk 33
         versionCode 1
         versionName '1.0'
     }
@@ -27,35 +28,33 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    namespace 'net.protyposis.android.spectaculumdemo'
+    lint {
+        // Lint fix for Okio: https://github.com/square/okio/issues/58
+        warning 'InvalidPackage'
+    }
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             if (variant.name == android.buildTypes.release.name) {
-                def file = output.outputFile
-                def fileName = file.name.replace(".apk", "-" + defaultConfig.versionCode + "-" + defaultConfig.versionName + ".apk")
-                output.outputFile = new File(file.parent, fileName)
+                output.outputFileName = output.outputFileName.replace(".apk", "-" + defaultConfig.versionCode + "-" + defaultConfig.versionName + ".apk")
             }
         }
-    }
-
-    lintOptions {
-        // Lint fix for Okio: https://github.com/square/okio/issues/58
-        warning 'InvalidPackage'
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'net.protyposis.android.mediaplayer:mediaplayer:4.3.0'
-    compile 'com.google.android.exoplayer:exoplayer:r1.5.10'
-    compile project(':Spectaculum-Core')
-    compile project(':Spectaculum-Camera')
-    compile project(':Spectaculum-Image')
-    compile project(':Spectaculum-MediaPlayer')
-    compile project(':Spectaculum-MediaPlayerExtended')
-    compile project(':Spectaculum-Effect-FlowAbs')
-    compile project(':Spectaculum-Effect-QrMarker')
-    compile project(':Spectaculum-Effect-Immersive')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'net.protyposis.android.mediaplayer:mediaplayer:4.3.0'
+    implementation 'com.google.android.exoplayer:exoplayer:r1.5.10'
+    implementation project(':Spectaculum-Core')
+    implementation project(':Spectaculum-Camera')
+    implementation project(':Spectaculum-Image')
+    implementation project(':Spectaculum-MediaPlayer')
+    implementation project(':Spectaculum-MediaPlayerExtended')
+    implementation project(':Spectaculum-Effect-FlowAbs')
+    implementation project(':Spectaculum-Effect-QrMarker')
+    implementation project(':Spectaculum-Effect-Immersive')
 }
 
 ext.isLibrary = false
