@@ -45,6 +45,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.fragment:fragment:1.5.7"
     implementation 'net.protyposis.android.mediaplayer:mediaplayer:4.3.0'
     implementation 'com.google.android.exoplayer:exoplayer:r1.5.10'
     implementation project(':Spectaculum-Core')

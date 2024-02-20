@@ -16,14 +16,17 @@
 
 package net.protyposis.android.spectaculumdemo;
 
-import android.app.Activity;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -31,11 +34,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.ComponentActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
+
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MainActivity extends Activity implements VideoURIInputDialogFragment.OnVideoURISelectedListener {
+public class MainActivity extends ComponentActivity implements VideoURIInputDialogFragment.OnVideoURISelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -52,6 +60,20 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
 
     private TextView mVideoUriText;
     private Uri mVideoUri;
+
+    private final ActivityResultLauncher<String> requestCameraPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    startCameraActivity();
+                } else {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Permission missing")
+                            .setMessage("The camera demo requires permission to access the camera. Please enable the permission in the application settings.")
+                            .setPositiveButton("Settings", (dialogInterface, i) -> showAppSettingsPage(MainActivity.this))
+                            .setNegativeButton("Dismiss", (dialogInterface, i) -> {})
+                            .show();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +143,13 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
         mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CameraViewActivity.class).setData(mVideoUri));
+                if (ContextCompat.checkSelfPermission(
+                        MainActivity.this, Manifest.permission.CAMERA) ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    startCameraActivity();
+                } else {
+                    requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA);
+                }
             }
         });
         mImageButton.setOnClickListener(new View.OnClickListener() {
@@ -280,5 +308,16 @@ public class MainActivity extends Activity implements VideoURIInputDialogFragmen
             e.printStackTrace();
         }
         return info.length() == 0 ? "n/a" : info;
+    }
+
+    private void startCameraActivity() {
+        startActivity(new Intent(MainActivity.this, CameraViewActivity.class).setData(mVideoUri));
+    }
+
+    private void showAppSettingsPage(Context context) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+        intent.setData(uri);
+        context.startActivity(intent);
     }
 }
