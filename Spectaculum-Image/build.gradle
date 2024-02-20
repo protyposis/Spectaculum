@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 22
@@ -24,14 +23,14 @@ dependencies {
     compile project(':Spectaculum-Core')
 }
 
-publish {
-    userOrg = 'protyposis'
-    groupId = packageBase
-    artifactId = 'spectaculum-image'
-    publishVersion = libraryVersionString()
-    desc = 'ImageView for Spectaculum'
-    website = 'https://github.com/protyposis/Spectaculum'
-    licences = ['Apache-2.0']
-}
+//publish {
+//    userOrg = 'protyposis'
+//    groupId = packageBase
+//    artifactId = 'spectaculum-image'
+//    publishVersion = libraryVersionString()
+//    desc = 'ImageView for Spectaculum'
+//    website = 'https://github.com/protyposis/Spectaculum'
+//    licences = ['Apache-2.0']
+//}
 
 //apply from: "../gitversioning.gradle"

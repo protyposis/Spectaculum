@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 22
@@ -24,14 +23,14 @@ dependencies {
     compile project(':Spectaculum-Core')
 }
 
-publish {
-    userOrg = 'protyposis'
-    groupId = packageBase
-    artifactId = 'spectaculum-effect-immersive'
-    publishVersion = libraryVersionString()
-    desc = 'Support for immersive 360° & 3D VR content'
-    website = 'https://github.com/protyposis/Spectaculum'
-    licences = ['Apache-2.0']
-}
+//publish {
+//    userOrg = 'protyposis'
+//    groupId = packageBase
+//    artifactId = 'spectaculum-effect-immersive'
+//    publishVersion = libraryVersionString()
+//    desc = 'Support for immersive 360° & 3D VR content'
+//    website = 'https://github.com/protyposis/Spectaculum'
+//    licences = ['Apache-2.0']
+//}
 
 //apply from: "../gitversioning.gradle"

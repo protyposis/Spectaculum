@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 22
@@ -25,14 +24,14 @@ dependencies {
     compile 'net.protyposis.android.mediaplayer:mediaplayer:4.3.0'
 }
 
-publish {
-    userOrg = 'protyposis'
-    groupId = packageBase
-    artifactId = 'spectaculum-mediaplayerextended'
-    publishVersion = libraryVersionString()
-    desc = 'MediaPlayer-Extended support for Spectaculum'
-    website = 'https://github.com/protyposis/Spectaculum'
-    licences = ['Apache-2.0']
-}
+//publish {
+//    userOrg = 'protyposis'
+//    groupId = packageBase
+//    artifactId = 'spectaculum-mediaplayerextended'
+//    publishVersion = libraryVersionString()
+//    desc = 'MediaPlayer-Extended support for Spectaculum'
+//    website = 'https://github.com/protyposis/Spectaculum'
+//    licences = ['Apache-2.0']
+//}
 
 //apply from: "../gitversioning.gradle"
