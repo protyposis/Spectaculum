@@ -18,6 +18,12 @@ android {
         }
     }
     namespace 'net.protyposis.android.spectaculum.gles.flowabs'
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -25,14 +31,16 @@ dependencies {
     implementation project(':Spectaculum-Core')
 }
 
-//publish {
-//    userOrg = 'protyposis'
-//    groupId = packageBase
-//    artifactId = 'spectaculum-effect-flowabs'
-//    publishVersion = libraryVersionString()
-//    desc = 'FlowAbs shader effects'
-//    website = 'https://github.com/protyposis/Spectaculum'
-//    licences = ['GPL-3.0']
-//}
-
-//apply from: "../gitversioning.gradle"
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifactId = 'spectaculum-effect-flowabs'
+            pom {
+                description = 'FlowAbs shader effects'
+            }
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}

@@ -18,6 +18,12 @@ android {
         }
     }
     namespace 'net.protyposis.android.spectaculum.gles.immersive'
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -25,14 +31,16 @@ dependencies {
     implementation project(':Spectaculum-Core')
 }
 
-//publish {
-//    userOrg = 'protyposis'
-//    groupId = packageBase
-//    artifactId = 'spectaculum-effect-immersive'
-//    publishVersion = libraryVersionString()
-//    desc = 'Support for immersive 360° & 3D VR content'
-//    website = 'https://github.com/protyposis/Spectaculum'
-//    licences = ['Apache-2.0']
-//}
-
-//apply from: "../gitversioning.gradle"
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifactId = 'spectaculum-effect-immersive'
+            pom {
+                description = 'Support for immersive 360° & 3D VR content'
+            }
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}

@@ -18,6 +18,12 @@ android {
         }
     }
     namespace 'net.protyposis.android.spectaculum.mediaplayerextended'
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -26,14 +32,16 @@ dependencies {
     implementation 'net.protyposis.android.mediaplayer:mediaplayer:4.3.0'
 }
 
-//publish {
-//    userOrg = 'protyposis'
-//    groupId = packageBase
-//    artifactId = 'spectaculum-mediaplayerextended'
-//    publishVersion = libraryVersionString()
-//    desc = 'MediaPlayer-Extended support for Spectaculum'
-//    website = 'https://github.com/protyposis/Spectaculum'
-//    licences = ['Apache-2.0']
-//}
-
-//apply from: "../gitversioning.gradle"
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifactId = 'spectaculum-mediaplayerextended'
+            pom {
+                description = 'MediaPlayer-Extended support for Spectaculum'
+            }
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}

@@ -18,6 +18,12 @@ android {
         }
     }
     namespace 'net.protyposis.android.spectaculum.image'
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -25,14 +31,16 @@ dependencies {
     implementation project(':Spectaculum-Core')
 }
 
-//publish {
-//    userOrg = 'protyposis'
-//    groupId = packageBase
-//    artifactId = 'spectaculum-image'
-//    publishVersion = libraryVersionString()
-//    desc = 'ImageView for Spectaculum'
-//    website = 'https://github.com/protyposis/Spectaculum'
-//    licences = ['Apache-2.0']
-//}
-
-//apply from: "../gitversioning.gradle"
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifactId = 'spectaculum-image'
+            pom {
+                description = 'ImageView for Spectaculum'
+            }
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}

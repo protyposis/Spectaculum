@@ -17,26 +17,65 @@ buildscript {
 }
 
 allprojects {
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+
     repositories {
         mavenCentral()
         mavenLocal()
         jcenter()
         google()
     }
-}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    model {
+        publishing {
+            repositories {
+                maven {
+                    name = "localBuild"
+                    url = uri("file://${rootProject.buildDir}/publications/maven")
+                }
+            }
+
+            publications.configureEach { publication -> {
+                groupId = packageBase
+                version = gitMavenVersionName
+                pom {
+                    url = 'https://github.com/protyposis/Spectaculum'
+                    licenses {
+                        if (publication.artifactId == 'spectaculum-effect-flowabs') {
+                            license {
+                                name = "GPL-v3.0"
+                                url = "https://www.gnu.org/licenses/gpl-3.0.txt"
+                            }
+                        } else {
+                            license {
+                                name = "The Apache License, Version 2.0"
+                                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                            }
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = "mg"
+                            name = "Mario Guggenberger"
+                            email = "mg@protyposis.net"
+                        }
+                    }
+                    scm {
+                        url = 'https://github.com/protyposis/Spectaculum'
+                    }
+                }
+            }}
+        }
+    }
+
+    signing {
+        useGpgCmd()
+        sign publishing.publications
+    }
 }
 
 ext {
     packageBase = 'net.protyposis.android.spectaculum'
     isLibrary = true
-    libraryVersionCode = 5
-    libraryVersionName = '1.3.0'
-    librarySnaphotEnabled = true
-
-    libraryVersionString = {
-        return libraryVersionName + (librarySnaphotEnabled ? '-SNAPSHOT' : '')
-    }
 }

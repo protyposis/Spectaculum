@@ -18,20 +18,28 @@ android {
         }
     }
     namespace 'net.protyposis.android.spectaculum'
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-//publish {
-//    userOrg = 'protyposis'
-//    groupId = packageBase
-//    artifactId = 'spectaculum'
-//    publishVersion = libraryVersionString()
-//    desc = 'A spectacular view widget for visual media content on Android'
-//    website = 'https://github.com/protyposis/Spectaculum'
-//    licences = ['Apache-2.0']
-//}
-
-//apply from: "../gitversioning.gradle"
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifactId = 'spectaculum'
+            pom {
+                description = 'A spectacular view widget for visual media content on Android'
+            }
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}
