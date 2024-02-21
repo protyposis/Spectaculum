@@ -42,22 +42,26 @@ Requirements
 Changelog
 ---------
 
+* __1.4.0__:
+  * compile and target SDK updated to 33
+  * published to Maven Central repository
+  * upgraded Crashlytics in demo app for improved privacy
 * __1.3.0__: add possibility to subscribe to `Effect` and `Parameter` changes
- * `BaseEffect` abstract class made `public` (makes it easier to write custom effects)
- * `getRotationMatrix` method added to the `ImmersiveEffect` (allows usage of the rotation for other purposes, e.g. immersive audio)
- * `addListener`/`removeListener` methods added to all effects
- * `addListener`/`removeListener` methods to all parameters
+  * `BaseEffect` abstract class made `public` (makes it easier to write custom effects)
+  * `getRotationMatrix` method added to the `ImmersiveEffect` (allows usage of the rotation for other purposes, e.g. immersive audio)
+  * `addListener`/`removeListener` methods added to all effects
+  * `addListener`/`removeListener` methods to all parameters
 * v1.2.1: privacy policy added to app (required for the Play Store)
 * __v1.2.0__: add watermark and stack effects
- * `WatermarkEffect` added to overlay a watermark (e.g. a station logo)
- * `StackEffect` added to combine multiple effects
- * `ColorEffect` moved from demo to core module
- * `InterlaceEffect` added to demo
- * bugfixes in demo app
+  * `WatermarkEffect` added to overlay a watermark (e.g. a station logo)
+  * `StackEffect` added to combine multiple effects
+  * `ColorEffect` moved from demo to core module
+  * `InterlaceEffect` added to demo
+  * bugfixes in demo app
 * __v1.1.0__: Immersive effect classes streamlined, touch/scroll navigation for immersive render effect
- * `EquirectangularSphereEffect` renamed to `ImmersiveEffect`
- * `SensorRotationNavigation` renamed to `ImmersiveSensorNavigation`
- * `ImmersiveTouchNavigation` added
+  * `EquirectangularSphereEffect` renamed to `ImmersiveEffect`
+  * `SensorRotationNavigation` renamed to `ImmersiveSensorNavigation`
+  * `ImmersiveTouchNavigation` added
 * __v1.0.0__: initial release
 
 
@@ -245,25 +249,26 @@ out how to map the sensor coordinate system. Any help is appreciated!
 
 ### Maven
 
-Release builds of the library are available in the
-[JCenter](https://bintray.com/bintray/jcenter) Maven repository. Available versions are listed
-in the [changelog](#changelog) or the [Bintray repository](https://bintray.com/protyposis/maven/Spectaculum).
+Release builds of the library are available in the [Maven Central](https://central.sonatype.com/) 
+repository (since v1.4.0), older versions in JCenter.
+All available versions are listed in the [changelog](#changelog).
 
     repositories {
         ...
-        jcenter()
+        mavenCentral() // since 1.4.0
+        jcenter() // until 1.3.0
     }
 
     dependencies {
         ...
-        implementation 'net.protyposis.android.spectaculum:spectaculum:1.2.0'
-        implementation 'net.protyposis.android.spectaculum:spectaculum-camera:1.2.0'
-        implementation 'net.protyposis.android.spectaculum:spectaculum-image:1.2.0'
-        implementation 'net.protyposis.android.spectaculum:spectaculum-mediaplayer:1.2.0'
-        implementation 'net.protyposis.android.spectaculum:spectaculum-mediaplayerextended:1.2.0'
-        implementation 'net.protyposis.android.spectaculum:spectaculum-effect-flowabs:1.2.0'
-        implementation 'net.protyposis.android.spectaculum:spectaculum-effect-immersive:1.2.0'
-        implementation 'net.protyposis.android.spectaculum:spectaculum-effect-qrmarker:1.2.0'
+        implementation 'net.protyposis.android.spectaculum:spectaculum:<version>'
+        implementation 'net.protyposis.android.spectaculum:spectaculum-camera:<version>'
+        implementation 'net.protyposis.android.spectaculum:spectaculum-image:<version>'
+        implementation 'net.protyposis.android.spectaculum:spectaculum-mediaplayer:<version>'
+        implementation 'net.protyposis.android.spectaculum:spectaculum-mediaplayerextended:<version>'
+        implementation 'net.protyposis.android.spectaculum:spectaculum-effect-flowabs:<version>'
+        implementation 'net.protyposis.android.spectaculum:spectaculum-effect-immersive:<version>'
+        implementation 'net.protyposis.android.spectaculum:spectaculum-effect-qrmarker:<version>'
     }
 
 
@@ -343,6 +348,6 @@ Device specific:
 License
 -------
 
-Copyright (C) 2014, 2015, 2016 Mario Guggenberger <mg@protyposis.net>.
+Copyright (C) 2014, 2015, 2016, 2024 Mario Guggenberger <mg@protyposis.net>.
 Released under the Apache 2.0 license, except for `Spectaculum-Effect-FlowAbs` which is licensed under the GPLv3.
 Documentation and artwork licensed under CC BY-SA 4.0.
